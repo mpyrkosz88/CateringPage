@@ -1,6 +1,7 @@
 //libraries
 import React, { Component } from 'react';
 import { Grid } from '@material-ui/core';
+import { connect } from 'react-redux';
 
 //styles
 import './Navbar.scss';
@@ -8,111 +9,111 @@ import './Navbar.scss';
 //components
 import NavItem from './NavItem/NavItem';
 
+//actions
+import * as actionTypes from '../store/actions/actionTypes';
+
 class Navbar extends Component {
-  
-  state = {
-    isLogin: true,
-  }
-
-  logOutUser = () => {
-    this.setState({
-      isLogin:false,
-    })
-  }
-
-  logInUser = () => {
-    this.setState({
-      isLogin:true,
-    })
-  }
 
   render() {
-let logIn = (
-  <Grid container justify="space-between" >
-  <Grid>
-    <ul>
-      <NavItem
-        link={`/menu`}
-        active="active_link"
-      >
-        Menu
-      </NavItem>
-      <NavItem
-      link={`/history`}
-      active="active_link"
-    >
-      Historia zamówień
-    </NavItem>
-      <NavItem
-        link={`/add`}
-        active="active_link">
-        Dodaj produkt
-      </NavItem>
-      <NavItem
-        link={`/edit`}
-        active="active_link">
-        Edytuj produkt
-      </NavItem>
-    </ul>
-  </Grid>
-  <Grid >
-    <ul>
-      <NavItem
-        link={`/menu`}
-        active="active_link"
-        click={this.logOutUser}
-      >
-        Wyloguj
-    </NavItem>
-    </ul>
-  </Grid>
-</Grid>
-)
+    let logIn = (
+      <Grid container justify="space-between" >
+        <Grid>
+          <ul>
+            <NavItem
+              link={`/menu`}
+              active="active_link"
+            >
+              Menu
+            </NavItem>
+            <NavItem
+              link={`/history`}
+              active="active_link"
+            >
+              Order history
+            </NavItem>
+            <NavItem
+              link={`/add`}
+              active="active_link">
+              Add product
+            </NavItem>
+            <NavItem
+              link={`/edit`}
+              active="active_link">
+              Edit products
+           </NavItem>
+          </ul>
+        </Grid>
+        <Grid >
+          <ul>
+            <NavItem
+            link={`/cart`}
+            active="active_link"
+          >
+            Cart
+            </NavItem>
+            <NavItem
+              link={`/menu`}
+              active="active_link"
+              click={this.props.logOut}
+            >
+              Log Out
+            </NavItem>
+          </ul>
+        </Grid>
+      </Grid>
+    )
 
-let logOut = (
-  <Grid container justify="space-between" >
-  <Grid>
-    <ul>
-      <NavItem
-        link={`/menu`}
-        active="active_link"
-      >
-        Menu
+    let logOut = (
+      <Grid container justify="space-between" >
+        <Grid>
+          <ul>
+            <NavItem
+              link={`/menu`}
+              active="active_link"
+            >
+              Menu
       </NavItem>
-    </ul>
-  </Grid>
-  <Grid >
-    <ul>
-      <NavItem
-        link={`/cart`}
-        active="active_link"
-      >
-        Cart
+          </ul>
+        </Grid>
+        <Grid >
+          <ul>
+            <NavItem
+              link={`/login`}
+              active="active_link"
+              click={this.props.logIn}
+            >
+              Log In
     </NavItem>
-      <NavItem
-        link={`/signIn`}
-        active="active_link"
-        click={this.logInUser}
-      >
-        SignIn
+            <NavItem
+              link={`/register`}
+              active="active_link"
+            >
+              Register
     </NavItem>
-      <NavItem
-        link={`/signUp`}
-        active="active_link"
-      >
-        SignUp
-    </NavItem>
-    </ul>
-  </Grid>
-</Grid>
-)
+          </ul>
+        </Grid>
+      </Grid>
+    )
 
     return (
       <nav className="navigation">
-      {this.state.isLogin ? logIn : logOut}
-    </nav>
+        {this.props.isLogin ? logIn : logOut}
+      </nav>
     )
   }
 }
 
-export default Navbar;
+const mapStateToProps = (state, props) => {
+  return {
+    isLogin: state.auth.isLogin
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    // logIn: () => dispatch({ type: actionTypes.AUTH_SUCCESS }),
+    logOut: () => dispatch({ type: actionTypes.AUTH_LOGOUT })
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

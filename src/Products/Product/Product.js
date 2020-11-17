@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { Grid } from '@material-ui/core';
 import "./Product.scss"
-import img from '../kanapka.jpg';
+import img from '../../kanapka.jpg';
 
 class Product extends Component {
 
     render() {
+        console.log(this.props.match.path);
         return (
-
             <div className="card">
                 <h1> Kanapka</h1>
                 <figure><img src={img} /></figure>
@@ -20,12 +20,3 @@ class Product extends Component {
 }
 
 export default Product
-
-// <Grid container alignItems="center" justify="space-around">
-// <Grid>
-//     <button>Edit</button>
-// </Grid>
-// <Grid>
-//     <button> Delete (Admin)</button>
-// </Grid>
-// </Grid>

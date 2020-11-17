@@ -11,36 +11,10 @@
     width:100%;
     padding: 0.5rem;
   }
-  
-}
-.form_input {
-  display: flex;
-  flex-flow: wrap;
-  label, input, select {
-    display: block;
-    width: 100%;
-  }
-  input, select {
-    outline: none;
-    padding: 8px;
-    &::placeholder {
-      color: #dddddd;
-    }
-    border: 0.1rem solid rgb(179, 179, 179);
-    border-radius:0.5rem ;
-    &:focus {
-      border: 2px solid black;
-    }
-  }
-  label {
-    padding: 8px 0;
-  }
 }
 
-.form_error {
-  color: red;
-  padding: 0;
-  margin: 0 8px;
+.form_card_invalid {
+  border: 0.2rem solid red;
 }
 
 .form_button {
@@ -57,5 +31,11 @@
   cursor: pointer;
   &:hover {
     background-color: #84b715;
+  }
+  &:disabled {
+    border: none;
+    background-color: #b9c0aa;
+    cursor: not-allowed;
+    color: rgba(255, 255, 255, 0.329);
   }
 }

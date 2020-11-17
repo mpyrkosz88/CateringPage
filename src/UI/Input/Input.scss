@@ -1,0 +1,97 @@
+.form_input {
+  display: flex;
+  flex-flow: wrap;
+  label, input {
+    display: block;
+    width: 100%;
+  }
+  input {
+    outline: none;
+    padding: 8px;
+    &::placeholder {
+      color: #dddddd;
+    }
+    border: 0.1rem solid rgb(179, 179, 179);
+    border-radius:0.5rem ;
+    &:focus {
+      border: 2px solid black;
+    }
+  }
+  label {
+    padding: 8px 0;
+  }
+  input[type=number] {
+    -moz-appearance:textfield; /* Firefox */
+}
+  textarea {
+    min-height: 200px;
+  }
+  .form_input_invalid {
+    border: 1px solid red;
+    &:focus {
+      border: 2px solid red;
+    }
+  }
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
+}
+
+.form_input_error {
+  color: red;
+  padding: 0;
+  margin: 0 8px;
+}
+
+
+// .Input {
+//   width: 100%;
+//   box-sizing: border-box;
+//   input::-webkit-outer-spin-button,
+//   input::-webkit-inner-spin-button {
+//   -webkit-appearance: none;
+//   margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+// }
+
+
+// }
+
+// .InputElement:focus+p {
+//   display: none;
+// }
+
+// .ErrorMsg {
+//   display: block;
+//   height: 16px;
+//   color: red;
+//   margin-top: 10px;
+//   text-align: left;
+// }
+
+// // .Label {
+// //   display: block;
+// // }
+
+// .InputElement {
+//   border: 1px solid rgba(51, 51, 51, 1);
+//   background-color: rgba(101, 101, 101, 0.5);
+//   color: #EAEAEA;
+//   font: inherit;
+//   padding: 6px 10px;
+//   display: block;
+//   width: 100%;
+// }
+
+// .InputElement:focus {
+//   outline: none;
+//   background-color: rgba(101, 101, 101, 0.9);
+//   border:none;
+// }
+
+
+
