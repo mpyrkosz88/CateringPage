@@ -5,6 +5,7 @@ import { Grid } from '@material-ui/core';
 //components
 import Product from '../Products/Product/Product';
 
+// rendering list of products after load data from database
 class ProductList extends Component {
 
     state = {
@@ -12,7 +13,7 @@ class ProductList extends Component {
     }
 
     componentDidMount() {
-        axios.get('http://localhost:5000/exercises/')
+        axios.get('')
           .then(response => {
             this.setState({ exercises: response.data })
           })

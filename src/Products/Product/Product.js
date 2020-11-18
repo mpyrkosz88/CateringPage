@@ -3,6 +3,7 @@ import { Grid } from '@material-ui/core';
 import "./Product.scss"
 import img from '../../kanapka.jpg';
 
+//need to change data
 class Product extends Component {
 
     render() {
