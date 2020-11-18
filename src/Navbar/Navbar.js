@@ -52,7 +52,7 @@ class Navbar extends Component {
             Cart
             </NavItem>
             <NavItem
-              link={`/menu`}
+              link={`/logout`}
               active="active_link"
               click={this.props.logOut}
             >

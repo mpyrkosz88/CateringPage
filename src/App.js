@@ -8,6 +8,7 @@ import {Grid} from '@material-ui/core';
 import Layout from "./containers/Layout";
 import Login from './Auth/Login/Login';
 import Product from './Products/Product/Product';
+import ProductList from './containers/ProductList'
 import AddProduct from './Products/AddProduct/AddProduct';
 import EditProduct from './Products/EditProduct/EditProduct';
 import Cart from './Cart/Cart';
@@ -20,7 +21,7 @@ class App extends Component {
 
       <Switch>
         <Route path={'/'} exact render={() => <Redirect to="/menu" />} />
-        <Route path={'/menu'} component={Product} />
+        <Route path={'/menu'} component={ProductList} />
         <Route path={'/add'} component={AddProduct} />
         <Route path={'/edit'} component={EditProduct} />
         <Route path={'/cart'} component={Cart} />
@@ -29,7 +30,8 @@ class App extends Component {
       
       <Switch>
         <Route path={'/'} exact render={() => <Redirect to="/menu" />} />
-        <Route path={'/menu'} component={Product} />
+        <Route path={'/logout'} render={() => <Redirect to="/menu" />} />
+        <Route path={'/menu'} component={ProductList} />
         <Route path={'/login'} component={Login} />
         <Route path={'/register'} component={Register} />
       </Switch>

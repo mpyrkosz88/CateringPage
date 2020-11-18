@@ -3,8 +3,8 @@ import "./AddProduct.scss"
 
 import Input from '../../UI/Input/Input';
 
-import axios from '../../axios-path';
-
+// import axios from '../../axios-path';
+import axios from 'axios';
 
 class AddProduct extends Component {
 
@@ -45,12 +45,13 @@ class AddProduct extends Component {
                 touched: false
             },
             image: {
-                elementType: 'input',
+                elementType: 'image',
                 label: 'Image',
                 elementConfig: {
                     type: 'file',
                     name: 'image',
                 },
+                file: null,
                 errormsg: 'Please add image',
                 validation: {
                     required: true,
@@ -85,10 +86,11 @@ class AddProduct extends Component {
             ...this.state.controls[controlName],
             value: event.target.value,
             valid: this.checkValiditiy(event.target.value, this.state.controls[controlName].validation),
-            touched: true
+            file: event.target.files,
+            touched: true,
           }
         }
-    
+     
         let formIsValid = true;
         for (let inputIdentifier in updatedControls) {
           formIsValid = updatedControls[inputIdentifier].valid && formIsValid;
@@ -97,10 +99,20 @@ class AddProduct extends Component {
       }
 
     onSubmit = (e) => {
-        e.preventDefault();
-        console.log('axios w add dziala');
-        axios.post('/add')
-        .then(res => console.log(res))
+      e.preventDefault();
+      let formData = new FormData();
+      formData.append('image', this.state.controls.image.file[0]);
+      formData.append('name', this.state.controls.name.value);
+      formData.append('price', this.state.controls.price.value);
+      console.log(formData);
+
+        axios.post('http://localhost:5000/add', formData)
+        .then(res => console.log(res.data))
+        .catch((err) => {
+          console.log("wystapil error");
+          console.log(err);
+        }
+          )
     }
 
     render() {
@@ -113,7 +125,7 @@ class AddProduct extends Component {
         }
         return (
             <div className="form_card">
-                <form id="product_form" onSubmit={this.onSubmit}>
+                <form id="product_form" onSubmit={this.onSubmit} encType="multipart/form-data">
                     {formElementsArray.map(formElement => {
                         return (
                             <Input
@@ -123,6 +135,7 @@ class AddProduct extends Component {
                                 label={formElement.config.label}
                                 elementConfig={formElement.config.elementConfig}
                                 value={formElement.config.value}
+                                file={formElement.config.file}
                                 invalid={!formElement.config.valid}
                                 shouldValidate={formElement.config.validation}
                                 touched={formElement.config.touched}
@@ -136,7 +149,7 @@ class AddProduct extends Component {
                 type="submit" 
                 form="product_form" 
                 value="Add"
-                disabled= {!this.state.formIsValid ? true : false}
+                // disabled= {!this.state.formIsValid ? true : false}
                 > Add </button>
             </div>
 

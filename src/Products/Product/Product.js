@@ -6,7 +6,6 @@ import img from '../../kanapka.jpg';
 class Product extends Component {
 
     render() {
-        console.log(this.props.match.path);
         return (
             <div className="card">
                 <h1> Kanapka</h1>

@@ -22,6 +22,14 @@ const input = (props) => {
           value={props.value}
           onChange={props.changed}/>;
         break;
+        case('image'):
+        inputElement = <input
+          className={inputClasses}
+          id={props.id}
+          {...props.elementConfig}
+          file={props.file}
+          onChange={props.changed}/>;
+        break;
       case('textarea'):
         inputElement = <textarea
           className={inputClasses}
