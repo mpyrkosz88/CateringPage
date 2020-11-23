@@ -2,6 +2,8 @@
 import React, { Component } from 'react';
 import { Grid } from '@material-ui/core';
 
+import axios from '../axios-path';
+
 //components
 import Product from '../Products/Product/Product';
 
@@ -9,13 +11,17 @@ import Product from '../Products/Product/Product';
 class ProductList extends Component {
 
     state = {
-
+      products: []
     }
 
     componentDidMount() {
-        axios.get('')
+        axios.get('/menu')
           .then(response => {
-            this.setState({ exercises: response.data })
+            if (response.data.length > 0 ){
+              this.setState({ 
+                products: response.data 
+              })
+            }
           })
           .catch((error) => {
             console.log(error);
@@ -24,10 +30,18 @@ class ProductList extends Component {
     render() {
         return (
             <Grid container>
-                <Grid item sm={4} container justify="center"><Product/></Grid>
-                <Grid item sm={4} container justify="center"><Product/></Grid>
-                <Grid item sm={4} container justify="center"><Product/></Grid>
-                <Grid item sm={4} container justify="center"><Product/></Grid>
+                {this.state.products.map(data => (
+                  <Product 
+                  key={data._id}
+                  name={data.name}
+                  price={data.price}
+                  image={data.image}
+                  btnValue="Add to cart"
+                  clicked={() => console.log(`Produkt ${data.name} dodano do koszyka`)}
+                  >
+                  
+                  </Product>))
+                }
             </Grid>
 
         )

@@ -39,7 +39,7 @@ app.use(
   multer({ storage: fileStorage, fileFilter: fileFilter }).single('image')
 );
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/images', express.static(path.join(__dirname, 'images')));
+app.use('/images', express.static(path.join(__dirname, '/images')));
 
 const uri = process.env.ATLAS_URI;
 mongoose
@@ -52,8 +52,10 @@ connection.once('open', () => {
 })
 
 const adminRoutes = require('./routes/admin');
+const shopRoutes = require('./routes/shop');
 
 app.use('/', adminRoutes);
+app.use('/', shopRoutes)
 
 app.listen(port, () => {
     console.log(`server is running on port ${port}`);

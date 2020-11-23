@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
-import "./AddProduct.scss"
+// import "./AddProduct.scss"
+import { NavLink, Redirect} from 'react-router-dom'
+import { withRouter } from 'react-router';
 
+import axios from '../../axios-path';
+
+//components
 import Input from '../../UI/Input/Input';
 
-// import axios from '../../axios-path';
-import axios from 'axios';
-
-class AddProduct extends Component {
+class Edit extends Component {
 
     state = {
-        formIsValid: false,
+        formIsValid: true,
         controls: {
             name: {
                 elementType: 'input',
@@ -24,7 +26,7 @@ class AddProduct extends Component {
                 validation: {
                     required: true,
                 },
-                valid: false,
+                valid: true,
                 touched: false
             },
             price: {
@@ -41,25 +43,52 @@ class AddProduct extends Component {
                 validation: {
                     required: true,
                 },
-                valid: false,
+                valid: true,
                 touched: false
             },
             image: {
                 elementType: 'image',
-                label: 'Image',
+                label: 'Change image',
                 elementConfig: {
                     type: 'file',
                     name: 'image',
                 },
                 file: null,
+                src: null,
                 errormsg: 'Please add image',
                 validation: {
                     required: true,
                 },
-                valid: false,
+                valid: true,
             },
         },
+        redirect: false,
     }
+
+    componentDidMount() {
+        axios.get('/edit/'+ this.props.match.params.id)
+        .then(response => {
+            const updatedControls = {
+                ...this.state.controls,
+                name: {
+                    ...this.state.controls.name,
+                    value: response.data.name
+                },
+                price: {
+                    ...this.state.controls.price,
+                    value: response.data.price
+                },
+                image: {
+                    ...this.state.controls.image,
+                    src: response.data.image
+                }
+            }
+            this.setState({ controls: updatedControls})
+        })
+          .catch((error) => {
+            console.log(error);
+          })
+      }
 
     checkValiditiy(value, rules) {
         let isValid = true;
@@ -98,23 +127,25 @@ class AddProduct extends Component {
         this.setState({ controls: updatedControls, formIsValid: formIsValid })
       }
 
+    redirectPage = () => {
+        this.setState({ redirect:true })
+    }
+      
     onSubmit = (e) => {
       e.preventDefault();
       let formData = new FormData();
-      formData.append('image', this.state.controls.image.file[0]);
+      if (this.state.controls.image.file !== null) {
+          formData.append('image', this.state.controls.image.file[0]);
+    }
       formData.append('name', this.state.controls.name.value);
       formData.append('price', this.state.controls.price.value);
-      console.log(formData);
 
-        axios.post('http://localhost:5000/add', formData)
-        .then(res => console.log(res.data))
-        .catch((err) => {
-          console.log("wystapil error");
-          console.log(err);
-        }
-          )
+        axios.post('http://localhost:5000/update/' + this.props.match.params.id, formData)
+        .then(res => {console.log(res.data)})
+        .then(() => this.redirectPage())
+        .catch((err) => {console.log(err)})
     }
-
+  
     render() {
         const formElementsArray = [];
         for (let key in this.state.controls) {
@@ -123,6 +154,12 @@ class AddProduct extends Component {
             config: this.state.controls[key]
           });
         }
+
+        const { redirect } = this.state;
+        if (redirect) {
+          return <Redirect to='/edit'/>;
+        }
+
         return (
             <div className="form_card">
                 <form id="product_form" onSubmit={this.onSubmit} encType="multipart/form-data">
@@ -144,47 +181,26 @@ class AddProduct extends Component {
                             />
                             )
                         })}
-                </form>
+                        </form>
+                        {this.state.controls.image.file ? 
+                            null : <figure><img src={this.state.controls.image.src} /></figure>
+                        }
                 <button className="form_button" 
                 type="submit" 
                 form="product_form" 
-                value="Add"
-                // disabled= {!this.state.formIsValid ? true : false}
-                > Add </button>
+                value="Update"
+                disabled= {!this.state.formIsValid ? true : false}
+                >Update
+                </button>
+                <button className="form_button"
+                type="button" 
+                value="Cancel"
+                onClick={()=>this.redirectPage()}
+                >Cancel</button>
             </div>
 
         )
     }
 }
 
-export default AddProduct
-
-
-// <div className="form_card">
-// <form onSubmit={this.onSubmit} id="form">
-//     <div className="form_input">
-//         <label htmlFor="fname">Name</label>
-//         <input type="text" id="name" name="name" placeholder="Product Name"></input>
-//     </div>
-//     <div className="form_input">
-//         <label htmlFor="Price">Price</label>
-//         <input type="number" id="price" name="price" placeholder="0" step="0.01"></input>
-//     </div>
-//     <div className="form_input">
-//         <label htmlFor="image">Image</label>
-//         <input
-//             type="file"
-//             name="image"
-//             id="image" />
-//     </div>
-// </form>
-// <button className="form_button" type="submit" form="form" value="Add"> Add </button>
-// </div>
-
-// <div className="form_input">
-// <label htmlFor="category">Choose a category</label>
-// <select name="category" id="category">
-//     <option value="kanapki">Kanapki</option>
-//     <option value="Lunche">Lunche</option>
-// </select>
-// </div>
+export default Edit

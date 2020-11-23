@@ -1,19 +1,34 @@
 import React, { Component } from 'react';
 import { Grid } from '@material-ui/core';
 import "./Product.scss"
-import img from '../../kanapka.jpg';
+import { Redirect } from 'react-router-dom';
 
-//need to change data
 class Product extends Component {
+    state = {
+        redirect: false
+    }
+
+    redirectPage = () => {
+        this.setState({ redirect:true })
+    }
 
     render() {
+        const { redirect } = this.state;
+        if (redirect) {
+          return <Redirect to={`/edit/${this.props.id}`}/>;
+        }
         return (
-            <div className="card">
-                <h1> Kanapka</h1>
-                <figure><img src={img} /></figure>
-                <h2> 7 zł</h2>
-                <button className="card_button"> Add to cart</button>
-            </div>
+            <Grid item sm={4} container justify="center">
+                <div className="card">
+                    <h1> {this.props.name}</h1>
+                    <figure><img src={this.props.image} /></figure>
+                    <h2> {this.props.price} zł</h2>
+                    {this.props.editBtnValue ? 
+                        <button className="card_button" onClick={()=>this.redirectPage()} value={this.props.editBtnValue }>{this.props.editBtnValue}</button>
+                        : null}
+                        <button className="card_button" onClick={this.props.clicked} value={this.props.btnValue}>{this.props.btnValue}</button>
+                </div>
+            </Grid>
 
         )
     }

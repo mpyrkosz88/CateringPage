@@ -7,7 +7,11 @@
   display: flex;
   flex-flow: wrap;
   justify-content: center;
-  figure, img, h2 {
+  h1,h2 {
+    width: 100%;
+    text-align: center;
+  }
+  figure, img  {
     margin: 0;
     width: 100%;
     text-align: center;
@@ -15,17 +19,20 @@
 }
 
 .card_button {
+  box-sizing: border-box;
   text-align: center;
   color: white;
   outline: none;
   background-color: #8ABF17;
   width: 100px;
+  height: 40px;
   font-size: 1rem;
   border: 1px solid #8ABF17;
   border-radius: 0.5rem;
   padding: 0.5rem;
   margin: 1rem auto;
   cursor: pointer;
+  text-decoration: none;
   &:hover {
     background-color: #84b715;
   }

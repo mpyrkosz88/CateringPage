@@ -6,6 +6,13 @@ import axios from '../../axios-path';
 
 import img from '../../kanapka.jpg';
 
+
+//components
+import Product from '../Product/Product';
+import ProductForm from '../ProductForm/ProductForm';
+
+
+
 class EditProduct extends Component {
 
 
