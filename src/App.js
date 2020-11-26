@@ -9,7 +9,7 @@ import Layout from "./containers/Layout";
 import Login from './Auth/Login/Login';
 import ProductList from './containers/ProductList'
 import AddProducts from './containers/AddProducts';
-import EditProducts from './Products/EditProducts/EditProducts';
+import EditProducts from './containers/EditProducts';
 import Edit from './Products/Edit/Edit';
 import Cart from './Cart/Cart';
 import History from './History/History';

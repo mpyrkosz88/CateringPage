@@ -4,8 +4,7 @@ import "./ProductForm.scss"
 
 import Input from '../../UI/Input/Input';
 
-// import axios from '../../axios-path';
-import axios from 'axios';
+import axios from '../../utils/axios-path';
 
 class ProductForm extends Component {
 
@@ -107,7 +106,7 @@ class ProductForm extends Component {
       formData.append('name', this.state.controls.name.value);
       formData.append('price', this.state.controls.price.value);
 
-        axios.post('http://localhost:5000/add', formData)
+        axios.post('/add', formData)
         .then(res => console.log(res.data))
         .then(() => this.setState({ redirect:true }))
         .catch((err) => {console.log(err)})

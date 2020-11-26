@@ -34,17 +34,44 @@ const fileFilter = (req, file, cb) => {
 };
 
 app.use(cors());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(
   multer({ storage: fileStorage, fileFilter: fileFilter }).single('image')
 );
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/images', express.static(path.join(__dirname, '/images')));
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 const uri = process.env.ATLAS_URI;
 mongoose
 .connect(uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true }
-);
+)
+// .then(result => {
+//   const user = new User({
+//     userId: 123,
+//     name: "ja",
+// });
+// user.save();
+// })
+// .catch(err => console.log(err))
+
+
+app.use((req, res, next) => {
+  const userId = "5fbfd4e5540f7d4c245431f9"
+  User.findById(userId)
+      .then(user => {
+        if (!user) {
+          return next();
+        }
+        req.user = user;
+        next();
+      })
+      .catch(err => {
+        next(new Error(err));
+      });
+});
+
+
 
 const connection = mongoose.connection;
 connection.once('open', () => {
@@ -53,6 +80,8 @@ connection.once('open', () => {
 
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
+
+const User = require("./models/user");
 
 app.use('/', adminRoutes);
 app.use('/', shopRoutes)

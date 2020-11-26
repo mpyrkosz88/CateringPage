@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import Input from '../../UI/Input/Input';
 
-import axios from '../../axios-path';
+import axios from '../../utils/axios-path';
 
 //actions
 import * as actionTypes from '../../store/actions/actionTypes';

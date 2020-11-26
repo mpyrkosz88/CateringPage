@@ -8,11 +8,9 @@ const Product = require('../models/product');
 //controllers
 
 exports.postAddProducts = (req, res, next) => {
-    const baseUrl = req.protocol + "://" + req.get('host');
     const name = req.body.name;
     const price = req.body.price;
-    const image = baseUrl + '/images/' + req.file.filename
- 
+    const image = 'images/' + req.file.filename
     const newProduct = new Product({
         name,
         price,
@@ -53,7 +51,7 @@ exports.postEditProduct = (req, res, next) => {
         product.name = req.body.name
         product.price = req.body.price
         req.file ? product.image = baseUrl + '/images/' + req.file.filename : null
-    product.save()
+        product.save()
         .then(() => res.json('Exercise updated!'))
         .catch(err => res.status(400).json('Error: ' + err))
 
@@ -62,7 +60,15 @@ exports.postEditProduct = (req, res, next) => {
 }
 
 exports.deleteProduct = (req, res, next) => {
-    Product.findByIdAndDelete(req.params.id)
-        .then(() => res.json('Exercise deleted.'))
-        .catch(err => res.status(400).json('Error: ' + err));
+    const prodId = req.params.id;
+    Product.findByIdAndDelete(prodId)
+        .then(product => {
+            fs.unlink(product.image, (err) => {
+                if (err) {
+                    throw (err);
+                }
+            })
+        })
+        .then(() => res.status(200).json('Product deleted.'))
+        .catch(err => res.status(500).json('Error: ' + err));
 }

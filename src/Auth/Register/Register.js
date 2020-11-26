@@ -4,7 +4,7 @@ import "./Register.scss"
 
 import Input from '../../UI/Input/Input';
 
-import axios from '../../axios-path';
+import axios from '../../utils/axios-path';
 
 class Register extends Component {
 

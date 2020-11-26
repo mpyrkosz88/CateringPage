@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { NavLink, Redirect} from 'react-router-dom'
 import { withRouter } from 'react-router';
 
-import axios from '../../axios-path';
+import axios from '../../utils/axios-path';
 
 //components
 import Input from '../../UI/Input/Input';
@@ -140,7 +140,7 @@ class Edit extends Component {
       formData.append('name', this.state.controls.name.value);
       formData.append('price', this.state.controls.price.value);
 
-        axios.post('http://localhost:5000/update/' + this.props.match.params.id, formData)
+        axios.post('/update' + this.props.match.params.id, formData)
         .then(res => {console.log(res.data)})
         .then(() => this.redirectPage())
         .catch((err) => {console.log(err)})

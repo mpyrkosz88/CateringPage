@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Grid } from '@material-ui/core';
-import axios from '../../axios-path';
+import axios from '../utils/axios-path';
 
 //components
-import Product from '../Product/Product';
+import Product from '../Products/Product/Product';
 
 
 class EditProducts extends Component {
@@ -20,7 +20,6 @@ class EditProducts extends Component {
                   products: response.data 
                 })
               }
-              console.log(response.data);
             })
             .catch((error) => {
               console.log(error);
@@ -34,33 +33,36 @@ class EditProducts extends Component {
     }
 
     deleteProduct(id) {
-      axios.delete('http://localhost:5000/delete/'+ id)
+      axios.delete('/delete/'+ id)
         .then(response => { console.log(response.data)});
-  
       this.setState({
         products: this.state.products.filter(el => el._id !== id)
+      })
+      .catch((error) => {
+        console.log(error);
       })
     }
 
     render() {
         return (
-            <div>
                 <Grid container>
-                        {(this.state.products.map(data => (
-                            <Product 
-                            key={data._id}
-                            id={data._id}
-                            name={data.name}
-                            price={data.price}
-                            image={data.image}
-                            btnValue="Delete"
-                            editBtnValue="Edit"
-                            clicked={() => this.deleteProduct(data._id)}
-                            >
-                            </Product>))
-                          )}
+                {this.state.products.length>0 ? 
+                  this.state.products.map(data => (
+                    <Product 
+                    key={data._id}
+                    id={data._id}
+                    name={data.name}
+                    price={data.price}
+                    image={data.image}
+                    btnValue="Delete"
+                    editBtnValue="Edit"
+                    clicked={() => this.deleteProduct(data._id)}
+                    />
+                    )
+                    )
+                    :
+                    <h1>Products is empty</h1> }
                 </Grid>
-            </div>
         )
     }
 }

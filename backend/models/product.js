@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const productSchema = new Schema({
     name: {
         type: String,
-        required: true
+        required: true,
     },
     price: {
         type: Number,
@@ -14,7 +14,7 @@ const productSchema = new Schema({
     image: {
         type: String,
         required: true,
-    },
+    }
 })
 
-module.exports = mongoose.model('Product', productSchema);
+module.exports = mongoose.model('Product', productSchema, 'products');
