@@ -35,7 +35,10 @@
   margin: 1rem auto;
   cursor: pointer;
   &:hover {
-    background-color: #84b715;
+    background-color: #74a112;
+  }
+  &:active {
+    background-color: #5e8607;
   }
   &:disabled {
     border: none;

@@ -29,10 +29,9 @@ class ProductList extends Component {
       }
 
       addToCart = (id) => {
-      console.log(id)
         axios.post('/addToCart/' + id)
         .then(res => console.log(res.data))
-        .catch((err) => {console.log(err)})
+        .catch((err) => console.log(err))
     }
 
     render() {

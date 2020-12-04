@@ -13,7 +13,13 @@ router.post('/addToCart/:id', shopController.addToCart)
 //get cart
 router.get('/cart', shopController.getCart)
 
-//get cart
+//delete cart
 router.delete('/cart-delete/:id', shopController.postCartDeleteProduct)
+
+//get order
+router.get('/get-order', shopController.getOrder)
+
+//get orders history
+router.get('/get-orders-history', shopController.getOrders)
 
 module.exports = router

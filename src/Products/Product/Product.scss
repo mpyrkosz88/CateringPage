@@ -34,7 +34,16 @@
   cursor: pointer;
   text-decoration: none;
   &:hover {
-    background-color: #84b715;
+    background-color: #74a112;
+  }
+  &:active {
+    background-color: #5e8607;
+  }
+  &:disabled {
+    border: none;
+    background-color: #b9c0aa;
+    cursor: not-allowed;
+    color: rgba(255, 255, 255, 0.329);
   }
 }
 

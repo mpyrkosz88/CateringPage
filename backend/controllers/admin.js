@@ -37,7 +37,6 @@ exports.getProducts = (req, res, next) => {
 exports.getEditProduct = (req, res, next) => {
     Product.findById(req.params.id)
     .then(product => {
-        console.log(product)
         res.json(product)
     })
     .catch(err => res.status(400).json('Error: ' + err))
@@ -47,7 +46,6 @@ exports.postEditProduct = (req, res, next) => {
     Product.findById(req.params.id)
     .then(product => {
         const baseUrl = req.protocol + "://" + req.get('host');
-        console.log(req.file)
         product.name = req.body.name
         product.price = req.body.price
         req.file ? product.image = baseUrl + '/images/' + req.file.filename : null

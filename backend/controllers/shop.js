@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 //models
 const Product = require('../models/product');
 const User = require('../models/user');
+const Order = require('../models/order');
 
 //controllers
 
@@ -21,7 +22,8 @@ exports.addToCart = (req, res, next) => {
     const prodId = req.params.id;
     Product.findById(prodId)
     .then(product => {
-        return req.user.addToCart(product);
+        return req.user.addToCart(product)
+        .then(() => res.json("Added to cart"))
       })
     .catch(err => res.status(500).json('Error: ' + err));
 }
@@ -43,3 +45,38 @@ exports.postCartDeleteProduct = (req, res, next) => {
       .then(() => res.status(200).json('Product deleted.'))
       .catch(err => res.status(500).json('Error: ' + err));
   };
+
+  exports.getOrder = (req, res, next) => {
+    //   let products
+      req.user
+      .populate('cart.items.itemId', {'name': 1, 'price': 1})
+      .execPopulate()
+      .then(user => {
+          const products = user.cart.items.map(data => {
+              console.log(data.itemId);
+              console.log(data.quantity);
+              return {
+                  name: data.itemId.name,
+                  price: data.itemId.price,
+                  quantity: data.quantity,
+              }
+          })
+            const order = new Order({
+                user: {
+                    userId: user.userId,
+                },
+                products: products,
+                timeDate: new Date().toISOString()
+            })
+            return order.save()
+        })
+        .then(() => req.user.clearCart())
+        .then(() => res.json("Order has been sent"))
+        .catch(err => res.status(500).json('Error: ' + err));
+  }
+
+  exports.getOrders = (req, res, next) => {
+      Order.find({'user.userId':req.user.userId})
+        .then((results) => res.json(results))
+        .catch(err => res.status(500).json('Error: ' + err));
+  }

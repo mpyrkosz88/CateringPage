@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom'
 
 import Input from '../../UI/Input/Input';
 
@@ -48,6 +49,7 @@ class Login extends Component {
                 touched: false
             },
         },
+      redirect: false,
     }
 
     checkValiditiy(value, rules) {
@@ -97,7 +99,9 @@ class Login extends Component {
 
       onSubmit = (e) => {
         e.preventDefault();
+        // .then(() => this.setState({ redirect:true }))
         this.props.logIn()
+        this.setState({ redirect:true })
         // console.log('axios w formie dziala');
         // axios.get('/test')
         // .then(res => console.log(res))
@@ -117,6 +121,10 @@ class Login extends Component {
             id: key,
             config: this.state.controls[key]
           });
+        }
+        const { redirect } = this.state;
+        if (redirect) {
+          return <Redirect to='/menu'/>;
         }
         return (
 

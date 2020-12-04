@@ -16,26 +16,3 @@
   margin: auto;
 }
 
-.history_cart_item {
-  list-style: none;
-  box-shadow:0 2px 8px rgba(0, 0, 0, 0.26);
-  margin:0.2rem 1rem;
-  p{
-    margin:0.5rem 0;
-    width: 100%;
-    text-align: center;
-  }
-  >div>div {
-    border-left: 1px solid black;
-  }
-  >div>div:first-of-type {
-    border-left: none;
-  }
-  >div>div:last-of-type {
-    border-left: none;
-  }
-  .border_right {
-    border-right: 1px solid black;
-  }
-}
-

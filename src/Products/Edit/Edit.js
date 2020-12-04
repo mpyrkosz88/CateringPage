@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 // import "./AddProduct.scss"
 import { NavLink, Redirect} from 'react-router-dom'
-import { withRouter } from 'react-router';
 
 import axios from '../../utils/axios-path';
+import baseUrl from '../../utils/baseURL';
 
 //components
 import Input from '../../UI/Input/Input';
@@ -183,7 +183,7 @@ class Edit extends Component {
                         })}
                         </form>
                         {this.state.controls.image.file ? 
-                            null : <figure><img src={this.state.controls.image.src} /></figure>
+                            null : <figure><img src={baseUrl + this.state.controls.image.src} /></figure>
                         }
                 <button className="form_button" 
                 type="submit" 
