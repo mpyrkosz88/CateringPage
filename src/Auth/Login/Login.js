@@ -1,10 +1,13 @@
+//libraries
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom'
 
-import Input from '../../UI/Input/Input';
-
+//utils
 import axios from '../../utils/axios-path';
+
+//components
+import Input from '../../UI/Input/Input';
 
 //actions
 import * as actionTypes from '../../store/actions/actionTypes';

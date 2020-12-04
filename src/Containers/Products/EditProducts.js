@@ -1,10 +1,10 @@
+//libraries
 import React, { Component } from 'react';
 import { Grid } from '@material-ui/core';
-import axios from '../utils/axios-path';
+import axios from '../../utils/axios-path';
 
 //components
-import Product from '../Products/Product/Product';
-
+import Product from '../../Components/Products/Product/Product';
 
 class EditProducts extends Component {
 

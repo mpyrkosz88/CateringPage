@@ -4,15 +4,17 @@ import { Route, Switch, Redirect, withRouter } from 'react-router-dom'
 import {connect} from 'react-redux';
 import {Grid} from '@material-ui/core';
 
+//containers
+import AddProducts from './Containers/Products/AddProducts';
+import Cart from './Containers/Cart/Cart';
+import EditProducts from './Containers/Products/EditProducts';
+import History from './Containers/History/History';
+import Layout from "./Containers/Layout/Layout";
+import ProductList from './Containers/Products/ProductList'
+
 //components
-import Layout from "./containers/Layout";
 import Login from './Auth/Login/Login';
-import ProductList from './containers/ProductList'
-import AddProducts from './containers/AddProducts';
-import EditProducts from './containers/EditProducts';
-import Edit from './Products/Edit/Edit';
-import Cart from './Cart/Cart';
-import History from './History/History';
+import Edit from './Components/Products/Edit/Edit';
 import Register from './Auth/Register/Register';
 
 class App extends Component {

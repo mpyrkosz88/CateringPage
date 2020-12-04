@@ -3,13 +3,13 @@ import React, { Component } from 'react';
 import { Grid } from '@material-ui/core';
 
 //utils
-import axios from '../utils/axios-path';
+import axios from '../../utils/axios-path';
 
 //components
-import CartItem from './CartItem';
-import Confirmation from '../Confirmation/Confirmation';
-import Backdrop from '../UI/Backdrop/Backdrop';
-import Modal from '../UI/Modal/Modal';
+import CartItem from '../../Components/CartItem/CartItem';
+import Confirmation from '../../Components/Confirmation/Confirmation';
+import Backdrop from '../../UI/Backdrop/Backdrop';
+import Modal from '../../UI/Modal/Modal';
 
 //styles
 import './Cart.scss'
@@ -43,7 +43,6 @@ class Cart extends Component {
                     cart: this.state.cart.filter(el => el._id !== id)
                   })
               })
-              .then(()=> this.calculatePrice())
               .catch(err => {console.log(err)});
           }
 

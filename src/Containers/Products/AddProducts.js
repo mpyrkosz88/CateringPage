@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Grid } from '@material-ui/core';
 
 //components
-import ProductForm from '../Products/ProductForm/ProductForm';
+import ProductForm from '../../Components/Products/ProductForm/ProductForm';
 
 class AddProducts extends Component {
 

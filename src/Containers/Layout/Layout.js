@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import {Grid} from '@material-ui/core';
 
 // Components
-import Navbar from '../Navbar/Navbar'
+import Navbar from '../../Navigation/Navbar/Navbar'
 
 class Layout extends Component { 
     render() {

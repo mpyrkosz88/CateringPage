@@ -1,9 +1,13 @@
+//libraries
 import React, { Component } from 'react';
-import { Grid } from '@material-ui/core';
-import "./Product.scss"
 import { Redirect } from 'react-router-dom';
+import { Grid } from '@material-ui/core';
 
-import baseUrl from '../../utils/baseURL';
+//style
+import "./Product.scss"
+
+//utils
+import baseUrl from '../../../utils/baseURL';
 
 class Product extends Component {
     state = {

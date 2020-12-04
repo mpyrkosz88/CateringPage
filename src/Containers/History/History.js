@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { Grid } from '@material-ui/core';
 
 //utils
-import axios from '../utils/axios-path';
+import axios from '../../utils/axios-path';
 
 import './History.scss'
 
-import HistoryItem from './HistoryItem'
+import HistoryItem from '../../Components/HistoryItem/HistoryItem'
 
 class History extends Component {
 

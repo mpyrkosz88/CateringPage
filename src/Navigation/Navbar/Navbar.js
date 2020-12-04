@@ -7,10 +7,10 @@ import { connect } from 'react-redux';
 import './Navbar.scss';
 
 //components
-import NavItem from './NavItem/NavItem';
+import NavItem from '../NavItem/NavItem';
 
 //actions
-import * as actionTypes from '../store/actions/actionTypes';
+import * as actionTypes from '../../store/actions/actionTypes';
 
 class Navbar extends Component {
 

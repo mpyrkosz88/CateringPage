@@ -1,10 +1,15 @@
+//libraries
 import React, { Component } from 'react';
 import { Grid } from '@material-ui/core';
+
+//styles
 import "./Register.scss"
 
-import Input from '../../UI/Input/Input';
-
+//utils
 import axios from '../../utils/axios-path';
+
+//components
+import Input from '../../UI/Input/Input';
 
 class Register extends Component {
 

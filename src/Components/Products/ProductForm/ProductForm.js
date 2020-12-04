@@ -1,17 +1,21 @@
+//libraries
 import React, { Component } from 'react';
-// import "./AddProduct.scss"
-import { NavLink, Redirect} from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 
-import axios from '../../utils/axios-path';
-import baseUrl from '../../utils/baseURL';
+//styles
+import "./ProductForm.scss"
+
+//utiles
+import axios from '../../../utils/axios-path';
 
 //components
-import Input from '../../UI/Input/Input';
+import Input from '../../../UI/Input/Input';
 
-class Edit extends Component {
+
+class ProductForm extends Component {
 
     state = {
-        formIsValid: true,
+        formIsValid: false,
         controls: {
             name: {
                 elementType: 'input',
@@ -26,7 +30,7 @@ class Edit extends Component {
                 validation: {
                     required: true,
                 },
-                valid: true,
+                valid: false,
                 touched: false
             },
             price: {
@@ -43,52 +47,26 @@ class Edit extends Component {
                 validation: {
                     required: true,
                 },
-                valid: true,
+                valid: false,
                 touched: false
             },
             image: {
                 elementType: 'image',
-                label: 'Change image',
+                label: 'Image',
                 elementConfig: {
                     type: 'file',
                     name: 'image',
                 },
                 file: null,
-                src: null,
                 errormsg: 'Please add image',
                 validation: {
                     required: true,
                 },
-                valid: true,
+                valid: false,
             },
         },
         redirect: false,
     }
-
-    componentDidMount() {
-        axios.get('/edit/'+ this.props.match.params.id)
-        .then(response => {
-            const updatedControls = {
-                ...this.state.controls,
-                name: {
-                    ...this.state.controls.name,
-                    value: response.data.name
-                },
-                price: {
-                    ...this.state.controls.price,
-                    value: response.data.price
-                },
-                image: {
-                    ...this.state.controls.image,
-                    src: response.data.image
-                }
-            }
-            this.setState({ controls: updatedControls})
-        })
-          .catch((error) => {
-            console.log(error);
-          })
-      }
 
     checkValiditiy(value, rules) {
         let isValid = true;
@@ -127,25 +105,19 @@ class Edit extends Component {
         this.setState({ controls: updatedControls, formIsValid: formIsValid })
       }
 
-    redirectPage = () => {
-        this.setState({ redirect:true })
-    }
-      
     onSubmit = (e) => {
       e.preventDefault();
       let formData = new FormData();
-      if (this.state.controls.image.file !== null) {
-          formData.append('image', this.state.controls.image.file[0]);
-    }
+      formData.append('image', this.state.controls.image.file[0]);
       formData.append('name', this.state.controls.name.value);
       formData.append('price', this.state.controls.price.value);
 
-        axios.post('/update' + this.props.match.params.id, formData)
-        .then(res => {console.log(res.data)})
-        .then(() => this.redirectPage())
+        axios.post('/add', formData)
+        .then(res => console.log(res.data))
+        .then(() => this.setState({ redirect:true }))
         .catch((err) => {console.log(err)})
     }
-  
+
     render() {
         const formElementsArray = [];
         for (let key in this.state.controls) {
@@ -157,7 +129,7 @@ class Edit extends Component {
 
         const { redirect } = this.state;
         if (redirect) {
-          return <Redirect to='/edit'/>;
+          return <Redirect to='/menu'/>;
         }
 
         return (
@@ -181,26 +153,17 @@ class Edit extends Component {
                             />
                             )
                         })}
-                        </form>
-                        {this.state.controls.image.file ? 
-                            null : <figure><img src={baseUrl + this.state.controls.image.src} /></figure>
-                        }
+                </form>
                 <button className="form_button" 
                 type="submit" 
                 form="product_form" 
-                value="Update"
+                value={this.props.btnValue}
                 disabled= {!this.state.formIsValid ? true : false}
-                >Update
-                </button>
-                <button className="form_button"
-                type="button" 
-                value="Cancel"
-                onClick={()=>this.redirectPage()}
-                >Cancel</button>
+                >{this.props.btnValue}</button>
             </div>
 
         )
     }
 }
 
-export default Edit
+export default ProductForm
