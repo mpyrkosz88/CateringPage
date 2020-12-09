@@ -1,11 +1,9 @@
 //libraries
 const fs = require('fs');
-const path = require('path');
 
 //models
 const Product = require('../models/product');
 
-//controllers
 
 exports.postAddProducts = (req, res, next) => {
     const name = req.body.name;

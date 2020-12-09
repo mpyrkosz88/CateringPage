@@ -16,6 +16,9 @@
     &:focus {
       border: 2px solid black;
     }
+    &:focus+p {
+      display: none;
+    }
   }
   label {
     padding: 8px 0;
@@ -29,7 +32,7 @@
   .form_input_invalid {
     border: 1px solid red;
     &:focus {
-      border: 2px solid red;
+      border: 2px solid black;
     }
   }
   input::-webkit-outer-spin-button,

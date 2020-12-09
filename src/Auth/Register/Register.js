@@ -1,6 +1,6 @@
 //libraries
 import React, { Component } from 'react';
-import { Grid } from '@material-ui/core';
+import { Redirect } from 'react-router-dom'
 
 //styles
 import "./Register.scss"
@@ -10,6 +10,10 @@ import axios from '../../utils/axios-path';
 
 //components
 import Input from '../../UI/Input/Input';
+import Modal from '../../UI/Modal/Modal';
+import Backdrop from '../../UI/Backdrop/Backdrop';
+import Success from '../Success/Success';
+
 
 class Register extends Component {
 
@@ -134,14 +138,32 @@ class Register extends Component {
                 valid: false,
                 touched: false
             },
+            confirmPassword: {
+                elementType: 'input',
+                label: 'Confirm password',
+                elementConfig: {
+                    type: 'password',
+                    placeholder: 'Password',
+                    name: 'cPassword',
+                },
+                value: '',
+                errormsg: 'Minimal length of password is 6',
+                validation: {
+                    required: true,
+                    minLength: 6
+                },
+                valid: false,
+                touched: false
+            },
         },
+        redirect: false,
+        modalShow: false,
     }
 
     checkValiditiy(value, rules) {
         let isValid = true;
-    
         if (!rules) {
-          return true;
+            return true;
         }
     
         if (rules.required) {
@@ -174,20 +196,40 @@ class Register extends Component {
             touched: true
           }
         }
+
     
         let formIsValid = true;
+
         for (let inputIdentifier in updatedControls) {
           formIsValid = updatedControls[inputIdentifier].valid && formIsValid;
         }
         this.setState({ controls: updatedControls, formIsValid: formIsValid })
       }
+
+      closeModal =() => {
+        this.setState({
+          modalShow: false,
+        },() => {
+          setTimeout(() => {
+            this.setState({
+                redirect: true,
+            })
+          },500)
+        })
+      }
     
-    //   submitHandler = (event) => {
-    //     event.preventDefault();
-    //     this.state.login ?
-    //       this.props.onAuth(this.state.controls.email.value, this.state.controls.password.value)
-    //       : this.props.onRegister(this.state.controls.email.value, this.state.controls.password.value, this.state.controls.street.value, this.state.controls.number.value)
-    //   }
+
+      onSubmit = (e) => {
+        e.preventDefault();
+        let formData = new FormData();
+        for (let key in this.state.controls) {
+            formData.append(key, this.state.controls[key].value)
+        }
+          axios.post('/register', formData)
+          .then(res => console.log(res.data))
+          .then(() => this.setState({ modalShow:true }))
+          .catch((err) => {console.log(err)})
+      }
 
     render() {
         const formElementsArray = [];
@@ -197,39 +239,60 @@ class Register extends Component {
             config: this.state.controls[key]
           });
         }
+
+        const { redirect } = this.state;
+        if (redirect) {
+          return <Redirect to='/menu'/>;
+        }
+
+        // let errorMessage = null
+
+        // if (this.props.error) {
+        //   errorMessage = (
+        //     <p className="error">{this.props.error}</p>
+        //   )
+        // }
+        // {errorMessage}
+
         return (
+            <div>
+                <div className="form_card">
+                    <form id="register_form" onSubmit={this.onSubmit} >
+                        {formElementsArray.map(formElement => {
+                            return (
+                                <Input
+                                    key={formElement.id}
+                                    id={formElement.id}
+                                    elementType={formElement.config.elementType}
+                                    label={formElement.config.label}
+                                    elementConfig={formElement.config.elementConfig}
+                                    value={formElement.config.value}
+                                    invalid={!formElement.config.valid}
+                                    shouldValidate={formElement.config.validation}
+                                    touched={formElement.config.touched}
+                                    changed={(event) => this.inputChangedHandler(event, formElement.id)}
+                                    errormsg={formElement.config.errormsg}
+                                />
+                                )
+                            })}
+                    </form>
+                    
 
-            <div className="form_card">
-                <form id="register_form">
-                    {formElementsArray.map(formElement => {
-                        console.log(formElement.id);
-                        return (
-                            <Input
-                                key={formElement.id}
-                                id={formElement.id}
-                                elementType={formElement.config.elementType}
-                                label={formElement.config.label}
-                                elementConfig={formElement.config.elementConfig}
-                                value={formElement.config.value}
-                                invalid={!formElement.config.valid}
-                                shouldValidate={formElement.config.validation}
-                                touched={formElement.config.touched}
-                                changed={(event) => this.inputChangedHandler(event, formElement.id)}
-                                errormsg={formElement.config.errormsg}
-                            />
-                            )
-                        })}
-                </form>
-                <button className="form_button" 
-                type="submit" 
-                form="register_form" 
-                value="Register"
-                disabled= {!this.state.formIsValid ? true : false}
-                > Register </button>
+                    <button className="form_button" 
+                    type="submit" 
+                    form="register_form" 
+                    value="Register"
+                    disabled= {!this.state.formIsValid ? true : false}
+                    > Register </button>
+                </div>
+                <Modal show={this.state.modalShow}> 
+                    <Success clickedClosed={this.closeModal}>Register successful!</Success> 
+                </Modal>
+                    <Backdrop show={this.state.modalShow} clicked={this.closeModal}/>
             </div>
-
         )
     }
 }
 
 export default Register
+

@@ -56,6 +56,8 @@ mongoose
 // .catch(err => console.log(err))
 
 
+const User = require("./models/user");
+
 app.use((req, res, next) => {
   const userId = "5fbfd4e5540f7d4c245431f9"
   User.findById(userId)
@@ -78,13 +80,16 @@ connection.once('open', () => {
   console.log("MongoDB database connection established successfully");
 })
 
+// routes
+
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
+const authRoutes = require('./routes/auth');
 
-const User = require("./models/user");
 
 app.use('/', adminRoutes);
-app.use('/', shopRoutes)
+app.use('/', shopRoutes);
+app.use('/', authRoutes);
 
 app.listen(port, () => {
     console.log(`server is running on port ${port}`);

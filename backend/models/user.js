@@ -3,26 +3,76 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-    userId: {
-      type: Number,
-      required: true,
-    },
-    name: {
+  email: {
+    type: String,
+    required: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+  userData: 
+    {
+      fname: {
         type: String,
         required: true,
-    },
-    cart: {
-      items: [
-        {
-          itemId: {
-            type: Schema.Types.ObjectId,
-            ref: 'Product',
-            required: true
-          },
-          quantity: { type: Number, required: true }
-        }
-      ]
+      },
+      lname: {
+        type: String,
+        required: true
+      },
+      street: {
+        type: String,
+        required: true
+      },
+      city: {
+        type: String,
+        required: true
+      },
+      phone: {
+        type: Number,
+        required: true
+      }
     }
+  ,
+  // resetToken:String,
+  // resetTokenExpiration: Date,
+  cart: {
+    items: [
+      {
+        itemId: {
+          type: Schema.Types.ObjectId,
+          ref: 'Product',
+          required: true
+        },
+        quantity: { type: Number, required: true }
+      }
+    ]
+  }
+
+
+
+
+    // userId: {
+    //   type: Number,
+    //   required: true,
+    // },
+    // name: {
+    //     type: String,
+    //     required: true,
+    // },
+    // cart: {
+    //   items: [
+    //     {
+    //       itemId: {
+    //         type: Schema.Types.ObjectId,
+    //         ref: 'Product',
+    //         required: true
+    //       },
+    //       quantity: { type: Number, required: true }
+    //     }
+    //   ]
+    // }
 });
 
 userSchema.methods.addToCart = function(item) {
