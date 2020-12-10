@@ -20,6 +20,8 @@ exports.getProducts = (req, res, next) => {
 
 exports.addToCart = (req, res, next) => {
     const prodId = req.params.id;
+    console.log(req.params);
+    console.log(req.body);
     Product.findById(prodId)
     .then(product => {
         return req.user.addToCart(product)

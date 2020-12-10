@@ -8,6 +8,8 @@ const authSuccess = (state, action) => {
   return {
     ...state,
     isLogin: true,
+    token: action.token,
+    userId: action.userId,
   }
 }
 
@@ -15,6 +17,8 @@ const logOut = (state, action) => {
   return {
     ...state,
     isLogin: false,
+    token: null,
+    userId: false,
   }
 }
 

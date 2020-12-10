@@ -104,16 +104,14 @@ class Login extends Component {
     this.setState({ controls: updatedControls, formIsValid: formIsValid })
   }
 
-  closeModal =() => {
+  closeModal = () => {
     this.setState({
       modalShow: false,
+      redirect: true,
     },() => {
-      setTimeout(() => {
-        this.setState({
-            redirect: true,
-        })
-      },500)
-    })
+        this.props.logIn()
+    }
+    )
   }
 
   onSubmit = (e) => {
@@ -122,12 +120,23 @@ class Login extends Component {
     for (let key in this.state.controls) {
       formData.append(key, this.state.controls[key].value)
     }
-    // .then(() => this.setState({ redirect:true }))
-    // this.setState({ redirect:true })
-    // this.props.logIn()
+
     axios.post('/login', formData)
-      .then(res => console.log(res.data))
-      .then(() => this.setState({ modalShow: true }))
+      .then(res => {
+        const resData = res.data
+        this.setState({
+          token: resData.token,
+          userId: resData.userId,
+          modalShow: true,
+        });
+      localStorage.setItem('token', resData.token);
+      localStorage.setItem('userId', resData.userId);
+      const remainingTime = 60 * 10 * 1000;
+      const expirationDate = new Date(
+          new Date().getTime() + remainingTime
+        );
+      localStorage.setItem('expirationDate', expirationDate.toISOString());
+      })
       .catch((err) => { console.log(err) })
   }
 
@@ -183,10 +192,17 @@ class Login extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapStateToProps = (state, props) => {
   return {
-    logIn: () => dispatch({ type: actionTypes.AUTH_SUCCESS }),
+    token: state.token,
+    userId: state.userId,
   }
 }
 
-export default connect(null, mapDispatchToProps)(Login);
+const mapDispatchToProps = dispatch => {
+  return {
+    logIn: () => dispatch({type: actionTypes.AUTH_SUCCESS}),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

@@ -17,7 +17,15 @@ import Login from './Auth/Login/Login';
 import Edit from './Components/Products/Edit/Edit';
 import Register from './Auth/Register/Register';
 
+//actions
+import * as actions from './store/actions/auth';
+
 class App extends Component {
+
+  componentDidMount () {
+    this.props.onTryAutoSignup();
+  }
+
   render() {
     const routes = (this.props.isLogin ?   
 
@@ -33,7 +41,6 @@ class App extends Component {
       
       <Switch>
         <Route path={'/'} exact render={() => <Redirect to="/menu" />} />
-        <Route path={'/logout'} render={() => <Redirect to="/menu" />} />
         <Route path={'/menu'} component={ProductList} />
         <Route path={'/login'} component={Login} />
         <Route path={'/register'} component={Register} />
@@ -55,11 +62,11 @@ class App extends Component {
       }
   }
   
-  // const mapDispatchToProps = dispatch => {
-  //   return {
-  //     onTryAutoSignup: () => dispatch(actions.authCheckState())
-  //   }
-  // }
+  const mapDispatchToProps = dispatch => {
+    return {
+      onTryAutoSignup: () => dispatch(actions.authCheckState())
+    }
+  }
   
-  export default withRouter(connect(mapStateToProps)(App));
+  export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
   

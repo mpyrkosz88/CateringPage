@@ -10,7 +10,7 @@ import './Navbar.scss';
 import NavItem from '../NavItem/NavItem';
 
 //actions
-import * as actionTypes from '../../store/actions/actionTypes';
+import * as actions from '../../store/actions/auth';
 
 class Navbar extends Component {
 
@@ -111,8 +111,7 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    // logIn: () => dispatch({ type: actionTypes.AUTH_SUCCESS }),
-    logOut: () => dispatch({ type: actionTypes.AUTH_LOGOUT })
+    logOut: () => dispatch(actions.logout())
   }
 }
 

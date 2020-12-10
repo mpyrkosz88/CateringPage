@@ -33,7 +33,7 @@ exports.postRegister = (req, res, next) => {
     })
     .catch(err =>{
         console.log(err);
-        res.status(400).json(err);
+        res.status(500).json(err);
     })
 }
 
@@ -62,10 +62,13 @@ exports.postLogin = (req, res, next) => {
               email: currentUser.email,
               userId: currentUser._id.toString()
             },
-            'somesupersecretsecret',
+            'myToken',
             { expiresIn: '1h' }
           );
-          res.status(200).json({ token: token, userId: loadedUser._id.toString() });
+          res.status(200).json({ token: token, userId: currentUser._id.toString() });
+    })
+    .catch(err =>{
+        res.status(500).json(err);
     })
         // .compare(password, user.password)
         // then(doMatch => {

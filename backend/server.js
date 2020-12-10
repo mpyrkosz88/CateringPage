@@ -1,3 +1,4 @@
+//libraries
 const path = require('path');
 const cors = require('cors');
 
@@ -6,11 +7,14 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const multer = require('multer'); 
 
-require('dotenv').config();
-
+//app initalization
 const app = express();
 const port = process.env.PORT || 5000;
 
+//path to MongoDb
+require('dotenv').config();
+
+//files save
 const fileStorage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, 'images');
@@ -21,6 +25,7 @@ const fileStorage = multer.diskStorage({
   }
 });
 
+//filtering images
 const fileFilter = (req, file, cb) => {
   if (
     file.mimetype === 'image/png' ||
@@ -32,6 +37,19 @@ const fileFilter = (req, file, cb) => {
     cb(null, false);
   }
 };
+
+//set Headers
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 
+  'OPTIONS, GET, POST, PUT, PATCH, DELETE'
+  );
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
+});
+
+
+
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -59,7 +77,8 @@ mongoose
 const User = require("./models/user");
 
 app.use((req, res, next) => {
-  const userId = "5fbfd4e5540f7d4c245431f9"
+  console.log(req);
+  const userId = "5fd1e8239b6c1714a45319ad"
   User.findById(userId)
       .then(user => {
         if (!user) {
@@ -81,15 +100,14 @@ connection.once('open', () => {
 })
 
 // routes
-
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 const authRoutes = require('./routes/auth');
 
-
 app.use('/', adminRoutes);
 app.use('/', shopRoutes);
 app.use('/', authRoutes);
+
 
 app.listen(port, () => {
     console.log(`server is running on port ${port}`);
