@@ -76,21 +76,21 @@ mongoose
 
 const User = require("./models/user");
 
-app.use((req, res, next) => {
-  console.log(req);
-  const userId = "5fd1e8239b6c1714a45319ad"
-  User.findById(userId)
-      .then(user => {
-        if (!user) {
-          return next();
-        }
-        req.user = user;
-        next();
-      })
-      .catch(err => {
-        next(new Error(err));
-      });
-});
+// app.use((req, res, next) => {
+//   console.log(req);
+//   const userId = "5fd1e8239b6c1714a45319ad"
+//   User.findById(userId)
+//       .then(user => {
+//         if (!user) {
+//           return next();
+//         }
+//         req.user = user;
+//         next();
+//       })
+//       .catch(err => {
+//         next(new Error(err));
+//       });
+// });
 
 
 
