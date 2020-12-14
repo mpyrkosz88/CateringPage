@@ -27,25 +27,49 @@ class App extends Component {
   }
 
   render() {
-    const routes = (this.props.isLogin ?   
 
-      <Switch>
-        <Route path={'/'} exact render={() => <Redirect to="/menu" />} />
-        <Route path={'/menu'} component={ProductList} />
-        <Route path={'/add'} component={AddProducts} />
-        <Route path={'/edit'} exact component={EditProducts} />
-        <Route path={'/edit/:id'} component={Edit} />
-        <Route path={'/cart'} component={Cart} />
-        <Route path={'/history'} component={History} />
-      </Switch> :
-      
+    let routes = (
       <Switch>
         <Route path={'/'} exact render={() => <Redirect to="/menu" />} />
         <Route path={'/menu'} component={ProductList} />
         <Route path={'/login'} component={Login} />
         <Route path={'/register'} component={Register} />
       </Switch>
-    ) 
+    )
+
+    switch(this.props.authRole) {
+      case('Admin'):
+          routes = (
+          <Switch>
+              <Route path={'/'} exact render={() => <Redirect to="/menu" />} />
+              <Route path={'/menu'} component={ProductList} />
+              <Route path={'/add'} component={AddProducts} />
+              <Route path={'/edit'} exact component={EditProducts} />
+              <Route path={'/edit/:id'} component={Edit} />
+          </Switch>
+        )
+        break;
+        case('User'):
+          routes = (
+            <Switch>
+              <Route path={'/'} exact render={() => <Redirect to="/menu" />} />
+              <Route path={'/menu'} component={ProductList} />
+              <Route path={'/history'} component={History} />
+              <Route path={'/cart'} component={Cart} />
+            </Switch>
+          )
+         break;
+      default:
+        routes = (
+          <Switch>
+            <Route path={'/'} exact render={() => <Redirect to="/menu" />} />
+            <Route path={'/menu'} component={ProductList} />
+            <Route path={'/login'} component={Login} />
+            <Route path={'/register'} component={Register} />
+          </Switch>
+        )
+    }
+
     return (
       <div className="App">
         <Layout> 
@@ -58,7 +82,7 @@ class App extends Component {
 
   const mapStateToProps = state => {
     return {
-      isLogin: state.auth.isLogin
+      authRole: state.auth.authRole,
       }
   }
   

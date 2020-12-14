@@ -1,24 +1,24 @@
 import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
-  isLogin: false,
+  authRole: null,
 }
 
 const authSuccess = (state, action) => {
   return {
     ...state,
-    isLogin: true,
     token: action.token,
     userId: action.userId,
+    authRole: action.authRole
   }
 }
 
 const logOut = (state, action) => {
   return {
     ...state,
-    isLogin: false,
     token: null,
     userId: false,
+    authRole: null,
   }
 }
 

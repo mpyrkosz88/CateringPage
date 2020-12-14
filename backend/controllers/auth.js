@@ -49,7 +49,7 @@ exports.postLogin = (req, res, next) => {
             throw error;
         }
         currentUser = user
-        return bcrypt.compare(password, user.password)
+        return bcrypt.compare(password, currentUser.password)
     })
     .then(isEqual => {
         if(!isEqual) {
@@ -60,18 +60,15 @@ exports.postLogin = (req, res, next) => {
         const token = jwt.sign(
             {
               email: currentUser.email,
-              userId: currentUser._id.toString()
+              userId: currentUser._id.toString(),
+              userRole: currentUser.role,
             },
             'myToken',
             { expiresIn: '1h' }
           );
-          res.status(200).json({ token: token, userId: currentUser._id.toString() });
+          res.status(200).json({ token: token, userId: currentUser._id.toString(), userRole:currentUser.role });
     })
     .catch(err =>{
         res.status(500).json(err);
     })
-        // .compare(password, user.password)
-        // then(doMatch => {
-        //     req
-        // })
 }

@@ -13,8 +13,7 @@ class EditProducts extends Component {
     }
 
       componentDidMount() {
-        const token = localStorage.getItem('token')
-          axios.get('/edit', {headers: {Authorization: token}})
+          axios.get('/edit')
             .then(response => {
               if (response.data.length > 0 ){
                 this.setState({ 
@@ -33,7 +32,6 @@ class EditProducts extends Component {
     }
 
     deleteProduct(id) {
-      const token = localStorage.getItem('token')
       axios.delete('/delete/'+ id)
         .then(response => {
           console.log(response.data)

@@ -11,6 +11,10 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  role: {
+    type: String,
+    default: "User",
+  },
   userData: 
     {
       fname: {
@@ -49,30 +53,6 @@ const userSchema = new Schema({
       }
     ]
   }
-
-
-
-
-    // userId: {
-    //   type: Number,
-    //   required: true,
-    // },
-    // name: {
-    //     type: String,
-    //     required: true,
-    // },
-    // cart: {
-    //   items: [
-    //     {
-    //       itemId: {
-    //         type: Schema.Types.ObjectId,
-    //         ref: 'Product',
-    //         required: true
-    //       },
-    //       quantity: { type: Number, required: true }
-    //     }
-    //   ]
-    // }
 });
 
 userSchema.methods.addToCart = function(item) {

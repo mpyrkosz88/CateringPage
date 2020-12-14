@@ -14,9 +14,7 @@ import auth from './store/reducers/auth';
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const rootReducer = combineReducers({
-  // cart: cart,
   auth: auth,
-  // dataBase: dataBase
 })
 
 

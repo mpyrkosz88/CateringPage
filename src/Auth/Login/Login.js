@@ -13,7 +13,7 @@ import Backdrop from '../../UI/Backdrop/Backdrop';
 import Success from '../Success/Success';
 
 //actions
-import * as actionTypes from '../../store/actions/actionTypes';
+import * as actions from '../../store/actions/auth';
 
 class Login extends Component {
 
@@ -109,7 +109,7 @@ class Login extends Component {
       modalShow: false,
       redirect: true,
     },() => {
-        this.props.logIn()
+        this.props.authSuccess(this.state.token, this.state.userId, this.state.authRole)
     }
     )
   }
@@ -127,10 +127,12 @@ class Login extends Component {
         this.setState({
           token: resData.token,
           userId: resData.userId,
+          authRole: resData.userRole,
           modalShow: true,
         });
       localStorage.setItem('token', resData.token);
       localStorage.setItem('userId', resData.userId);
+      localStorage.setItem('authRole', resData.userRole);
       const remainingTime = 60 * 60 * 1000;
       const expirationDate = new Date(
           new Date().getTime() + remainingTime
@@ -192,17 +194,18 @@ class Login extends Component {
   }
 }
 
-const mapStateToProps = (state, props) => {
-  return {
-    token: state.token,
-    userId: state.userId,
-  }
-}
+// const mapStateToProps = (state, props) => {
+//   return {
+//     token: state.token,
+//     userId: state.userId,
+//     authRole: state.authRole,
+//   }
+// }
 
 const mapDispatchToProps = dispatch => {
   return {
-    logIn: () => dispatch({type: actionTypes.AUTH_SUCCESS}),
+    authSuccess: (token, userId, authRole) => dispatch(actions.authSuccess(token, userId, authRole)),
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(null, mapDispatchToProps)(Login);

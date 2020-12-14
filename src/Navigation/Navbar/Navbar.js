@@ -15,89 +15,73 @@ import * as actions from '../../store/actions/auth';
 class Navbar extends Component {
 
   render() {
-    let logIn = (
-      <Grid container justify="space-between" >
-        <Grid>
-          <ul>
-            <NavItem
-              link={`/menu`}
-              active="active_link"
-            >
-              Menu
-            </NavItem>
-            <NavItem
-              link={`/history`}
-              active="active_link"
-            >
-              Order history
-            </NavItem>
-            <NavItem
-              link={`/add`}
-              active="active_link">
-              Add product
-            </NavItem>
-            <NavItem
-              link={`/edit`}
-              active="active_link">
-              Edit products
-           </NavItem>
-          </ul>
-        </Grid>
-        <Grid >
-          <ul>
-            <NavItem
-            link={`/cart`}
-            active="active_link"
-          >
-            Cart
-            </NavItem>
-            <NavItem
-              link={`/logout`}
-              active="active_link"
-              click={this.props.logOut}
-            >
-              Log Out
-            </NavItem>
-          </ul>
-        </Grid>
-      </Grid>
-    )
 
-    let logOut = (
-      <Grid container justify="space-between" >
-        <Grid>
-          <ul>
-            <NavItem
-              link={`/menu`}
-              active="active_link"
-            >
-              Menu
-      </NavItem>
-          </ul>
-        </Grid>
-        <Grid >
-          <ul>
-            <NavItem
-              link={`/login`}
-              active="active_link"
-              click={this.props.logIn}
-            >
-              Log In
-    </NavItem>
-            <NavItem
-              link={`/register`}
-              active="active_link"
-            >
-              Register
-    </NavItem>
-          </ul>
-        </Grid>
-      </Grid>
-    )
+    let routes = [
+      { link: "/menu", label: "Menu" },
+    ]
+
+    let authRoutes = [
+      { link: "login", label: "Log In" },
+      { link: "register", label: "Register" }
+    ]
+
+    switch (this.props.authRole) {
+      case ('Admin'):
+        routes = [
+          { link: "/menu", label: "Menu" },
+          { link: "/add", label: "Add product" },
+          { link: "/edit", label: "Edit products" },
+        ]
+        authRoutes = [
+          { link: "logout", label: "Log Out", click: true }
+        ]
+        break;
+      case ('User'):
+        routes = [
+          { link: "/menu", label: "Menu" },
+          { link: "/history", label: "Order history" },
+          { link: "/cart", label: "Cart" },
+        ]
+        authRoutes = [
+          { link: "logout", label: "Log Out", click: true }
+        ]
+        break;
+      default:
+        routes = [
+          { link: "/menu", label: "Menu" },
+        ]
+        authRoutes = [
+          { link: "login", label: "Log In" },
+          { link: "register", label: "Register" }
+        ]
+    }
 
     return (
       <nav className="navigation">
-        {this.props.isLogin ? logIn : logOut}
+        <Grid container justify="space-between" >
+          <Grid>
+            <ul>
+              {routes.map(links => {
+                return (
+                  <NavItem link={links.link} active="active_link">
+                    {links.label}
+                  </NavItem>
+                )
+              })}
+            </ul>
+          </Grid>
+          <Grid>
+            <ul>
+              {authRoutes.map(links => {
+                return (
+                  <NavItem link={links.link} active="active_link" click={links.click ? this.props.logOut : null}>
+                    {links.label}
+                  </NavItem>
+                )
+              })}
+            </ul>
+          </Grid>
+        </Grid>
       </nav>
     )
   }
@@ -105,7 +89,7 @@ class Navbar extends Component {
 
 const mapStateToProps = (state, props) => {
   return {
-    isLogin: state.auth.isLogin
+    authRole: state.auth.authRole
   }
 }
 

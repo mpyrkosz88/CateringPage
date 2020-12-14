@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 module.exports = (req, res, next) => {
+  console.log("weszlo");
   const token = req.get('Authorization').split(' ')[1];
   if (!token) {
     const error = new Error('Not authenticated.');
@@ -19,8 +20,15 @@ module.exports = (req, res, next) => {
     error.statusCode = 401;
     throw error;
   }
+
+  if (decodedToken.userRole !== "Admin") {
+    const error = new Error('You have no permission');
+    error.statusCode = 401;
+    throw error;
+  }
+
   req.userId = decodedToken.userId;
-  req.userRole = decodedToken.userRole
+  req.userRole = decodedToken.userRole;
 
   next();
 };

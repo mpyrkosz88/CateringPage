@@ -4,17 +4,16 @@ const router = express.Router()
 
 const adminController = require('../controllers/admin');
 
-const isAuth = require('../middleware/is-auth');
+const isAdmin = require('../middleware/is-admin');
 
-router.post('/add', isAuth, adminController.postAddProducts)
+router.post('/add', isAdmin, adminController.postAddProducts)
 
-router.get('/edit', isAuth, adminController.getProducts)
+router.get('/edit', isAdmin, adminController.getProducts)
 
-router.get('/edit/:id', isAuth, adminController.getEditProduct)
+router.get('/edit/:id', isAdmin, adminController.getEditProduct)
 
-router.post('/update/:id', isAuth, adminController.postEditProduct)
+router.post('/update/:id', isAdmin, adminController.postEditProduct)
 
-router.delete('/delete/:id', isAuth, adminController.deleteProduct)
-
+router.delete('/delete/:id', isAdmin, adminController.deleteProduct)
 
 module.exports = router

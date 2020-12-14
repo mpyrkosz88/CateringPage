@@ -64,35 +64,6 @@ const uri = process.env.ATLAS_URI;
 mongoose
 .connect(uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true }
 )
-// .then(result => {
-//   const user = new User({
-//     userId: 123,
-//     name: "ja",
-// });
-// user.save();
-// })
-// .catch(err => console.log(err))
-
-
-const User = require("./models/user");
-
-// app.use((req, res, next) => {
-//   console.log(req);
-//   const userId = "5fd1e8239b6c1714a45319ad"
-//   User.findById(userId)
-//       .then(user => {
-//         if (!user) {
-//           return next();
-//         }
-//         req.user = user;
-//         next();
-//       })
-//       .catch(err => {
-//         next(new Error(err));
-//       });
-// });
-
-
 
 const connection = mongoose.connection;
 connection.once('open', () => {
