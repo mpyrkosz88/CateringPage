@@ -16,6 +16,8 @@ import Login from './Forms/Login/Login';
 import Edit from './Forms/Edit/Edit';
 import Register from './Forms/Register/Register';
 
+import Page404 from './Components/404/404';
+
 //actions
 import * as actions from './store/actions/auth';
 
@@ -33,6 +35,8 @@ class App extends Component {
         <Route path={'/menu'} component={Products} />
         <Route path={'/login'} component={Login} />
         <Route path={'/register'} component={Register} />
+        <Route path={'/logout'} render={() => <Redirect to="/menu" />} />
+        <Route component={Page404} />
       </Switch>
     )
 
@@ -44,6 +48,8 @@ class App extends Component {
               <Route path={'/menu'} component={Products} />
               <Route path={'/add'} component={AddProduct} />
               <Route path={'/edit/:id'} component={Edit} />
+              <Route path={'/logout'} render={() => <Redirect to="/menu" />} />
+              <Route component={Page404} />
           </Switch>
         )
         break;
@@ -54,6 +60,8 @@ class App extends Component {
               <Route path={'/menu'} component={Products} />
               <Route path={'/history'} component={History} />
               <Route path={'/cart'} component={Cart} />
+              <Route path={'/logout'} render={() => <Redirect to="/menu" />} />
+              <Route component={Page404} />
             </Switch>
           )
          break;
@@ -64,6 +72,8 @@ class App extends Component {
             <Route path={'/menu'} component={Products} />
             <Route path={'/login'} component={Login} />
             <Route path={'/register'} component={Register} />
+            <Route path={'/logout'} render={() => <Redirect to="/menu" />} />
+            <Route component={Page404} />
           </Switch>
         )
     }
@@ -91,4 +101,6 @@ class App extends Component {
   }
   
   export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
+  
+
   

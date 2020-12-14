@@ -60,9 +60,9 @@ class Navbar extends Component {
         <Grid container justify="space-between" >
           <Grid>
             <ul>
-              {routes.map(links => {
+              {routes.map((links, index) => {
                 return (
-                  <NavItem link={links.link} active="active_link">
+                  <NavItem key={index} link={links.link} active="active_link">
                     {links.label}
                   </NavItem>
                 )
@@ -71,9 +71,9 @@ class Navbar extends Component {
           </Grid>
           <Grid>
             <ul>
-              {authRoutes.map(links => {
+              {authRoutes.map((links, index) => {
                 return (
-                  <NavItem link={links.link} active="active_link" click={links.click ? this.props.logOut : null}>
+                  <NavItem key={index} link={links.link} active="active_link" click={links.click ? this.props.logOut : null}>
                     {links.label}
                   </NavItem>
                 )

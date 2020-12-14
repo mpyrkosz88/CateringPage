@@ -11,13 +11,13 @@ const historyItem = (props) => {
                     <p> {props.timeDate}</p>
                 </Grid>
                 <Grid xs={4} item container justify="center">
-                    {props.orderData.map(data => <p> {data.name}</p>)}
+                    {props.orderData.map((data, index) => <p key={index}> {data.name}</p>)}
                 </Grid>
                 <Grid xs={2} item container justify="center">
-                    {props.orderData.map(data => <p> {data.quantity}</p>)}
+                    {props.orderData.map((data, index) => <p key={index}> {data.quantity}</p>)}
                 </Grid>
                 <Grid xs={2} item container justify="center" className="border_right ">
-                    {props.orderData.map(data => <p> {data.price}</p>)}
+                    {props.orderData.map((data, index) => <p key={index}> {data.price}</p>)}
                 </Grid>
                 <Grid xs={2} item container justify="center">
                     <p>
