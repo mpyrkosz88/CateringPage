@@ -1,18 +1,16 @@
 //libraries
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom'
-
-//styles
-import "./ProductForm.scss"
+import { Grid } from '@material-ui/core';
 
 //utiles
-import axios from '../../../utils/axios-path';
+import axios from '../../utils/axios-path';
 
 //components
-import Input from '../../../UI/Input/Input';
+import Input from '../../UI/Input/Input';
 
 
-class ProductForm extends Component {
+class AddProduct extends Component {
 
     state = {
         formIsValid: false,
@@ -133,6 +131,7 @@ class ProductForm extends Component {
         }
 
         return (
+          <Grid container justify="center">
             <div className="form_card">
                 <form id="product_form" onSubmit={this.onSubmit} encType="multipart/form-data">
                     {formElementsArray.map(formElement => {
@@ -157,13 +156,13 @@ class ProductForm extends Component {
                 <button className="form_button" 
                 type="submit" 
                 form="product_form" 
-                value={this.props.btnValue}
+                value="Add product"
                 disabled= {!this.state.formIsValid ? true : false}
-                >{this.props.btnValue}</button>
+                >Add product</button>
             </div>
-
+            </Grid>
         )
     }
 }
 
-export default ProductForm
+export default AddProduct

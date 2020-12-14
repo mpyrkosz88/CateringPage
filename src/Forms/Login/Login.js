@@ -10,7 +10,7 @@ import axios from '../../utils/axios-path';
 import Input from '../../UI/Input/Input';
 import Modal from '../../UI/Modal/Modal';
 import Backdrop from '../../UI/Backdrop/Backdrop';
-import Success from '../Success/Success';
+import Success from '../../Components/Success/Success';
 
 //actions
 import * as actions from '../../store/actions/auth';
@@ -193,14 +193,6 @@ class Login extends Component {
     )
   }
 }
-
-// const mapStateToProps = (state, props) => {
-//   return {
-//     token: state.token,
-//     userId: state.userId,
-//     authRole: state.authRole,
-//   }
-// }
 
 const mapDispatchToProps = dispatch => {
   return {

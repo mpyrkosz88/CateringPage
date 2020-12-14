@@ -19,6 +19,13 @@ module.exports = (req, res, next) => {
     error.statusCode = 401;
     throw error;
   }
+
+  if (decodedToken.userRole !== "User") {
+    const error = new Error('You have no permission');
+    error.statusCode = 401;
+    throw error;
+  }
+
   req.userId = decodedToken.userId;
   req.userRole = decodedToken.userRole
 

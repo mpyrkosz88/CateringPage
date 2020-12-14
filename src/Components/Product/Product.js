@@ -7,7 +7,7 @@ import { Grid } from '@material-ui/core';
 import "./Product.scss"
 
 //utils
-import baseUrl from '../../../utils/baseURL';
+import baseUrl from '../../utils/baseURL';
 
 class Product extends Component {
     state = {
@@ -32,7 +32,10 @@ class Product extends Component {
                     {this.props.editBtnValue ? 
                         <button className="card_button" onClick={()=>this.redirectPage()} value={this.props.editBtnValue }>{this.props.editBtnValue}</button>
                         : null}
+                    {this.props.btnValue ? 
                         <button className="card_button" onClick={this.props.clicked} value={this.props.btnValue}>{this.props.btnValue}</button>
+                        :null
+                    }
                 </div>
             </Grid>
 

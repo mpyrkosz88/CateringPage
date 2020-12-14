@@ -12,7 +12,7 @@ import axios from '../../utils/axios-path';
 import Input from '../../UI/Input/Input';
 import Modal from '../../UI/Modal/Modal';
 import Backdrop from '../../UI/Backdrop/Backdrop';
-import Success from '../Success/Success';
+import Success from '../../Components/Success/Success';
 
 
 class Register extends Component {
@@ -286,7 +286,7 @@ class Register extends Component {
                     > Register </button>
                 </div>
                 <Modal show={this.state.modalShow}> 
-                    <Success clickedClosed={this.closeModal}>Register successful!</Success> 
+                    <Success clickedClosed={this.closeModal}>Register successful! {<br/>} Please Log In!</Success> 
                 </Modal>
                     <Backdrop show={this.state.modalShow} clicked={this.closeModal}/>
             </div>

@@ -3,11 +3,11 @@ import React, { Component } from 'react';
 import {Redirect} from 'react-router-dom'
 
 //utils
-import axios from '../../../utils/axios-path';
-import baseUrl from '../../../utils/baseURL';
+import axios from '../../utils/axios-path';
+import baseUrl from '../../utils/baseURL';
 
 //components
-import Input from '../../../UI/Input/Input';
+import Input from '../../UI/Input/Input';
 
 class Edit extends Component {
 
@@ -67,8 +67,7 @@ class Edit extends Component {
     }
 
     componentDidMount() {
-        const token = localStorage.getItem('token')
-        axios.get('/edit/'+ this.props.match.params.id, {headers: {Authorization: token}})
+        axios.get('/edit/'+ this.props.match.params.id)
         .then(response => {
             const updatedControls = {
                 ...this.state.controls,
@@ -141,8 +140,7 @@ class Edit extends Component {
     }
       formData.append('name', this.state.controls.name.value);
       formData.append('price', this.state.controls.price.value);
-      const token = localStorage.getItem('token')
-        axios.post('/update/' + this.props.match.params.id, formData, {headers: {Authorization: token}})
+        axios.post('/update/' + this.props.match.params.id, formData)
         .then(res => {console.log(res.data)})
         .then(() => this.redirectPage())
         .catch((err) => {console.log(err)})
@@ -159,7 +157,7 @@ class Edit extends Component {
 
         const { redirect } = this.state;
         if (redirect) {
-          return <Redirect to='/edit'/>;
+          return <Redirect to='/menu'/>;
         }
 
         return (
