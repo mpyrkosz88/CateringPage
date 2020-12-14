@@ -21,12 +21,12 @@ const orderSchema = new Schema({
         }
       ],
       user: {
-        // email: {
-        //   type: String,
-        //   required: true
-        // },
+        email: {
+          type: String,
+          required: true
+        },
         userId: {
-          type: Number,
+          type: String,
           required: true,
           ref: 'User'
         }

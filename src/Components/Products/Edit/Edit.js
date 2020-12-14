@@ -67,7 +67,8 @@ class Edit extends Component {
     }
 
     componentDidMount() {
-        axios.get('/edit/'+ this.props.match.params.id)
+        const token = localStorage.getItem('token')
+        axios.get('/edit/'+ this.props.match.params.id, {headers: {Authorization: token}})
         .then(response => {
             const updatedControls = {
                 ...this.state.controls,
@@ -140,8 +141,8 @@ class Edit extends Component {
     }
       formData.append('name', this.state.controls.name.value);
       formData.append('price', this.state.controls.price.value);
-
-        axios.post('/update' + this.props.match.params.id, formData)
+      const token = localStorage.getItem('token')
+        axios.post('/update/' + this.props.match.params.id, formData, {headers: {Authorization: token}})
         .then(res => {console.log(res.data)})
         .then(() => this.redirectPage())
         .catch((err) => {console.log(err)})

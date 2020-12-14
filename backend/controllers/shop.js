@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 const Product = require('../models/product');
 const User = require('../models/user');
 const Order = require('../models/order');
+const { findById } = require('../models/user');
 
 //controllers
 
@@ -20,43 +21,54 @@ exports.getProducts = (req, res, next) => {
 
 exports.addToCart = (req, res, next) => {
     const prodId = req.params.id;
-    console.log(req.params);
-    console.log(req.body);
+    const userId = req.userId
+    console.log(userId);
     Product.findById(prodId)
-    .then(product => {
-        return req.user.addToCart(product)
-        .then(() => res.json("Added to cart"))
-      })
+        .then(product => {
+            User.findById(userId)
+            .then(user => {
+                return user.addToCart(product)
+            })
+            .catch(err => res.status(500).json('Error: ' + err));
+    })
+    .then(() => res.json("Added to cart"))
     .catch(err => res.status(500).json('Error: ' + err));
 }
 
 exports.getCart = (req, res, next) => {
-    req.user
-    .populate('cart.items.itemId')
-    .execPopulate()
+    const userId = req.userId
+    User.findById(userId)
     .then(user => {
-        const cart = user.cart.items
-        res.json(cart)
+        user
+        .populate('cart.items.itemId')
+        .execPopulate()
+        .then(cartItems => {
+            const cart = cartItems.cart.items
+            res.json(cart)
+        })
     })
     .catch(err => res.status(500).json('Error: ' + err));
 }
 
 exports.postCartDeleteProduct = (req, res, next) => {
+    const userId = req.userId
     const prodId = req.params.id;
-    req.user.removeFromCart(prodId)
+    User.findById(userId)
+      .then(user =>user.removeFromCart(prodId))
       .then(() => res.status(200).json('Product deleted.'))
       .catch(err => res.status(500).json('Error: ' + err));
   };
 
   exports.getOrder = (req, res, next) => {
-    //   let products
-      req.user
-      .populate('cart.items.itemId', {'name': 1, 'price': 1})
-      .execPopulate()
-      .then(user => {
-          const products = user.cart.items.map(data => {
-              console.log(data.itemId);
-              console.log(data.quantity);
+    const userId = req.userId
+    User.findById(userId)
+    .then(user => {
+        user
+        .populate('cart.items.itemId', {'name': 1, 'price': 1})
+        .execPopulate()
+        .then(user => {
+            console.log(user)
+            const products = user.cart.items.map(data => {
               return {
                   name: data.itemId.name,
                   price: data.itemId.price,
@@ -65,20 +77,22 @@ exports.postCartDeleteProduct = (req, res, next) => {
           })
             const order = new Order({
                 user: {
-                    userId: user.userId,
+                    email: user.email,
+                    userId: user._id,
                 },
                 products: products,
                 timeDate: new Date().toISOString()
             })
             return order.save()
         })
-        .then(() => req.user.clearCart())
-        .then(() => res.json("Order has been sent"))
-        .catch(err => res.status(500).json('Error: ' + err));
+        .then(() => user.clearCart())
+        })
+    .then(() => res.json("Order has been sent"))
+    .catch(err => res.status(500).json('Error: ' + err));
   }
 
   exports.getOrders = (req, res, next) => {
-      Order.find({'user.userId':req.user.userId})
+      Order.find({'user.userId':req.userId})
         .then((results) => res.json(results))
         .catch(err => res.status(500).json('Error: ' + err));
   }

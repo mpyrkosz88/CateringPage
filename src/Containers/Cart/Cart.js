@@ -23,7 +23,7 @@ class Cart extends Component {
     }
 
       componentDidMount() {
-          axios.get('/cart')
+          axios.get('/cart', )
             .then(response => {
               if (response.data.length > 0 ){
                 this.setState({ 
@@ -38,7 +38,8 @@ class Cart extends Component {
 
         deleteProduct(id) {
             axios.delete('/cart-delete/'+ id)
-              .then(() => {
+              .then((response) => {
+                  console.log(response.data);
                   this.setState({
                     cart: this.state.cart.filter(el => el._id !== id)
                   })
@@ -70,7 +71,7 @@ class Cart extends Component {
           })
           axios.get('/get-order')
           .then(response => {
-            console.log(response);
+            console.log(response.data);
             })
           .then(() => {
             this.setState({ 

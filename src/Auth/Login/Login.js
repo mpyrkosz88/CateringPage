@@ -131,7 +131,7 @@ class Login extends Component {
         });
       localStorage.setItem('token', resData.token);
       localStorage.setItem('userId', resData.userId);
-      const remainingTime = 60 * 10 * 1000;
+      const remainingTime = 60 * 60 * 1000;
       const expirationDate = new Date(
           new Date().getTime() + remainingTime
         );

@@ -112,7 +112,7 @@ class ProductForm extends Component {
       formData.append('name', this.state.controls.name.value);
       formData.append('price', this.state.controls.price.value);
 
-        axios.post('/add', formData)
+        axios.post('/add', formData,)
         .then(res => console.log(res.data))
         .then(() => this.setState({ redirect:true }))
         .catch((err) => {console.log(err)})

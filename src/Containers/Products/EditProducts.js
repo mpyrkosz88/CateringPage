@@ -13,7 +13,8 @@ class EditProducts extends Component {
     }
 
       componentDidMount() {
-          axios.get('/edit')
+        const token = localStorage.getItem('token')
+          axios.get('/edit', {headers: {Authorization: token}})
             .then(response => {
               if (response.data.length > 0 ){
                 this.setState({ 
@@ -27,17 +28,19 @@ class EditProducts extends Component {
         }
     onSubmit = (e) => {
         e.preventDefault();
-        console.log('axios w add dziala');
         axios.post('/add')
         .then(res => console.log(res))
     }
 
     deleteProduct(id) {
+      const token = localStorage.getItem('token')
       axios.delete('/delete/'+ id)
-        .then(response => { console.log(response.data)});
-      this.setState({
-        products: this.state.products.filter(el => el._id !== id)
-      })
+        .then(response => {
+          console.log(response.data)
+          this.setState({
+            products: this.state.products.filter(el => el._id !== id)
+          })
+        })
       .catch((error) => {
         console.log(error);
       })
