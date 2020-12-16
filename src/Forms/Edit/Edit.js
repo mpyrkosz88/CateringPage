@@ -81,7 +81,7 @@ class Edit extends Component {
                 },
                 image: {
                     ...this.state.controls.image,
-                    src: response.data.image
+                    src: response.data.image,
                 }
             }
             this.setState({ controls: updatedControls})
@@ -143,7 +143,7 @@ class Edit extends Component {
         axios.post('/update/' + this.props.match.params.id, formData)
         .then(res => {console.log(res.data)})
         .then(() => this.redirectPage())
-        .catch((err) => {console.log(err)})
+        .catch((err) => {console.log(err.response.data)})
     }
   
     render() {
@@ -158,6 +158,14 @@ class Edit extends Component {
         const { redirect } = this.state;
         if (redirect) {
           return <Redirect to='/menu'/>;
+        }
+
+        let image 
+        
+        if(this.state.controls.image.src !== null) {
+          if(this.state.controls.image.file === null) {
+            image = <figure><img src={baseUrl + this.state.controls.image.src} /></figure>
+          }
         }
 
         return (
@@ -181,10 +189,9 @@ class Edit extends Component {
                             />
                             )
                         })}
+                        {image}
                         </form>
-                        {this.state.controls.image.file ? 
-                            null : <figure><img src={baseUrl + this.state.controls.image.src} /></figure>
-                        }
+
                 <button className="form_button" 
                 type="submit" 
                 form="product_form" 

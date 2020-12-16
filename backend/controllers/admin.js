@@ -1,5 +1,6 @@
 //libraries
 const fs = require('fs');
+const { validationResult } = require('express-validator');
 
 //models
 const Product = require('../models/product');
@@ -20,7 +21,7 @@ exports.postAddProducts = (req, res, next) => {
         res.json("New product added!");
     })
     .catch(err =>{
-        res.status(400).json(err);
+        res.status(500).json(err);
     })
 }
 
@@ -29,7 +30,7 @@ exports.getProducts = (req, res, next) => {
     .then(results => {
         res.json(results)
     })
-    .catch(err => res.status(400).json('Error:' + err));
+    .catch(err => res.status(500).json('Error:' + err));
 }
     
 exports.getEditProduct = (req, res, next) => {
@@ -37,22 +38,25 @@ exports.getEditProduct = (req, res, next) => {
     .then(product => {
         res.json(product)
     })
-    .catch(err => res.status(400).json('Error: ' + err))
+    .catch(err => res.status(500).json('Error: ' + err))
 }
 
 exports.postEditProduct = (req, res, next) => {
+    const errors = validationResult(req);
+    if(!errors.isEmpty()) {
+        const error = new Error('Validation failed, entered data is incorrect.');
+        error.statusCode = 422;
+        throw error;
+    }
     Product.findById(req.params.id)
     .then(product => {
-        const baseUrl = req.protocol + "://" + req.get('host');
         product.name = req.body.name
         product.price = req.body.price
-        req.file ? product.image = baseUrl + '/images/' + req.file.filename : null
+        req.file ? product.image = 'images/' + req.file.filename : null
         product.save()
-        .then(() => res.json('Exercise updated!'))
-        .catch(err => res.status(400).json('Error: ' + err))
-
+        .then(() => res.status(200).json('Exercise updated!'))
     })
-    .catch(err => res.status(400).json('Error: ' + err))
+    .catch(err => res.status(500).json('Error: ' + err));
 }
 
 exports.deleteProduct = (req, res, next) => {

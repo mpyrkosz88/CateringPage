@@ -68,14 +68,14 @@ class Products extends Component {
       switch(this.props.authRole) {
         case('Admin'):
         listConfig = {
-          clicked: this.deleteProduct,
+          clicked: this.deleteProduct.bind(this),
           btnValue: "Delete",
           editBtnValue: "Edit"
         }
         break;
         case('User'):
         listConfig = {
-          clicked: this.addToCart,
+          clicked: this.addToCart.bind(this),
           btnValue: "Add to cart"
         }
         break;
@@ -86,7 +86,7 @@ class Products extends Component {
           }
       }
 
-      const productsList = this.state.products.map(data => {               
+      const productsList = this.state.products.map(data => {        
                   return (
                   <Product 
                   key={data._id}

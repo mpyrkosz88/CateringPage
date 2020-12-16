@@ -1,14 +1,18 @@
 //libraries
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { validationResult } = require('express-validator');
 
 //models
 const User = require('../models/user');
 
 exports.postRegister = (req, res, next) => {
+    const errors = validationResult(req);
+    if(!errors.isEmpty()) {
+        return res.status(422).json(errors.array())
+    }
     const email = req.body.email
     const password = req.body.password
-    const confirmPassword = req.body.confirmPassword;
     const userData = {
         fname: req.body.fname,
         lname: req.body.lname,
@@ -32,7 +36,6 @@ exports.postRegister = (req, res, next) => {
         res.json("Register is successful!");
     })
     .catch(err =>{
-        console.log(err);
         res.status(500).json(err);
     })
 }

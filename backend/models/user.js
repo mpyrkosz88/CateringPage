@@ -9,36 +9,39 @@ const userSchema = new Schema({
   },
   password: {
     type: String,
+    minlength: [5, "Minimal length of password is 5"],
     required: true,
   },
   role: {
     type: String,
     default: "User",
   },
-  userData: 
-    {
-      fname: {
-        type: String,
-        required: true,
-      },
-      lname: {
-        type: String,
-        required: true
-      },
-      street: {
-        type: String,
-        required: true
-      },
-      city: {
-        type: String,
-        required: true
-      },
-      phone: {
-        type: Number,
-        required: true
-      }
-    }
-  ,
+  userData: {
+    fname: {
+      type: String,
+      minlength: [3, "Minimal length of first name is 3"],
+      required: [true, 'Please type your city name'],
+    },
+    lname: {
+      type: String,
+      minlength: [3, "Minimal length of last name is 3"],
+      required: [true, 'Please type your city name']
+    },
+    street: {
+      type: String,
+      minlength: [3, "Minimal length of street name is 3"],
+      required: [true, 'Please type your city name']
+    },
+    city: {
+      type: String,
+      minlength: [3, "Minimal length of city name is 3"],
+      required: [true, 'Please type your city name']
+    },
+    phone: {
+      type: Number,
+      required: true
+    },
+  },
   // resetToken:String,
   // resetTokenExpiration: Date,
   cart: {
