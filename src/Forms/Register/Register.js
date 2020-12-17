@@ -29,7 +29,7 @@ class Register extends Component {
                     name: 'fname',
                 },
                 value: '',
-                errormsg: ['Please type your name'],
+                errormsg: 'Minimal length of First name is 3',
                 validation: {
                     minLength: 3,
                     required: true,
@@ -46,7 +46,7 @@ class Register extends Component {
                     name: 'lname',
                 },
                 value: '',
-                errormsg: ['Please type your name'],
+                errormsg: 'Minimal length of Last name is 3',
                 validation: {
                     minLength: 3,
                     required: true,
@@ -63,7 +63,7 @@ class Register extends Component {
                     name: 'street',
                 },
                 value: '',
-                errormsg: ['Please type your street'],
+                errormsg: 'Minimal length of Street name is 3',
                 validation: {
                     minLength: 3,
                     required: true,
@@ -80,7 +80,7 @@ class Register extends Component {
                     name: 'city',
                 },
                 value: '',
-                errormsg: ['Please type your city name'],
+                errormsg: 'Minimal length of City name is 3',
                 validation: {
                     minLength: 3,
                     required: true,
@@ -99,7 +99,7 @@ class Register extends Component {
                     name: 'phone',
                 },
                 value: '',
-                errormsg: ['Minimal length of number is 9'],
+                errormsg: 'Please type a proper number',
                 validation: {
                     required: true,
                     checkedNumber: true,
@@ -117,7 +117,7 @@ class Register extends Component {
                     name: 'email',
                 },
                 value: '',
-                errormsg: ['Please type valid e-mail'],
+                errormsg: 'Please type valid e-mail',
                 validation: {
                     required: true,
                     checkedEmail: true,
@@ -134,7 +134,7 @@ class Register extends Component {
                     name: 'password',
                 },
                 value: '',
-                errormsg: ['Minimal length of password is 6'],
+                errormsg: 'Minimal length of password is 6',
                 validation: {
                     required: true,
                     minLength: 6
@@ -151,10 +151,9 @@ class Register extends Component {
                     name: 'cPassword',
                 },
                 value: '',
-                errormsg: ['Minimal length of password is 6'],
+                errormsg: "Password doesn't match",
                 validation: {
                     required: true,
-                    minLength: 6
                 },
                 valid: false,
                 touched: false
@@ -165,6 +164,7 @@ class Register extends Component {
     }
 
     checkValiditiy(value, rules) {
+
         let isValid = true;
         if (!rules) {
             return true;
@@ -197,9 +197,17 @@ class Register extends Component {
                 ...this.state.controls[controlName],
                 value: event.target.value,
                 valid: this.checkValiditiy(event.target.value, this.state.controls[controlName].validation),
-                touched: true
+                touched: true,
             }
         }
+
+        if (updatedControls["confirmPassword"].value == updatedControls["password"].value) {
+            updatedControls["confirmPassword"].valid = true
+        }
+        else {
+            updatedControls["confirmPassword"].valid = false
+        }
+
         let formIsValid = true;
         for (let inputIdentifier in updatedControls) {
             formIsValid = updatedControls[inputIdentifier].valid && formIsValid;
@@ -209,8 +217,9 @@ class Register extends Component {
 
     setErrors = (errors) => {
         const errorsArray = []
-        let updatedErrors
+        let updatedErrors = this.state.controls
         for (let key in errors) {
+            console.log(errors);
             errorsArray.push({
                 controls: errors[key].param,
                 errormsg: errors[key].msg
@@ -224,14 +233,15 @@ class Register extends Component {
                         ...this.state.controls,
                         [inputIdentifier]: {
                             ...this.state.controls[inputIdentifier],
-                            errormsg: [errorsArray[index].errormsg]
+                            errormsg: errorsArray[index].errormsg,
+                            valid: false,
+                            touched: true
                         }
                     }
+                    this.setState({ controls: updatedErrors, formIsValid: false})
                 }
             }
         }
-        console.log(updatedErrors);
-        // this.setState({ controls: updatedErrors })
     }
 
     closeModal = () => {
@@ -258,20 +268,14 @@ class Register extends Component {
             .then(() => this.setState({ modalShow: true }))
             .catch((err) => {
                 if (err.response) {
-                    // console.log(err.response.data);
                     const errors = err.response.data
                     this.setErrors(errors)
-                    // this.setState({
-                    //     errors: errors
-                    // })
                 }
                 else {
                     console.log(err);
                 }
             })
     }
-
-
 
 
     render() {
@@ -287,15 +291,6 @@ class Register extends Component {
         if (redirect) {
             return <Redirect to='/menu' />;
         }
-
-        // let errorMessage = null
-
-        // if (this.props.error) {
-        //   errorMessage = (
-        //     <p className="error">{this.props.error}</p>
-        //   )
-        // }
-        // {errorMessage}
 
         return (
             <div>
@@ -320,12 +315,11 @@ class Register extends Component {
                         })}
                     </form>
 
-
                     <button className="form_button"
                         type="submit"
                         form="register_form"
                         value="Register"
-                    // disabled= {!this.state.formIsValid ? true : false}
+                    disabled= {!this.state.formIsValid ? true : false}
                     > Register </button>
                 </div>
                 <Modal show={this.state.modalShow}>

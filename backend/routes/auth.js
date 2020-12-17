@@ -1,5 +1,6 @@
 const express = require('express');
 const { body } = require('express-validator');
+const bcrypt = require('bcrypt');
 
 const router = express.Router()
 
@@ -29,12 +30,11 @@ router.post('/register',
             .isLength({ min: 9 }).withMessage("Length of Phone number is 9")
             .notEmpty().withMessage("Phone number is required"),
         body('email')
-            .isEmail().withMessage("It's not a proper email")
+            .isEmail().withMessage("Please type valid e-mail")
             .custom((value, { req }) => {
                 return User.findOne({ email: value }).then(userDoc => {
-                    console.log(userDoc);
                     if (userDoc) {
-                        return Promise.reject('E-Mail exists already, please pick a different one.');
+                        throw new Error('E-Mail exists already, please pick a different one.');
                     }
                 });
             })
@@ -54,7 +54,36 @@ router.post('/register',
     ],
     authController.postRegister)
 
-router.post('/login', authController.postLogin)
+router.post('/login',
+    [
+        body('email')
+            .isEmail().withMessage("Please type valid e-mail")
+            .custom((value, { req }) => {
+                return User.findOne({ email: value }).then(userDoc => {
+                    if (!userDoc) {
+                        throw new Error("A user with this email could not be found.");
+                    }
+                });
+            })
+            .normalizeEmail(),
+        body('password').custom((value, { req }) => {
+            let currentUser
+            return User.findOne({ email: req.body.email }).then(user => {
+                if (user) {
+                    currentUser = user
+                    return bcrypt.compare(value, currentUser.password)
+                        .then(isEqual => {
+                            if (!isEqual) {
+                                const error = new Error('Wrong password!');
+                                error.statusCode = 401;
+                                throw error
+                            }
+                        })
+                };
+            })
+        }),
+    ],
+    authController.postLogin)
 
 
 module.exports = router

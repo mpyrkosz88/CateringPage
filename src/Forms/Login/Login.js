@@ -46,10 +46,9 @@ class Login extends Component {
           name: 'password',
         },
         value: '',
-        errormsg: 'Minimal length of password is 6',
+        errormsg: 'Wrong password!',
         validation: {
           required: true,
-          minLength: 6
         },
         valid: false,
         touched: false
@@ -104,6 +103,34 @@ class Login extends Component {
     this.setState({ controls: updatedControls, formIsValid: formIsValid })
   }
 
+  setErrors = (errors) => {
+    const errorsArray = []
+    let updatedErrors = this.state.controls
+    for (let key in errors) {
+        errorsArray.push({
+            controls: errors[key].param,
+            errormsg: errors[key].msg
+        });
+    }
+
+    for (let inputIdentifier in this.state.controls) {
+        for (let index in errorsArray) {
+            if (errorsArray[index].controls === inputIdentifier) {
+                updatedErrors = {
+                    ...this.state.controls,
+                    [inputIdentifier]: {
+                        ...this.state.controls[inputIdentifier],
+                        errormsg: errorsArray[index].errormsg,
+                        valid: false,
+                        touched: true
+                    }
+                }
+                this.setState({ controls: updatedErrors, formIsValid: false})
+            }
+        }
+    }
+}
+
   closeModal = () => {
     this.setState({
       modalShow: false,
@@ -139,7 +166,15 @@ class Login extends Component {
         );
       localStorage.setItem('expirationDate', expirationDate.toISOString());
       })
-      .catch((err) => { console.log(err) })
+      .catch((err) => {
+        if (err.response) {
+            const errors = err.response.data
+            this.setErrors(errors)
+        }
+        else {
+            console.log(err);
+        }
+    })
   }
 
   render() {
