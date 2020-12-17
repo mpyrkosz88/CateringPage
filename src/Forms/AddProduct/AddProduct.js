@@ -103,17 +103,56 @@ class AddProduct extends Component {
         this.setState({ controls: updatedControls, formIsValid: formIsValid })
       }
 
+      setErrors = (errors) => {
+        console.log(errors);
+        const errorsArray = []
+        let updatedErrors = this.state.controls
+        for (let key in errors) {
+            errorsArray.push({
+                controls: key,
+                errormsg: errors[key].message
+            });
+        }
+    
+        for (let inputIdentifier in this.state.controls) {
+            for (let index in errorsArray) {
+                if (errorsArray[index].controls === inputIdentifier) {
+                    updatedErrors = {
+                        ...this.state.controls,
+                        [inputIdentifier]: {
+                            ...this.state.controls[inputIdentifier],
+                            errormsg: errorsArray[index].errormsg,
+                            valid: false,
+                            touched: true
+                        }
+                    }
+                    this.setState({ controls: updatedErrors, formIsValid: false})
+                }
+            }
+        }
+    }
+
     onSubmit = (e) => {
       e.preventDefault();
       let formData = new FormData();
-      formData.append('image', this.state.controls.image.file[0]);
+      if (this.state.controls.image.file !== null) {
+        formData.append('image', this.state.controls.image.file[0]);
+  }
       formData.append('name', this.state.controls.name.value);
       formData.append('price', this.state.controls.price.value);
 
         axios.post('/add', formData,)
         .then(res => console.log(res.data))
         .then(() => this.setState({ redirect:true }))
-        .catch((err) => {console.log(err)})
+        .catch((err) => {
+          if (err.response) {
+              const errors = err.response.data.errors
+              this.setErrors(errors)
+          }
+          else {
+              console.log(err);
+          }
+      })
     }
 
     render() {

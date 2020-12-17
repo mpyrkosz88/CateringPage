@@ -32,7 +32,7 @@ class Navbar extends Component {
           { link: "/add", label: "Add product" },
         ]
         authRoutes = [
-          { link: "logout", label: "Log Out", click: true }
+          { link: "/logout", label: "Log Out", click: true }
         ]
         break;
       case ('User'):

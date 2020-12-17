@@ -74,7 +74,7 @@ class Login extends Component {
     }
 
     if (rules.checkedEmail) {
-      isValid = !((value.indexOf('@', 1) == -1) || (value.indexOf('.', 1) == -1))
+      isValid = !((value.indexOf('@', 1) === -1) || (value.indexOf('.', 1) === -1))
     }
 
     if (rules.checkedNumber) {

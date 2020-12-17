@@ -13,7 +13,7 @@ import Products from './Containers/Products/Products'
 //components
 import AddProduct from './Forms/AddProduct/AddProduct'
 import Login from './Forms/Login/Login';
-import Edit from './Forms/Edit/Edit';
+import EditProduct from './Forms/EditProduct/EditProduct';
 import Register from './Forms/Register/Register';
 
 import Page404 from './Components/404/404';
@@ -47,7 +47,7 @@ class App extends Component {
               <Route path={'/'} exact render={() => <Redirect to="/menu" />} />
               <Route path={'/menu'} component={Products} />
               <Route path={'/add'} component={AddProduct} />
-              <Route path={'/edit/:id'} component={Edit} />
+              <Route path={'/edit/:id'} component={EditProduct} />
               <Route path={'/logout'} render={() => <Redirect to="/menu" />} />
               <Route component={Page404} />
           </Switch>

@@ -179,7 +179,7 @@ class Register extends Component {
         }
 
         if (rules.checkedEmail) {
-            isValid = !((value.indexOf('@', 1) == -1) || (value.indexOf('.', 1) == -1))
+            isValid = !((value.indexOf('@', 1) === -1) || (value.indexOf('.', 1) === -1))
         }
 
         if (rules.checkedNumber) {
@@ -201,7 +201,7 @@ class Register extends Component {
             }
         }
 
-        if (updatedControls["confirmPassword"].value == updatedControls["password"].value) {
+        if (updatedControls["confirmPassword"].value === updatedControls["password"].value) {
             updatedControls["confirmPassword"].valid = true
         }
         else {

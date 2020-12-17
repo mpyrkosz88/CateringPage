@@ -131,6 +131,34 @@ class Edit extends Component {
     redirectPage = () => {
         this.setState({ redirect:true })
     }
+
+    setErrors = (errors) => {
+      const errorsArray = []
+      let updatedErrors = this.state.controls
+      for (let key in errors) {
+          errorsArray.push({
+              controls: key,
+              errormsg: errors[key].message
+          });
+      }
+  
+      for (let inputIdentifier in this.state.controls) {
+          for (let index in errorsArray) {
+              if (errorsArray[index].controls === inputIdentifier) {
+                  updatedErrors = {
+                      ...this.state.controls,
+                      [inputIdentifier]: {
+                          ...this.state.controls[inputIdentifier],
+                          errormsg: errorsArray[index].errormsg,
+                          valid: false,
+                          touched: true
+                      }
+                  }
+                  this.setState({ controls: updatedErrors, formIsValid: false})
+              }
+          }
+      }
+  }
       
     onSubmit = (e) => {
       e.preventDefault();
@@ -143,7 +171,15 @@ class Edit extends Component {
         axios.post('/update/' + this.props.match.params.id, formData)
         .then(res => {console.log(res.data)})
         .then(() => this.redirectPage())
-        .catch((err) => {console.log(err.response.data)})
+        .catch((err) => {
+          if (err.response) {
+              const errors = err.response.data.errors
+              this.setErrors(errors)
+          }
+          else {
+              console.log(err);
+          }
+      })
     }
   
     render() {
