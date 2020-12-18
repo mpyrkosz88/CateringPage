@@ -52,7 +52,10 @@ exports.postCartDeleteProduct = (req, res, next) => {
     const userId = req.userId
     const prodId = req.params.id;
     User.findById(userId)
-      .then(user =>user.removeFromCart(prodId))
+      .then(user =>{
+        user.removeFromCart(prodId)
+        res.status(200).json('Product removed')
+    })
       .catch(err => res.status(500).json('Error: ' + err));
   };
 

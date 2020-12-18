@@ -39,7 +39,7 @@ class Cart extends Component {
         deleteProduct(id) {
             axios.delete('/cart-delete/'+ id)
               .then((response) => {
-                  console.log(response.data);
+                console.log(response);
                   this.setState({
                     cart: this.state.cart.filter(el => el._id !== id)
                   })
