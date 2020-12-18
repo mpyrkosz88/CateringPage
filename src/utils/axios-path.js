@@ -1,8 +1,8 @@
 import axios from 'axios';
-import baseUrl from './baseURL';
+const uri = process.env.REACT_APP_API_URL;
 
 const instance = axios.create({
-    baseURL: baseUrl,
+    baseURL: uri,
     headers: {
         Authorization: {
             toString () {

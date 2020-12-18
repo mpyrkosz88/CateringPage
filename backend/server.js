@@ -75,9 +75,9 @@ const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 const authRoutes = require('./routes/auth');
 
-app.use('/', adminRoutes);
-app.use('/', shopRoutes);
-app.use('/', authRoutes);
+app.use('/api/', adminRoutes);
+app.use('/api/', shopRoutes);
+app.use('/api/', authRoutes);
 
 
 app.listen(port, () => {
