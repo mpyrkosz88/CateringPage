@@ -9,9 +9,6 @@ import "./Product.scss"
 //utils
 const baseUrl = process.env.REACT_APP_IMG_URL;
 
-console.log(process.env)
-console.log(baseUrl)
-
 class Product extends Component {
     state = {
         redirect: false
