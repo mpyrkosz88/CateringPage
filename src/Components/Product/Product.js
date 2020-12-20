@@ -7,7 +7,10 @@ import { Grid } from '@material-ui/core';
 import "./Product.scss"
 
 //utils
-import baseUrl from '../../utils/baseURL';
+const baseUrl = process.env.REACT_APP_IMG_URL;
+
+console.log(process.env)
+console.log(baseUrl)
 
 class Product extends Component {
     state = {
