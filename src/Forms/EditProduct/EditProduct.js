@@ -2,12 +2,12 @@
 import React, { Component } from 'react';
 import {Redirect} from 'react-router-dom'
 
+//components
+import Input from '../../UI/Input/Input';
+
 //utils
 import axios from '../../utils/axios-path';
 const baseUrl = process.env.REACT_APP_IMG_URL;
-
-//components
-import Input from '../../UI/Input/Input';
 
 class Edit extends Component {
 
