@@ -4,7 +4,7 @@ import {Redirect} from 'react-router-dom'
 
 //utils
 import axios from '../../utils/axios-path';
-import baseUrl from '../../utils/baseURL';
+const baseUrl = process.env.REACT_APP_IMG_URL;
 
 //components
 import Input from '../../UI/Input/Input';

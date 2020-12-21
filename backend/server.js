@@ -14,6 +14,19 @@ const port = process.env.PORT || 5000;
 //path to MongoDb
 require('dotenv').config();
 
+//routing for react app
+app.use(express.static(path.join(__dirname, '/../build')));
+
+// Handles any requests that don't match the ones above
+app.get('*', (req,res, next) =>{
+  if(!req.url.includes('/api/') && !req.url.includes('/images/')) {
+    res.sendFile(path.join(__dirname+'/../build/index.html'));
+  }
+  else {
+    next()
+  }
+});
+
 //files save
 const fileStorage = multer.diskStorage({
   destination: (req, file, cb) => {
