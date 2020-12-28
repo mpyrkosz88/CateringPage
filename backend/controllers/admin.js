@@ -4,7 +4,8 @@ const { validationResult } = require('express-validator');
 
 //models
 const Product = require('../models/product');
-
+const User = require('../models/user');
+const Order = require('../models/order');
 
 exports.postAddProducts = (req, res, next) => {
     const name = req.body.name;
@@ -61,4 +62,29 @@ exports.deleteProduct = (req, res, next) => {
         })
         .then(() => res.status(200).json('Product deleted.'))
         .catch(err => res.status(500).json('Error: ' + err));
+}
+
+exports.getUsers= (req, res, next) => {
+    User.find({role:'User'})
+      .then((users) => {
+        const usersData = users.map(data => {
+            return {
+                _id: data._id,
+                email: data.email,
+                userData: data.userData,
+            }
+        })
+        res.json(usersData)
+      })
+      .catch(err => {
+          console.log(err)
+          res.status(500).json('Error: ' + err);
+        })
+}
+
+exports.getUsersHistory = (req, res, next) => {
+    const prodId = req.params.id;
+    Order.find({'user.userId':prodId})
+      .then((results) => res.json(results))
+      .catch(err => res.status(500).json('Error: ' + err));
 }
