@@ -1,10 +1,8 @@
 // import './App.css';
-import React, { Component } from 'react';
-import { Route, Switch, Redirect, withRouter } from 'react-router-dom'
+import React, {Component} from 'react';
+import {Route, Switch, Redirect, withRouter} from 'react-router-dom'
 import {connect} from 'react-redux';
-// import {Grid} from '@material-ui/core';
-
-//containers
+// import {Grid} from '@material-ui/core'; containers
 import Cart from './Containers/Cart/Cart';
 import History from './Containers/History/History';
 import Layout from "./Containers/Layout/Layout";
@@ -21,86 +19,86 @@ import Page404 from './Components/404/404';
 //actions
 import * as actions from './store/actions/auth';
 
+import UserContainer from './UsersContainer/UserContainer';
+
 class App extends Component {
 
-  componentDidMount () {
-    this.props.onTryAutoSignup();
-  }
+    componentDidMount() {
+        this.props.onTryAutoSignup();
+    }
 
-  render() {
+    render() {
 
-    let routes = (
-      <Switch>
-        <Route path={'/'} exact render={() => <Redirect to="/menu" />} />
-        <Route path={'/menu'} component={Products} />
-        <Route path={'/login'} component={Login} />
-        <Route path={'/register'} component={Register} />
-        <Route path={'/logout'} render={() => <Redirect to="/menu" />} />
-        <Route component={Page404} />
-      </Switch>
-    )
-
-    switch(this.props.authRole) {
-      case('Admin'):
-          routes = (
-          <Switch>
-              <Route path={'/'} exact render={() => <Redirect to="/menu" />} />
-              <Route path={'/menu'} component={Products} />
-              <Route path={'/add'} component={AddProduct} />
-              <Route path={'/edit/:id'} component={EditProduct} />
-              <Route path={'/logout'} render={() => <Redirect to="/menu" />} />
-              <Route component={Page404} />
-          </Switch>
-        )
-        break;
-        case('User'):
-          routes = (
+        let routes = (
             <Switch>
-              <Route path={'/'} exact render={() => <Redirect to="/menu" />} />
-              <Route path={'/menu'} component={Products} />
-              <Route path={'/history'} component={History} />
-              <Route path={'/cart'} component={Cart} />
-              <Route path={'/logout'} render={() => <Redirect to="/menu" />} />
-              <Route component={Page404} />
+                <Route path={'/'} exact render={() => <Redirect to="/menu"/>}/>
+                <Route path={'/menu'} component={Products}/>
+                <Route path={'/login'} component={Login}/>
+                <Route path={'/register'} component={Register}/>
+                <Route path={'/logout'} render={() => <Redirect to="/menu"/>}/>
+                <Route path={'/users_history'} component={UserContainer}/>
+                <Route component={Page404}/>
             </Switch>
-          )
-         break;
-      default:
-        routes = (
-          <Switch>
-            <Route path={'/'} exact render={() => <Redirect to="/menu" />} />
-            <Route path={'/menu'} component={Products} />
-            <Route path={'/login'} component={Login} />
-            <Route path={'/register'} component={Register} />
-            <Route path={'/logout'} render={() => <Redirect to="/menu" />} />
-            <Route component={Page404} />
-          </Switch>
         )
-    }
 
-    return (
-      <div className="App">
-        <Layout> 
-          {routes}
-        </Layout>
-      </div>
-      );
-    }
-  }
+        switch (this.props.authRole) {
+            case('Admin'):
+                routes = (
+                    <Switch>
+                        <Route path={'/'} exact render={() => <Redirect to="/menu"/>}/>
+                        <Route path={'/menu'} component={Products}/>
+                        <Route path={'/add'} component={AddProduct}/>
+                        <Route path={'/edit/:id'} component={EditProduct}/>
+                        <Route path={'/users_history'} component={UserContainer}/>
+                        <Route path={'/logout'} render={() => <Redirect to="/menu"/>}/>
+                        <Route component={Page404}/>
+                    </Switch>
+                )
+                break;
+            case('User'):
+                routes = (
+                    <Switch>
+                        <Route path={'/'} exact render={() => <Redirect to="/menu"/>}/>
+                        <Route path={'/menu'} component={Products}/>
+                        <Route path={'/history'} component={History}/>
+                        <Route path={'/cart'} component={Cart}/>
+                        <Route path={'/logout'} render={() => <Redirect to="/menu"/>}/>
+                        <Route component={Page404}/>
+                    </Switch>
+                )
+                break;
+            default:
+                routes = (
+                    <Switch>
+                        <Route path={'/'} exact render={() => <Redirect to="/menu"/>}/>
+                        <Route path={'/menu'} component={Products}/>
+                        <Route path={'/login'} component={Login}/>
+                        <Route path={'/register'} component={Register}/>
+                        <Route path={'/logout'} render={() => <Redirect to="/menu"/>}/>
+                        <Route component={Page404}/>
+                        <Route path={'/users_history'} component={UserContainer}/>
+                    </Switch>
+                )
+        }
 
-  const mapStateToProps = state => {
+        return (
+            <div className="App">
+                <Layout>
+                    {routes}
+                </Layout>
+            </div>
+        );
+    }
+}
+
+const mapStateToProps = state => {
+    return {authRole: state.auth.authRole}
+}
+
+const mapDispatchToProps = dispatch => {
     return {
-      authRole: state.auth.authRole,
-      }
-  }
-  
-  const mapDispatchToProps = dispatch => {
-    return {
-      onTryAutoSignup: () => dispatch(actions.authCheckState())
+        onTryAutoSignup: () => dispatch(actions.authCheckState())
     }
-  }
-  
-  export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
-  
+}
 
-  
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));

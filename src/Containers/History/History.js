@@ -11,7 +11,7 @@ import HistoryItem from '../../Components/HistoryItem/HistoryItem'
 class History extends Component {
 
     state = { 
-        history: null
+        history: []
     }
     
     componentDidMount() {
@@ -32,11 +32,11 @@ class History extends Component {
       
       render() {
 
-        const history = (
-            this.state.history ?
-                this.state.history.map((data, index) => {
-                    let totalPrice = 0
-                    data.products.map(data => {
+        let history
+        if (this.state.history.length > 0) {
+            history = this.state.history.map((data, index) => {
+                let totalPrice = 0
+                data.products.map(data => {
                         let quantity = data.quantity
                         let price = data.price
                         return totalPrice += quantity * price
@@ -48,8 +48,10 @@ class History extends Component {
                     totalPrice={totalPrice}
                     />         
                 })
-                : <h1>History is empty</h1>
-        )   
+            }
+            else {
+                history = <h1>History is empty</h1>
+            }  
         return (
                 <Grid container justify="center">
                     <Grid container alignItems="center" className="history_table">

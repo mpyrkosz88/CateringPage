@@ -16,4 +16,8 @@ router.post('/update/:id', isAdmin, adminController.postEditProduct)
 
 router.delete('/delete/:id', isAdmin, adminController.deleteProduct)
 
+router.get('/get-users', isAdmin, adminController.getUsers)
+
+router.get('/get-users/:id', isAdmin, adminController.getUsersHistory)
+
 module.exports = router

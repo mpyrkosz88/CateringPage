@@ -1,8 +1,3 @@
-//libraries
-const fs = require('fs');
-const path = require('path');
-const mongoose = require("mongoose");
-
 //models
 const Product = require('../models/product');
 const User = require('../models/user');
