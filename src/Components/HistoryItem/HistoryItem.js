@@ -6,20 +6,20 @@ import './HistoryItem.scss'
 const historyItem = (props) => {
     return (
         <li className="history_cart_item">
-            <Grid container alignItems="center">
-                <Grid xs={2} item item container justify="center">
+            <Grid container>
+                <Grid xs={2} item container justify="center" alignItems="center">
                     <p> {props.timeDate}</p>
                 </Grid>
-                <Grid xs={4} item container justify="center">
+                <Grid xs={4} item container justify="center" alignItems="center">
                     {props.orderData.map((data, index) => <p key={index}> {data.name}</p>)}
                 </Grid>
-                <Grid xs={2} item container justify="center">
+                <Grid xs={2} item container justify="center" alignItems="center">
                     {props.orderData.map((data, index) => <p key={index}> {data.quantity}</p>)}
                 </Grid>
-                <Grid xs={2} item container justify="center" className="border_right ">
+                <Grid xs={2} item container justify="center" alignItems="center" className="border_right ">
                     {props.orderData.map((data, index) => <p key={index}> {data.price}</p>)}
                 </Grid>
-                <Grid xs={2} item container justify="center">
+                <Grid xs={2} item container justify="center" alignItems="center">
                     <p>
                         {props.totalPrice}
                     </p>
