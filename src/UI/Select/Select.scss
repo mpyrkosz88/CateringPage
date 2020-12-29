@@ -1,0 +1,13 @@
+.records_per_page {
+    margin: 1rem;
+    font-size: 1.25rem;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    label {
+        margin-left: 1rem;
+    }
+    select {
+        font-size: 1.25rem;
+    }
+}

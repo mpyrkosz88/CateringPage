@@ -104,7 +104,6 @@ class AddProduct extends Component {
       }
 
       setErrors = (errors) => {
-        console.log(errors);
         const errorsArray = []
         let updatedErrors = this.state.controls
         for (let key in errors) {
