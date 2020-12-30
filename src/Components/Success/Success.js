@@ -1,6 +1,6 @@
 import { Grid } from '@material-ui/core';
 
-const confirmation = (props) => (
+const success = (props) => (
     <Grid container justify="center">
             <div className="card">
                 <h1> {props.children}</h1>
@@ -9,4 +9,4 @@ const confirmation = (props) => (
     </Grid>
 );
 
-export default confirmation;
+export default success;

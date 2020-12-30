@@ -2,11 +2,12 @@
 import React, {Component} from 'react';
 import {Route, Switch, Redirect, withRouter} from 'react-router-dom'
 import {connect} from 'react-redux';
-// import {Grid} from '@material-ui/core'; containers
+
+//containers
 import Cart from './Containers/Cart/Cart';
-import History from './Containers/History/History';
 import Layout from "./Containers/Layout/Layout";
 import Products from './Containers/Products/Products'
+import OrdersHistory from './Containers/OrdersHistory/OrdersHistory';
 
 //components
 import AddProduct from './Forms/AddProduct/AddProduct'
@@ -19,7 +20,7 @@ import Page404 from './Components/404/404';
 //actions
 import * as actions from './store/actions/auth';
 
-import UserContainer from './UsersContainer/UserContainer';
+import UsersContainer from './Containers/UsersContainer/UserContainer';
 
 class App extends Component {
 
@@ -36,7 +37,6 @@ class App extends Component {
                 <Route path={'/login'} component={Login}/>
                 <Route path={'/register'} component={Register}/>
                 <Route path={'/logout'} render={() => <Redirect to="/menu"/>}/>
-                <Route path={'/users_history'} component={UserContainer}/>
                 <Route component={Page404}/>
             </Switch>
         )
@@ -49,7 +49,7 @@ class App extends Component {
                         <Route path={'/menu'} component={Products}/>
                         <Route path={'/add'} component={AddProduct}/>
                         <Route path={'/edit/:id'} component={EditProduct}/>
-                        <Route path={'/users_history'} component={UserContainer}/>
+                        <Route path={'/users_history'} component={UsersContainer}/>
                         <Route path={'/logout'} render={() => <Redirect to="/menu"/>}/>
                         <Route component={Page404}/>
                     </Switch>
@@ -60,7 +60,7 @@ class App extends Component {
                     <Switch>
                         <Route path={'/'} exact render={() => <Redirect to="/menu"/>}/>
                         <Route path={'/menu'} component={Products}/>
-                        <Route path={'/history'} component={History}/>
+                        <Route path={'/history'} component={OrdersHistory}/>
                         <Route path={'/cart'} component={Cart}/>
                         <Route path={'/logout'} render={() => <Redirect to="/menu"/>}/>
                         <Route component={Page404}/>
@@ -76,7 +76,6 @@ class App extends Component {
                         <Route path={'/register'} component={Register}/>
                         <Route path={'/logout'} render={() => <Redirect to="/menu"/>}/>
                         <Route component={Page404}/>
-                        <Route path={'/users_history'} component={UserContainer}/>
                     </Switch>
                 )
         }

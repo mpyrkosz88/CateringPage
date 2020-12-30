@@ -9,7 +9,6 @@ const input = (props) => {
 
     if (props.invalid && props.shouldValidate && props.touched) {
       inputClasses = "form_input_invalid";
-      // errormsg = props.errormsg.map((data, index) => <p key={index} className="form_input_error">{data}</p>)
       errormsg = (<p className="form_input_error">{props.errormsg}</p>)
     }
 

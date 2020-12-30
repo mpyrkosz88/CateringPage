@@ -1,40 +1,17 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Grid } from '@material-ui/core';
 
-//utils
-import axios from '../../utils/axios-path';
-
+//styles
 import './History.scss'
 
-import HistoryItem from '../../Components/HistoryItem/HistoryItem'
+//components
+import HistoryItem from '../HistoryItem/HistoryItem'
 
-class History extends Component {
+const history = (props) => {
 
-    state = { 
-        history: []
-    }
-    
-    componentDidMount() {
-        axios.get('/get-orders-history')
-          .then(response => {
-              const history = response.data.map(order => {
-                  return order
-                })
-              this.setState({ 
-                history: history
-              })
-            })
-          .catch((error) => {
-            console.log(error);
-          })
-      }
-
-      
-      render() {
-
-        let history
-        if (this.state.history.length > 0) {
-            history = this.state.history.map((data, index) => {
+        let historyData
+        if (props.data.length > 0) {
+            historyData = props.data.map((data, index) => {
                 let totalPrice = 0
                 data.products.map(data => {
                         let quantity = data.quantity
@@ -50,7 +27,7 @@ class History extends Component {
                 })
             }
             else {
-                history = <h1>History is empty</h1>
+                historyData = <h1>History is empty</h1>
             }  
         return (
                 <Grid container justify="center">
@@ -72,11 +49,10 @@ class History extends Component {
                         </Grid>
                     </Grid>
                     <ul className="history_cart_list">
-                        {history}
+                        {historyData}
                     </ul>
                 </Grid>
         )
-    }
 }
 
-export default History 
+export default history 
