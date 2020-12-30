@@ -18,7 +18,6 @@ class Products extends Component {
     componentDidMount() {
         axios.get('/menu')
           .then(response => {
-            console.log(response);
             if (response.data.length > 0 ){
               this.setState({ 
                 products: response.data 

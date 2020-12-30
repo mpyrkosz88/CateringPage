@@ -14,6 +14,8 @@ import AddProduct from './Forms/AddProduct/AddProduct'
 import Login from './Forms/Login/Login';
 import EditProduct from './Forms/EditProduct/EditProduct';
 import Register from './Forms/Register/Register';
+import Reset from './Forms/Reset/Reset';
+import NewPass from './Forms/NewPass/NewPass';
 
 import Page404 from './Components/404/404';
 
@@ -36,6 +38,8 @@ class App extends Component {
                 <Route path={'/menu'} component={Products}/>
                 <Route path={'/login'} component={Login}/>
                 <Route path={'/register'} component={Register}/>
+                <Route path={'/reset'} exact component={Reset}/>
+                <Route path={'/reset/:resetToken'} component={NewPass}/>
                 <Route path={'/logout'} render={() => <Redirect to="/menu"/>}/>
                 <Route component={Page404}/>
             </Switch>
@@ -74,6 +78,8 @@ class App extends Component {
                         <Route path={'/menu'} component={Products}/>
                         <Route path={'/login'} component={Login}/>
                         <Route path={'/register'} component={Register}/>
+                        <Route path={'/reset'} exact component={Reset}/>
+                        <Route path={'/reset/:resetToken'} component={NewPass}/>
                         <Route path={'/logout'} render={() => <Redirect to="/menu"/>}/>
                         <Route component={Page404}/>
                     </Switch>
