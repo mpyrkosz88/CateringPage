@@ -1,7 +1,7 @@
 //libraries
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Redirect, NavLink } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 
 //utils
 import axios from '../../utils/axios-path';
@@ -15,7 +15,7 @@ import Success from '../../Components/Success/Success';
 //actions
 import * as actions from '../../store/actions/auth';
 
-class Login extends Component {
+class Reset extends Component {
 
   state = {
     formIsValid: false,
@@ -33,22 +33,6 @@ class Login extends Component {
         validation: {
           required: true,
           checkedEmail: true,
-        },
-        valid: false,
-        touched: false
-      },
-      password: {
-        elementType: 'input',
-        label: 'Password',
-        elementConfig: {
-          type: 'password',
-          placeholder: 'Password',
-          name: 'password',
-        },
-        value: '',
-        errormsg: 'Wrong password!',
-        validation: {
-          required: true,
         },
         valid: false,
         touched: false
@@ -135,10 +119,7 @@ class Login extends Component {
     this.setState({
       modalShow: false,
       redirect: true,
-    },() => {
-        this.props.authSuccess(this.state.token, this.state.userId, this.state.authRole)
-    }
-    )
+    })
   }
 
   onSubmit = (e) => {
@@ -148,23 +129,11 @@ class Login extends Component {
       formData.append(key, this.state.controls[key].value)
     }
 
-    axios.post('/login', formData)
+    axios.post('/reset', formData)
       .then(res => {
-        const resData = res.data
         this.setState({
-          token: resData.token,
-          userId: resData.userId,
-          authRole: resData.userRole,
           modalShow: true,
         });
-      localStorage.setItem('token', resData.token);
-      localStorage.setItem('userId', resData.userId);
-      localStorage.setItem('authRole', resData.userRole);
-      const remainingTime = 60 * 60 * 1000;
-      const expirationDate = new Date(
-          new Date().getTime() + remainingTime
-        );
-      localStorage.setItem('expirationDate', expirationDate.toISOString());
       })
       .catch((err) => {
         if (err.response) {
@@ -212,16 +181,15 @@ class Login extends Component {
               )
             })}
           </form>
-          <p className="reset_password">Click <NavLink to="/reset">here</NavLink> to reset your password</p>
           <button className="form_button"
             type="submit"
             form="login_form"
             value="Login"
             disabled={!this.state.formIsValid ? true : false}
-          > Login </button>
+          > Reset</button>
         </div>
           <Modal show={this.state.modalShow}> 
-            <Success clickedClosed={this.closeModal}>Login successful!</Success> 
+            <Success clickedClosed={this.closeModal}>Reset code has been sent to you!</Success> 
           </Modal>
           <Backdrop show={this.state.modalShow} clicked={this.closeModal}/>
       </div>
@@ -230,10 +198,11 @@ class Login extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    authSuccess: (token, userId, authRole) => dispatch(actions.authSuccess(token, userId, authRole)),
-  }
-}
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     authSuccess: (token, userId, authRole) => dispatch(actions.authSuccess(token, userId, authRole)),
+//   }
+// }
 
-export default connect(null, mapDispatchToProps)(Login);
+// export default connect(null, mapDispatchToProps)(Reset);
+export default Reset;

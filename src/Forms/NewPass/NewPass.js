@@ -1,7 +1,6 @@
 //libraries
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Redirect, NavLink } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 
 //utils
 import axios from '../../utils/axios-path';
@@ -12,47 +11,44 @@ import Modal from '../../UI/Modal/Modal';
 import Backdrop from '../../UI/Backdrop/Backdrop';
 import Success from '../../Components/Success/Success';
 
-//actions
-import * as actions from '../../store/actions/auth';
-
-class Login extends Component {
+class NewPass extends Component {
 
   state = {
     formIsValid: false,
     controls: {
-      email: {
-        elementType: 'input',
-        label: 'E-mail',
-        elementConfig: {
-          type: 'email',
-          placeholder: 'Your E-Mail',
-          name: 'email',
-        },
-        value: '',
-        errormsg: 'Please type valid e-mail',
-        validation: {
-          required: true,
-          checkedEmail: true,
-        },
-        valid: false,
-        touched: false
-      },
       password: {
         elementType: 'input',
         label: 'Password',
         elementConfig: {
-          type: 'password',
-          placeholder: 'Password',
-          name: 'password',
+            type: 'password',
+            placeholder: 'Password',
+            name: 'password',
         },
         value: '',
-        errormsg: 'Wrong password!',
+        errormsg: 'Minimal length of password is 6',
         validation: {
-          required: true,
+            required: true,
+            minLength: 6
         },
         valid: false,
         touched: false
-      },
+    },
+    confirmPassword: {
+        elementType: 'input',
+        label: 'Confirm password',
+        elementConfig: {
+            type: 'password',
+            placeholder: 'Password',
+            name: 'cPassword',
+        },
+        value: '',
+        errormsg: "Password doesn't match",
+        validation: {
+            required: true,
+        },
+        valid: false,
+        touched: false
+    },
     },
     redirect: false,
     modalShow: false,
@@ -87,21 +83,29 @@ class Login extends Component {
 
   inputChangedHandler = (event, controlName) => {
     const updatedControls = {
-      ...this.state.controls,
-      [controlName]: {
-        ...this.state.controls[controlName],
-        value: event.target.value,
-        valid: this.checkValiditiy(event.target.value, this.state.controls[controlName].validation),
-        touched: true
-      }
+        ...this.state.controls,
+        [controlName]: {
+            ...this.state.controls[controlName],
+            value: event.target.value,
+            valid: this.checkValiditiy(event.target.value, this.state.controls[controlName].validation),
+            touched: true,
+        }
+    }
+
+    if (updatedControls["confirmPassword"].value === updatedControls["password"].value) {
+        updatedControls["confirmPassword"].valid = true
+    }
+    else {
+        updatedControls["confirmPassword"].valid = false
     }
 
     let formIsValid = true;
     for (let inputIdentifier in updatedControls) {
-      formIsValid = updatedControls[inputIdentifier].valid && formIsValid;
+        formIsValid = updatedControls[inputIdentifier].valid && formIsValid;
     }
     this.setState({ controls: updatedControls, formIsValid: formIsValid })
-  }
+}
+
 
   setErrors = (errors) => {
     const errorsArray = []
@@ -127,6 +131,12 @@ class Login extends Component {
                 }
                 this.setState({ controls: updatedErrors, formIsValid: false})
             }
+            if (errorsArray[index].controls === "resetToken") {
+              this.setState({ 
+                resetTokenError: errorsArray[index].errormsg,
+                modalShow: true
+              })
+            }
         }
     }
 }
@@ -135,10 +145,7 @@ class Login extends Component {
     this.setState({
       modalShow: false,
       redirect: true,
-    },() => {
-        this.props.authSuccess(this.state.token, this.state.userId, this.state.authRole)
-    }
-    )
+    })
   }
 
   onSubmit = (e) => {
@@ -147,24 +154,13 @@ class Login extends Component {
     for (let key in this.state.controls) {
       formData.append(key, this.state.controls[key].value)
     }
+    formData.append('resetToken', this.props.match.params.resetToken)
 
-    axios.post('/login', formData)
+    axios.post('/new-password', formData)
       .then(res => {
-        const resData = res.data
         this.setState({
-          token: resData.token,
-          userId: resData.userId,
-          authRole: resData.userRole,
           modalShow: true,
         });
-      localStorage.setItem('token', resData.token);
-      localStorage.setItem('userId', resData.userId);
-      localStorage.setItem('authRole', resData.userRole);
-      const remainingTime = 60 * 60 * 1000;
-      const expirationDate = new Date(
-          new Date().getTime() + remainingTime
-        );
-      localStorage.setItem('expirationDate', expirationDate.toISOString());
       })
       .catch((err) => {
         if (err.response) {
@@ -212,28 +208,35 @@ class Login extends Component {
               )
             })}
           </form>
-          <p className="reset_password">Click <NavLink to="/reset">here</NavLink> to reset your password</p>
           <button className="form_button"
             type="submit"
             form="login_form"
             value="Login"
             disabled={!this.state.formIsValid ? true : false}
-          > Login </button>
+          > Change</button>
         </div>
-          <Modal show={this.state.modalShow}> 
-            <Success clickedClosed={this.closeModal}>Login successful!</Success> 
-          </Modal>
-          <Backdrop show={this.state.modalShow} clicked={this.closeModal}/>
+        {!this.state.resetTokenError ?
+          (      
+            <div>    
+            <Modal show={this.state.modalShow}> 
+            <Success clickedClosed={this.closeModal}>Password has been changed!</Success> 
+            </Modal>
+            <Backdrop show={this.state.modalShow} clicked={this.closeModal}/>
+            </div>
+          )
+          :           (    
+            <div>      
+            <Modal show={this.state.modalShow}> 
+            <Success clickedClosed={this.closeModal}>{this.state.resetTokenError}</Success> 
+            </Modal>
+            <Backdrop show={this.state.modalShow} clicked={this.closeModal}/>
+            </div>
+          )}
+
       </div>
 
     )
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    authSuccess: (token, userId, authRole) => dispatch(actions.authSuccess(token, userId, authRole)),
-  }
-}
-
-export default connect(null, mapDispatchToProps)(Login);
+export default NewPass;

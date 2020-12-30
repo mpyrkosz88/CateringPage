@@ -85,5 +85,44 @@ router.post('/login',
     ],
     authController.postLogin)
 
+router.post('/reset',
+    [
+        body('email')
+        .isEmail().withMessage("Please type valid e-mail")
+        .custom((value, { req }) => {
+            return User.findOne({ email: value }).then(userDoc => {
+                if (!userDoc) {
+                    throw new Error("A user with this email could not be found.");
+                }
+            });
+        })
+        .normalizeEmail(),
+    ],
+    authController.postReset);
+
+router.post('/new-password', 
+[
+    body('resetToken')
+        .custom((value, { req }) => {
+            return User.findOne({ resetToken: value }).then(userDoc => {
+                if (!userDoc) {
+                    throw new Error('Token has been already expired');
+                }
+            });
+        }),
+    body('password')
+        .isLength({ min: 6 }).withMessage("Minimal length of Password is 6")
+        .isAlphanumeric()
+        .trim(),
+    body('confirmPassword')
+        .trim()
+        .custom((value, { req }) => {
+            if (value !== req.body.password) {
+                throw new Error('Passwords have to match!');
+            }
+            return true;
+        }),
+]
+, authController.postNewPassword);
 
 module.exports = router
