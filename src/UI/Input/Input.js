@@ -20,7 +20,8 @@ const input = (props) => {
           id={props.id}
           {...props.elementConfig}
           value={props.value}
-          onChange={props.changed}/>;
+          onChange={props.changed}
+          autoComplete="on"/>;
         break;
         case('image'):
         inputElement = <input

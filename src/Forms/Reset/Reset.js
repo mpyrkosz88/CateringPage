@@ -1,6 +1,6 @@
 //libraries
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom'
 
 //utils
@@ -13,7 +13,7 @@ import Backdrop from '../../UI/Backdrop/Backdrop';
 import Success from '../../Components/Success/Success';
 
 //actions
-import * as actions from '../../store/actions/auth';
+// import * as actions from '../../store/actions/auth';
 
 class Reset extends Component {
 

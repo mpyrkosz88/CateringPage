@@ -13,7 +13,7 @@ import axios from '../../utils/axios-path';
 import UserHistoryItem from '../../Components/UserHistoryItem/UserHistoryItem';
 
 //containers
-import OrdersHistoryList from '../OrdersHistoryList/OrdersHistoryList'
+import UsersOrdersHistoryList from '../UsersOrdersHistoryList/UsersOrdersHistoryList'
 
 //UI
 import Pagination from '../../UI/Pagination/Pagination';
@@ -70,7 +70,10 @@ class UserContainer extends Component {
     }
 
     recordsPerPageChange = (e) => {
-        this.setState({postsPerPage: e.target.value})
+        this.setState({
+            postsPerPage: e.target.value,
+            currentPage: 1
+        })
     }
 
     changePaginationPage = (e) => {
@@ -91,7 +94,7 @@ class UserContainer extends Component {
                     phone={data.userData.phone}
                     street={data.userData.street}
                     city={data.userData.city}>
-                    <OrdersHistoryList id={data._id}/>
+                    <UsersOrdersHistoryList id={data._id}/>
                 </UserHistoryItem>
             })
 

@@ -5,7 +5,7 @@ import axios from '../../utils/axios-path';
 //components
 import History from '../../Components/History/History';
 
-class OrdersHistory extends Component {
+class OrderHistory extends Component {
 
     state = { 
         history: []
@@ -22,9 +22,16 @@ class OrdersHistory extends Component {
           })
       }
 
+      componentWillUnmount() {
+        // fix Warning: Can't perform a React state update on an unmounted component
+        this.setState = (state, callback) => {
+            return;
+        };
+    }
+
       render() { 
           return <History data={this.state.history}/> 
         }
 }
 
-export default OrdersHistory 
+export default OrderHistory 

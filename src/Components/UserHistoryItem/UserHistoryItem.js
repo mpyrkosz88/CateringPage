@@ -35,7 +35,7 @@ class UserHistoryItem extends Component {
                                     ? <AddCircleIcon onClick={this.collapse} className="cursor_pointer"/>
                                     : <RemoveCircleIcon onClick={this.collapse} className="cursor_pointer"/>}
                                     <Box m={1} />
-                                    <p className="margin-left">{this.props.fname} {this.props.lname}</p>
+                                    <p className="margin-left">{this.props.lname} {this.props.fname}</p>
                                 </Grid>
                                 <Grid xs={3} item container justify="center" alignItems="center">
                                     <p>{this.props.email}</p>

@@ -200,7 +200,7 @@ class Edit extends Component {
         
         if(this.state.controls.image.src !== null) {
           if(this.state.controls.image.file === null) {
-            image = <figure><img src={baseUrl + this.state.controls.image.src} /></figure>
+            image = <figure><img src={baseUrl + this.state.controls.image.src} alt={this.state.controls.name.value}/></figure>
           }
         }
 

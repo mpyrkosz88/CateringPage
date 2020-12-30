@@ -7,7 +7,7 @@ import {connect} from 'react-redux';
 import Cart from './Containers/Cart/Cart';
 import Layout from "./Containers/Layout/Layout";
 import Products from './Containers/Products/Products'
-import OrdersHistory from './Containers/OrdersHistory/OrdersHistory';
+import OrderHistory from './Containers/OrderHistory/OrderHistory';
 
 //components
 import AddProduct from './Forms/AddProduct/AddProduct'
@@ -64,7 +64,7 @@ class App extends Component {
                     <Switch>
                         <Route path={'/'} exact render={() => <Redirect to="/menu"/>}/>
                         <Route path={'/menu'} component={Products}/>
-                        <Route path={'/history'} component={OrdersHistory}/>
+                        <Route path={'/history'} component={OrderHistory}/>
                         <Route path={'/cart'} component={Cart}/>
                         <Route path={'/logout'} render={() => <Redirect to="/menu"/>}/>
                         <Route component={Page404}/>

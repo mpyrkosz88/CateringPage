@@ -27,7 +27,7 @@ class Product extends Component {
             <Grid item sm={4} container justify="center">
                 <div className="card">
                     <h1> {this.props.name}</h1>
-                    <figure><img src={baseUrl + this.props.image} /></figure>
+                    <figure><img src={baseUrl + this.props.image} alt={this.props.name}/></figure>
                     <h2> {this.props.price} zł</h2>
                     {this.props.editBtnValue ? 
                         <button className="card_button" onClick={()=>this.redirectPage()} value={this.props.editBtnValue }>{this.props.editBtnValue}</button>
