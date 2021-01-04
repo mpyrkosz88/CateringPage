@@ -4,13 +4,14 @@
   "private": true,
   "engines": {
     "node": "14.15.1"
-    },
+  },
   "dependencies": {
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
     "@testing-library/jest-dom": "^5.11.5",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "@wojtekmaj/react-daterange-picker": "^3.0.0",
     "axios": "^0.21.0",
     "dotenv": "^8.2.0",
     "node-sass": "^4.14.1",

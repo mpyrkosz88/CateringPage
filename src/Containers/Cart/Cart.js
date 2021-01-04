@@ -69,7 +69,7 @@ class Cart extends Component {
           this.setState({
             orderConfirm: true,
           })
-          axios.get('/get-order')
+          axios.post('/post-order')
           .then(response => {
             console.log(response.data);
             })
