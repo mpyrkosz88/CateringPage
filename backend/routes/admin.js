@@ -20,4 +20,6 @@ router.get('/get-users', isAdmin, adminController.getUsers)
 
 router.get('/get-users/:id', isAdmin, adminController.getUsersHistory)
 
+router.get('/get-orders', isAdmin, adminController.getOrders)
+
 module.exports = router

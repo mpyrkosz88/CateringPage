@@ -8,6 +8,8 @@ import Cart from './Containers/Cart/Cart';
 import Layout from "./Containers/Layout/Layout";
 import Products from './Containers/Products/Products'
 import OrderHistory from './Containers/OrderHistory/OrderHistory';
+import UsersContainer from './Containers/UsersContainer/UserContainer';
+import OrdersContainer from './Containers/OrdersContainer/OrdersContainer';
 
 //components
 import AddProduct from './Forms/AddProduct/AddProduct'
@@ -22,7 +24,6 @@ import Page404 from './Components/404/404';
 //actions
 import * as actions from './store/actions/auth';
 
-import UsersContainer from './Containers/UsersContainer/UserContainer';
 
 class App extends Component {
 
@@ -54,6 +55,7 @@ class App extends Component {
                         <Route path={'/add'} component={AddProduct}/>
                         <Route path={'/edit/:id'} component={EditProduct}/>
                         <Route path={'/users_history'} component={UsersContainer}/>
+                        <Route path={'/orders_history'} component={OrdersContainer}/>
                         <Route path={'/logout'} render={() => <Redirect to="/menu"/>}/>
                         <Route component={Page404}/>
                     </Switch>

@@ -1,0 +1,20 @@
+.date_range_picker>div {
+        height: 100%;
+        margin: 1rem;
+        font-size: 1.25rem;
+        justify-content: center;
+        >div>span {
+            margin: auto 1rem;
+        }
+        >div>div {
+            min-width: auto;
+        }
+}
+
+.date_range_picker {
+    display: flex;
+    align-items: center;
+    p {
+        font-size: 1.25rem;
+    }
+}

@@ -88,3 +88,24 @@ exports.getUsersHistory = (req, res, next) => {
       .then((results) => res.json(results))
       .catch(err => res.status(500).json('Error: ' + err));
 }
+
+exports.getOrders= (req, res, next) => {
+    Order.find()
+    .populate('user.userId')
+    .then((order) => {
+        const ordersData = []
+            order.map(data => {
+                    ordersData.push({
+                    userData: data.user.userId.userData,
+                    orderData: data.products,
+                    timeDate: data.timeDate
+                })
+            })
+            res.json(ordersData)            
+      })
+      .catch(err => {
+          console.log(err);
+          res.status(500).json('Error: ' + err)
+        }
+        );
+}

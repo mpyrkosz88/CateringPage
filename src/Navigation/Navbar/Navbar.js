@@ -31,6 +31,7 @@ class Navbar extends Component {
           { link: "/menu", label: "Menu" },
           { link: "/add", label: "Add product" },
           { link: "/users_history", label: "Users history" },
+          { link: "/orders_history", label: "Orders history" },
         ]
         authRoutes = [
           { link: "/logout", label: "Log Out", click: true }
