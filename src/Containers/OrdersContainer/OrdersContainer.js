@@ -17,6 +17,12 @@ import DatePicker from '../../UI/DatePicker/DatePicker';
 import Pagination from '../../UI/Pagination/Pagination';
 import Select from '../../UI/Select/Select';
 
+// https://pdfmake.github.io/docs/0.1/
+import pdfMake from "pdfmake/build/pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
+
+
 class UserContainer extends Component {
 
     state = {
@@ -50,6 +56,96 @@ class UserContainer extends Component {
                 console.log(error);
             })
     }
+
+    
+    exportPDF = () => {
+
+        // http://pdfmake.org/playground.html
+        const PDFArray = []
+        const tableHeaders = [
+            {text: 'Data', style: 'tableHeader'},
+            {text: 'Name', style: 'tableHeader'},
+            {text: 'Address', style: 'tableHeader'},
+            {text: 'Telephone', style: 'tableHeader'},
+            {text: 'Products', style: 'tableHeader'},
+            {text: 'Quantity', style: 'tableHeader'},
+            {text: 'Price', style: 'tableHeader'}, 
+            {text: 'Total', style: 'tableHeader'}, 
+            ];
+        
+        const data = this.state.filteredData.map(el=> {
+            let totalPrice = 0
+            el.orderData.map(data => {
+                    let quantity = data.quantity
+                    let price = data.price
+                    return totalPrice += quantity * price
+                })
+        return [
+            el.timeDate.slice(0,10),
+            el.userData.lname  + ' ' + el.userData.fname, 
+            el.userData.street + ', ' + el.userData.city,
+            el.userData.phone,
+            el.orderData.map(el => el.name),
+            el.orderData.map(el => el.quantity),
+            el.orderData.map(el => el.price),
+            totalPrice
+        ]
+    })
+
+    PDFArray.push(tableHeaders)
+    for (let i=0; i<data.length; i++) {
+        PDFArray.push(data[i])
+    }    
+    
+        var docDefinition = {
+            // a string or { width: number, height: number }
+            pageSize: 'A4',
+            // by default we use portrait, you can change it to landscape if you wish
+            pageOrientation: 'landscape',
+            //footer
+            footer: function(currentPage, pageCount) { return currentPage.toString() + ' of ' + pageCount; },
+
+            content: [
+                {text: 'Zamówienie na dzień', style: 'header'},
+                {
+                    table: {
+                        headerRows: 1,
+                        widths: ['10%', '16%', '16%', '10%' ,'25%', '9%', '7%', '7%'],
+                        body: PDFArray,     
+                },
+                    layout: {
+                        fillColor: function (rowIndex, node, columnIndex) {
+                            return (rowIndex % 2 === 0) ? null : '#CCCCCC';
+                        }
+                    }
+                },
+            ],
+            styles: {
+                header: {
+                    alignment: 'left',
+                    fontSize: 18,
+                    bold: true,
+                    margin: [0, 0, 0, 10]
+                },
+                tableHeader: {
+                    alignment: 'center',
+                    bold: true,
+                    fontSize: 14,
+                    color: 'black'
+                }
+            },
+            defaultStyle: {
+                alignment: 'center',
+                fontSize: 12,
+                bold: false
+              }
+        }
+ 
+
+
+        pdfMake.createPdf(docDefinition).download();
+
+      }
     
         sortByDate = () => {
         let date = this.state.filteredData
@@ -131,6 +227,7 @@ class UserContainer extends Component {
                             value={this.state.dateRange}
                             onChange={this.changeDateRange}
                             />
+                            <button onClick={() => this.exportPDF()}>Generate Report</button>
                         </Grid>
                     </Grid>
                     <Grid>
