@@ -29,7 +29,7 @@ class UserHistoryItem extends Component {
                     <div className="main_tab">
                         <Grid container alignItems="center" justify="flex-start">
                                 <Grid xs={3} item container justify="flex-start" alignItems="center">
-                                    <Grid xs={3} container alignItems="center">
+                                    <Grid xs={3} item container alignItems="center">
                                     {this.state.hide
                                         ? <AddCircleIcon onClick={this.collapse} className="cursor_pointer"/>
                                         : <RemoveCircleIcon onClick={this.collapse} className="cursor_pointer"/>}

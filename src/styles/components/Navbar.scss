@@ -1,6 +1,7 @@
 .navigation {
     background-color: $main-color;
     padding: 0 16px;
+    overflow: hidden;
     ul {
         display: flex;
         padding:0;
@@ -22,3 +23,34 @@
         color: $main-active-color;
     }
 }
+
+.icon {
+    display: none;
+    color: $second-font-color;
+    cursor: pointer;
+    &:hover {
+        color: $main-hover-color;
+      }
+}
+
+@media (max-width: 959px) {
+    .icon {
+        display: flex;
+    }
+    .navigation {
+        ul {
+            margin:0;
+            display: flex;
+            flex-direction: column;
+            padding:0;
+            li {
+                padding: 6px 0;
+            }
+        }
+        .hideMenu {
+            display: none;
+        }
+    }
+
+}
+  
