@@ -5,6 +5,7 @@ const router = express.Router()
 const shopController = require('../controllers/shop');
 
 const isAuth = require('../middleware/is-auth');
+const isAdmin = require('../middleware/is-admin');
 
 //get products for ordering from database
 router.get('/menu', shopController.getProducts)

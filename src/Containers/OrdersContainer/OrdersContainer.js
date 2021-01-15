@@ -1,6 +1,7 @@
 //libraries
 import React, {Component} from 'react';
 import {Grid} from '@material-ui/core';
+import Box from '@material-ui/core/Box';
 
 //icons
 import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
@@ -36,9 +37,9 @@ class UserContainer extends Component {
 
     componentDidMount() {
         let day = new Date();
-        day.setDate(day.getDate() + 6)
+        day.setDate(day.getDate() - 6)
         this.setState({
-            dateRange: [new Date(), day]
+            dateRange: [day, new Date()]
         })
 
         axios
@@ -141,8 +142,6 @@ class UserContainer extends Component {
               }
         }
  
-
-
         pdfMake.createPdf(docDefinition).download();
 
       }
@@ -227,7 +226,9 @@ class UserContainer extends Component {
                             value={this.state.dateRange}
                             onChange={this.changeDateRange}
                             />
-                            <button onClick={() => this.exportPDF()}>Generate Report</button>
+                            <Box ml={4}>
+                                <button className="cart_item_button" onClick={() => this.exportPDF()}>Generate Report</button>
+                            </Box>
                         </Grid>
                     </Grid>
                     <Grid>

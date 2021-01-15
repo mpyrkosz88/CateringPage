@@ -1,8 +1,6 @@
 import React from 'react';
 import { Grid } from '@material-ui/core';
 
-import './OrderItem.scss'
-
 const orderItem = (props) => {
 
     let totalPrice = 0
@@ -26,7 +24,7 @@ const orderItem = (props) => {
                     <p>{props.city}</p> 
                 </Grid>
                 <Grid xs={1} item container justify="center" alignItems="center" className="border_right ">
-                    {props.phone}
+                   <p>{props.phone} </p>
                 </Grid>
                 <Grid xs={6} item container justify="center" alignItems="center">
                     <Grid xs={7} item container justify="center">

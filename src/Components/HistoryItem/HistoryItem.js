@@ -1,8 +1,6 @@
 import React from 'react';
 import { Grid } from '@material-ui/core';
 
-import './HistoryItem.scss'
-
 const historyItem = (props) => {
     return (
         <li className="history_cart_item">

@@ -8,6 +8,7 @@ import thunk from 'redux-thunk';
 //components
 import App from './App';
 import './index.css';
+import './styles/main.scss';
 
 import auth from './store/reducers/auth';
 

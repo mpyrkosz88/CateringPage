@@ -1,6 +1,6 @@
 .form_card {
   margin: 1rem;
-  border: 0.2rem solid #dddddd;
+  border: 0.2rem solid $second-borer-color;
   border-radius: 0.5rem;
   max-width: 400px;
   width: 100%;
@@ -19,32 +19,32 @@
 }
 
 .form_card_invalid {
-  border: 0.2rem solid red;
+  border: 0.2rem solid $error-color;
 }
 
 .form_button {
-  text-align: center;
-  color: white;
-  outline: none;
-  background-color: #8ABF17;
-  width: 100px;
-  font-size: 1rem;
-  border: 1px solid #8ABF17;
+  background-color: $main-color;
+  border: 1px solid $main-color;
   border-radius: 0.5rem;
-  padding: 0.5rem;
+  color: $second-font-color;
+  font-size: 1rem;
   margin: 1rem auto;
+  padding: 0.5rem;
+  outline: none;
+  text-align: center;
+  width: 100px;
   cursor: pointer;
   &:hover {
-    background-color: #74a112;
+    background-color: $main-hover-color;
   }
   &:active {
-    background-color: #5e8607;
+    background-color: $main-active-color;
   }
   &:disabled {
+    background-color: $disabled-color;
     border: none;
-    background-color: #b9c0aa;
+    color: $disabled-font-color;
     cursor: not-allowed;
-    color: rgba(255, 255, 255, 0.329);
   }
 }
 
@@ -52,7 +52,7 @@
   text-align: center;
   width: 100%;
   a {
+    color:$anchor-color;
     cursor: pointer;
-    color:blue;
   }
 }

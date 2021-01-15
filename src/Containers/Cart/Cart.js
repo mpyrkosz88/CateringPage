@@ -11,9 +11,6 @@ import Confirmation from '../../Components/Confirmation/Confirmation';
 import Backdrop from '../../UI/Backdrop/Backdrop';
 import Modal from '../../UI/Modal/Modal';
 
-//styles
-import './Cart.scss'
-
 class Cart extends Component {
 
     state = {

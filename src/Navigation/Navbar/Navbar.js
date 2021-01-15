@@ -3,9 +3,6 @@ import React, { Component } from 'react';
 import { Grid } from '@material-ui/core';
 import { connect } from 'react-redux';
 
-//styles
-import './Navbar.scss';
-
 //components
 import NavItem from '../NavItem/NavItem';
 

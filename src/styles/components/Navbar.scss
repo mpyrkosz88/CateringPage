@@ -1,5 +1,5 @@
-.navigation{
-    background-color: #8ABF17;
+.navigation {
+    background-color: $main-color;
     padding: 0 16px;
     ul {
         display: flex;
@@ -7,18 +7,18 @@
         li{
             list-style: none;
             margin: 0 16px;
-            color: white;
+            color: $second-font-color;
             font-size: 1.2rem;
             a {
-                color: white;
+                color: $second-font-color;
                 text-decoration: none;
                 &:hover {
-                        color: #66881d;
+                        color: $main-hover-color;
                       }
                 }
             }
         }
     .active_link {
-        color: #66881d;
+        color: $main-active-color;
     }
 }

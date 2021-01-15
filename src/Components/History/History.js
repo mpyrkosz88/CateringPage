@@ -1,9 +1,6 @@
 import React from 'react';
 import { Grid } from '@material-ui/core';
 
-//styles
-import './History.scss'
-
 //components
 import HistoryItem from '../HistoryItem/HistoryItem'
 

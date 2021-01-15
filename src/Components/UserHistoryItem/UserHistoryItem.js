@@ -1,11 +1,9 @@
 import React, {Component} from 'react';
 import {Grid, Box} from '@material-ui/core';
 
+//icons
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
-
-
-import './UserHistoryItem.scss'
 
 class UserHistoryItem extends Component {
 
@@ -31,11 +29,15 @@ class UserHistoryItem extends Component {
                     <div className="main_tab">
                         <Grid container alignItems="center" justify="flex-start">
                                 <Grid xs={3} item container justify="flex-start" alignItems="center">
-                                {this.state.hide
-                                    ? <AddCircleIcon onClick={this.collapse} className="cursor_pointer"/>
-                                    : <RemoveCircleIcon onClick={this.collapse} className="cursor_pointer"/>}
-                                    <Box m={1} />
-                                    <p className="margin-left">{this.props.lname} {this.props.fname}</p>
+                                    <Grid xs={3} container alignItems="center">
+                                    {this.state.hide
+                                        ? <AddCircleIcon onClick={this.collapse} className="cursor_pointer"/>
+                                        : <RemoveCircleIcon onClick={this.collapse} className="cursor_pointer"/>}
+
+                                    </Grid>
+                                    <Grid item xs={9} >
+                                    <p>{this.props.lname} {this.props.fname}</p>
+                                    </Grid>
                                 </Grid>
                                 <Grid xs={3} item container justify="center" alignItems="center">
                                     <p>{this.props.email}</p>
