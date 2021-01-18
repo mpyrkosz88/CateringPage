@@ -6,11 +6,11 @@ const datePicker = (props) => {
 
     return (
         <div className="date_range_picker">
+            <p>Choose date range:</p>
             <DateRangePicker
             onChange={props.onChange}
             value={props.value}
             />
-            <p>Choose date range</p>
         </div>
         );
     }
