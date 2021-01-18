@@ -8,17 +8,18 @@ import axios from '../../utils/axios-path';
 
 //components
 import Product from '../../Components/Product/Product';
+import Spinner from '../../UI/Spinner/Spinner'
 
 class Products extends Component {
 
     state = {
-      products: []
+      products: null,
     }
 
     componentDidMount() {
         axios.get('/menu')
           .then(response => {
-            if (response.data.length > 0 ){
+            if (response.data){
               this.setState({ 
                 products: response.data 
               })
@@ -86,24 +87,37 @@ class Products extends Component {
           }
       }
 
-      const productsList = this.state.products.map(data => {        
-                  return (
-                  <Product 
-                  key={data._id}
-                  id={data._id}
-                  name={data.name}
-                  price={data.price}
-                  image={data.image}
-                  clicked={() => listConfig.clicked(data._id)}
-                  btnValue={listConfig.btnValue}
-                  editBtnValue={listConfig.editBtnValue}
-                  />
-                  )}
-                  )
+      let productsList = <Spinner />
+      
+      if (this.state.products != null) {
+        if (this.state.products.length>0) {
+          productsList = this.state.products.map(data => {        
+            return (
+            <Product 
+            key={data._id}
+            id={data._id}
+            name={data.name}
+            price={data.price}
+            image={data.image}
+            clicked={() => listConfig.clicked(data._id)}
+            btnValue={listConfig.btnValue}
+            editBtnValue={listConfig.editBtnValue}
+            />
+            )}
+            )
+        }
+        else {
+          productsList = <h1>Product list is empty</h1>
+        }
+      }
+      else {
+        productsList = <Spinner />
+      }
+
 
         return (
             <Grid container>
-               {this.state.products.length>0 ? productsList : <h1>Product list is empty</h1> }       
+              {productsList}
             </Grid>
         )
     }

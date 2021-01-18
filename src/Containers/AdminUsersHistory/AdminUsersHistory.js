@@ -13,16 +13,17 @@ import axios from '../../utils/axios-path';
 import UserHistoryItem from '../../Components/UserHistoryItem/UserHistoryItem';
 
 //containers
-import UsersOrdersHistoryList from '../UsersOrdersHistoryList/UsersOrdersHistoryList'
+import AdminUsersOrdersHistoryList from '../AdminUsersOrdersHistoryList/AdminUsersOrdersHistoryList'
 
 //UI
 import Pagination from '../../UI/Pagination/Pagination';
 import Select from '../../UI/Select/Select';
+import Spinner from '../../UI/Spinner/Spinner'
 
-class UserContainer extends Component {
+class AdminUsersHistory extends Component {
 
     state = {
-        users: [],
+        users: null,
         sort_A_to_Z: null,
         postsPerPage: 5,
         currentPage: 1
@@ -32,8 +33,9 @@ class UserContainer extends Component {
         axios
             .get('/get-users')
             .then(response => {
-                const users = response.data
-                this.setState({users: users})
+                if (response.data) {
+                this.setState({users: response.data})
+                }
             })
             .then(() => this.sortByLastNameUp())
             .catch((error) => {
@@ -84,21 +86,30 @@ class UserContainer extends Component {
         const indexOfLastPost = this.state.currentPage * this.state.postsPerPage;
         const indexOfFirstPost = indexOfLastPost - this.state.postsPerPage;
 
-        const users = (this.state.users
-            ? this.state.users.slice(indexOfFirstPost, indexOfLastPost).map(data => {
-                return <UserHistoryItem
-                    key={data._id}
-                    fname={data.userData.fname}
-                    lname={data.userData.lname}
-                    email={data.email}
-                    phone={data.userData.phone}
-                    street={data.userData.street}
-                    city={data.userData.city}>
-                    <UsersOrdersHistoryList id={data._id}/>
-                </UserHistoryItem>
-            })
+        let users = <Spinner />
 
-            : <h1>Users history is empty</h1>)
+        if(this.state.users != null) {
+            if(this.state.users.length > 0) {
+                users = this.state.users.slice(indexOfFirstPost, indexOfLastPost).map(data => {
+                    return <UserHistoryItem
+                        key={data._id}
+                        fname={data.userData.fname}
+                        lname={data.userData.lname}
+                        email={data.email}
+                        phone={data.userData.phone}
+                        street={data.userData.street}
+                        city={data.userData.city}>
+                        <AdminUsersOrdersHistoryList key={data._id} id={data._id}/>
+                    </UserHistoryItem>
+                })
+            }
+            else {
+                users = <h1>Users history is empty</h1>
+            }
+        }
+        else {
+            users = <Spinner />
+        }
 
         return (
             <Grid container>
@@ -108,9 +119,8 @@ class UserContainer extends Component {
                     maxStep="20"
                     changed={this.recordsPerPageChange}
                     value={this.state.postsPerPage}/>
-
                     <Pagination
-                    totalPosts={this.state.users.length}
+                    totalPosts={this.state.users ? this.state.users.length : 0}
                     postsPerPage={this.state.postsPerPage}
                     currentPage={this.state.currentPage}
                     onChange={this.changePaginationPage}/>
@@ -146,4 +156,4 @@ class UserContainer extends Component {
     }
 }
 
-export default UserContainer
+export default AdminUsersHistory

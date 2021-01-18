@@ -87,12 +87,12 @@ class Navbar extends Component {
               })}
             </ul>
           </Grid>
-          <Grid item className="icon" onClick={this.openMenu}>
+          <Grid item sm={1} xs={1} className="icon" onClick={this.openMenu}>
           {this.state.isOpen ? <CloseIcon fontSize="large"/> : <MenuIcon fontSize="large"/>}
             
             
           </Grid> 
-          <Grid item md="auto" sm={11} xs={11}>
+          <Grid item md="auto" sm={12} xs={12}>
             <ul className={menu}>
               {authRoutes.map((links, index) => {
                 return (

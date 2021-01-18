@@ -8,13 +8,16 @@ import axios from '../../utils/axios-path';
 //components
 import CartItem from '../../Components/CartItem/CartItem';
 import Confirmation from '../../Components/Confirmation/Confirmation';
+
+//UI
 import Backdrop from '../../UI/Backdrop/Backdrop';
 import Modal from '../../UI/Modal/Modal';
+import Spinner from '../../UI/Spinner/Spinner'
 
 class Cart extends Component {
 
     state = {
-        cart: [],
+        cart: null,
         modalShow: false,
         orderConfirm: false,
     }
@@ -22,7 +25,7 @@ class Cart extends Component {
       componentDidMount() {
           axios.get('/cart', )
             .then(response => {
-              if (response.data.length > 0 ){
+              if (response.data){
                 this.setState({ 
                   cart: response.data 
                 })
@@ -81,29 +84,43 @@ class Cart extends Component {
       }
           
           render() {
-            const CartItems = (this.state.cart.map(data => {
-              return (
-                  <CartItem 
-                  key={data._id}
-                  name={data.itemId.name}
-                  price={data.itemId.price}
-                  quantity={data.quantity}
-                  clicked={()=>this.deleteProduct(data._id)}
-                  />
+            let cartItems = <Spinner />
+            let totalPrice = 0
+
+            if (this.state.cart != null) {
+              if (this.state.cart.length>0) {
+                cartItems = this.state.cart.map(data => {        
+                  return (
+                    <CartItem 
+                    key={data._id}
+                    name={data.itemId.name}
+                    price={data.itemId.price}
+                    quantity={data.quantity}
+                    clicked={()=>this.deleteProduct(data._id)}
+                    />
+                  )}
                   )
-              }))
-              let totalPrice = 0
-              this.state.cart.map(data => {
-                  let quantity = data.quantity
-                  let price = data.itemId.price
-                  return totalPrice += quantity * price
+                  this.state.cart.map(data => {
+                    let quantity = data.quantity
+                    let price = data.itemId.price
+                    return totalPrice += quantity * price
+                }
+                )
               }
-              )
+              else {
+                cartItems = <h1>Cart is empty</h1>
+              }
+            }
+            else {
+              cartItems = <Spinner />
+            }
+              
+
 
         return (
                 <Grid container justify="center">
                     <ul className="cart_list">
-                        {this.state.cart.length> 0 ? CartItems : <h1>Cart is empty</h1> }
+                        {cartItems}
                     </ul>
                     <Grid container className="order" direction="column" alignItems="center">
                         <div className="order_summarize">
@@ -112,7 +129,7 @@ class Cart extends Component {
                         
                         <button className="cart_item_button" 
                         onClick={this.openModal}
-                        disabled={this.state.cart.length> 0 ? false : true }
+                        disabled={this.state.cart ? false : true }
                         >Order</button>
                     </Grid>
                     <Modal show={this.state.modalShow}> 

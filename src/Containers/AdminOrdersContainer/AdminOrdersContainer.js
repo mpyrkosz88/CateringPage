@@ -17,6 +17,7 @@ import OrderItem from '../../Components/OrderItem/OrderItem';
 import DatePicker from '../../UI/DatePicker/DatePicker';
 import Pagination from '../../UI/Pagination/Pagination';
 import Select from '../../UI/Select/Select';
+import Spinner from '../../UI/Spinner/Spinner'
 
 // https://pdfmake.github.io/docs/0.1/
 import pdfMake from "pdfmake/build/pdfmake";
@@ -24,7 +25,7 @@ import pdfFonts from "pdfmake/build/vfs_fonts";
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 
-class UserContainer extends Component {
+class AdminOrdersContainer extends Component {
 
     state = {
         orders: [],
@@ -32,7 +33,7 @@ class UserContainer extends Component {
         postsPerPage: 5,
         currentPage: 1,
         dateRange: [new Date(), new Date()],
-        filteredData:[]
+        filteredData: null
     }
 
     componentDidMount() {
@@ -194,25 +195,34 @@ class UserContainer extends Component {
     render() {
         const indexOfLastPost = this.state.currentPage * this.state.postsPerPage;
         const indexOfFirstPost = indexOfLastPost - this.state.postsPerPage;
-        const orders = (this.state.filteredData
-            ? this.state.filteredData.slice(indexOfFirstPost, indexOfLastPost).map((data,index) => {
-                return <OrderItem
-                    key={index}
-                    timeDate={data.timeDate.slice(0,10)}
-                    fname={data.userData.fname}
-                    lname={data.userData.lname}
-                    street={data.userData.street}
-                    city={data.userData.city}
-                    phone={data.userData.phone}
-                    orderData={data.orderData}
-                    >
-                </OrderItem>
-            })
 
-            : <h1>Orders history is empty</h1>)
+        let orders = <Spinner />
 
+        if (this.state.filteredData != null) {
+            if (this.state.filteredData.length > 0) {
+                orders = this.state.filteredData.slice(indexOfFirstPost, indexOfLastPost).map((data,index) => {
+                    return <OrderItem
+                        key={index}
+                        timeDate={data.timeDate.slice(0,10)}
+                        fname={data.userData.fname}
+                        lname={data.userData.lname}
+                        street={data.userData.street}
+                        city={data.userData.city}
+                        phone={data.userData.phone}
+                        orderData={data.orderData}
+                        >
+                    </OrderItem>
+                })
+            }
+            else {
+                orders = <h1>Orders history list is empty</h1>
+            }
+          }
+          else {
+            orders = <Spinner />
+          }
 
-        return (
+          return (
             <Grid container>
                 <Grid container justify="space-between">
                     <Grid>
@@ -233,7 +243,7 @@ class UserContainer extends Component {
                     </Grid>
                     <Grid>
                         <Pagination
-                        totalPosts={this.state.filteredData.length}
+                        totalPosts={this.state.filteredData ? this.state.filteredData.length : null}
                         postsPerPage={this.state.postsPerPage}
                         currentPage={this.state.currentPage}
                         onChange={this.changePaginationPage}/>
@@ -285,4 +295,4 @@ class UserContainer extends Component {
     }
 }
 
-export default UserContainer
+export default AdminOrdersContainer

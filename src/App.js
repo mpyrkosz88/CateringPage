@@ -7,9 +7,9 @@ import {connect} from 'react-redux';
 import Cart from './Containers/Cart/Cart';
 import Layout from "./Containers/Layout/Layout";
 import Products from './Containers/Products/Products'
-import OrderHistory from './Containers/OrderHistory/OrderHistory';
-import UsersContainer from './Containers/UsersContainer/UserContainer';
-import OrdersContainer from './Containers/OrdersContainer/OrdersContainer';
+import UserOrderHistory from './Containers/UserOrderHistory/UserOrderHistory';
+import AdminUsersHistory from './Containers/AdminUsersHistory/AdminUsersHistory';
+import AdminOrdersContainer from './Containers/AdminOrdersContainer/AdminOrdersContainer';
 
 //components
 import AddProduct from './Forms/AddProduct/AddProduct'
@@ -54,8 +54,8 @@ class App extends Component {
                         <Route path={'/menu'} component={Products}/>
                         <Route path={'/add'} component={AddProduct}/>
                         <Route path={'/edit/:id'} component={EditProduct}/>
-                        <Route path={'/users_history'} component={UsersContainer}/>
-                        <Route path={'/orders_history'} component={OrdersContainer}/>
+                        <Route path={'/users_history'} component={AdminUsersHistory}/>
+                        <Route path={'/orders_history'} component={AdminOrdersContainer}/>
                         <Route path={'/logout'} render={() => <Redirect to="/menu"/>}/>
                         <Route component={Page404}/>
                     </Switch>
@@ -66,7 +66,7 @@ class App extends Component {
                     <Switch>
                         <Route path={'/'} exact render={() => <Redirect to="/menu"/>}/>
                         <Route path={'/menu'} component={Products}/>
-                        <Route path={'/history'} component={OrderHistory}/>
+                        <Route path={'/history'} component={UserOrderHistory}/>
                         <Route path={'/cart'} component={Cart}/>
                         <Route path={'/logout'} render={() => <Redirect to="/menu"/>}/>
                         <Route component={Page404}/>

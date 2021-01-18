@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Grid, Box} from '@material-ui/core';
+import {Grid} from '@material-ui/core';
 
 //icons
 import AddCircleIcon from '@material-ui/icons/AddCircle';
@@ -27,25 +27,25 @@ class UserHistoryItem extends Component {
             <Grid container>
                 <ul className={collapse}>
                     <div className="main_tab">
-                        <Grid container alignItems="center" justify="flex-start">
-                                <Grid xs={3} item container justify="flex-start" alignItems="center">
-                                    <Grid xs={3} item container alignItems="center">
+                        <Grid container justify="flex-start">
+                                <Grid xs={3} item container justify="flex-start">
+                                    <Grid xs={3} item>
                                     {this.state.hide
-                                        ? <AddCircleIcon onClick={this.collapse} className="cursor_pointer"/>
-                                        : <RemoveCircleIcon onClick={this.collapse} className="cursor_pointer"/>}
+                                        ? <AddCircleIcon onClick={this.collapse} className="cursor_pointer align-center-icon"/>
+                                        : <RemoveCircleIcon onClick={this.collapse} className="cursor_pointer align-center-icon"/>}
 
                                     </Grid>
-                                    <Grid item xs={9} >
+                                    <Grid item xs={9} container>
                                     <p>{this.props.lname} {this.props.fname}</p>
                                     </Grid>
                                 </Grid>
-                                <Grid xs={3} item container justify="center" alignItems="center">
+                                <Grid xs={3} item container justify="center">
                                     <p>{this.props.email}</p>
                                 </Grid>
-                                <Grid xs={2} item container justify="center" alignItems="center">
+                                <Grid xs={2} item container justify="center">
                                     <p>{this.props.phone}</p>
                                 </Grid>
-                                <Grid xs={4} item container justify="center" alignItems="center">
+                                <Grid xs={4} item container justify="center">
                                     <p>{this.props.street}, {this.props.city}</p>
                                 </Grid>
                             </Grid>

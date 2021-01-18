@@ -1,50 +1,69 @@
 .users_history_container {
   border: 0.2rem solid $second-borer-color;
   border-radius: 0.5rem;
-  height: 53px;
+  height: 60px;
   margin: 1rem;
   overflow: hidden;
   padding: 0;
   transition: height 0.5s;
   width: 100%;
+  p {
+    line-height: 28px;
   }
+}
 
-  .cursor_pointer {
-    cursor: pointer;
-  }
+.cursor_pointer {
+  cursor: pointer;
+}
 
-  .main_tab {
-    height: 53px;
-    >div {
-      height: 100%;
-    }
-    >div>div {
-      border-right: 1px solid $main-font-color;
-    }
-    >div>div:last-of-type {
-      border-right: none;
-    }
+.main_tab {
+  height: 60px;
+  > div {
+    height: 100%;
   }
-  
-  .users_history_container_collapse {
-    height: calc(100% - 30px);
+  > div > div {
+    border-right: 1px solid $main-font-color;
   }
-  
-  .collapse_tab {
-    border-top: 0.2rem solid $second-borer-color;
-    list-style: none;
+  > div > div:last-of-type {
+    border-right: none;
+  }
+}
+
+.users_history_container_collapse {
+  height: calc(100% - 30px);
+}
+
+.collapse_tab {
+  border-top: 0.2rem solid $second-borer-color;
+  list-style: none;
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+  width: 100%;
+}
+
+.align-center-icon {
+  margin: 16px 0;
+}
+
+@media (max-width: 900px) {
+  .align-center-icon {
     margin: 0;
-    overflow: hidden;
-    padding: 0;
-    width: 100%;
   }
-
-  @media (max-width: 900px) {
-    .main_tab  {
-      height: auto;
-      p {
-        max-width:100%;
-        word-wrap:break-word;
-      }
+  .users_history_container {
+    height: 24px;
+    p {
+      margin: 0;
     }
   }
+  .users_history_container_collapse {
+    height: calc(100% - 24px);
+  }
+  .main_tab {
+    height: auto;
+    p {
+      max-width: 100%;
+      word-wrap: break-word;
+    }
+  }
+}
