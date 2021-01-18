@@ -19,12 +19,17 @@ class Navbar extends Component {
 
     openMenu = () => {
       this.setState({
-        isOpen: !this.state.isOpen,
+        isOpen: true,
+      })
+    }
+    closeMenu = () => {
+      this.setState({
+        isOpen: false,
       })
     }
 
     logOut = () => {
-      this.openMenu();
+      this.closeMenu();
       this.props.logOut()
     }
 
@@ -80,14 +85,14 @@ class Navbar extends Component {
             <ul className={menu}>
               {routes.map((links, index) => {
                 return (
-                  <NavItem key={index} link={links.link} active="active_link" click={this.openMenu}>
+                  <NavItem key={index} link={links.link} active="active_link" click={this.closeMenu}>
                     {links.label}
                   </NavItem>
                 )
               })}
             </ul>
           </Grid>
-          <Grid item sm={1} xs={1} className="icon" onClick={this.openMenu}>
+          <Grid item sm={1} xs={1} className="icon" onClick={this.state.isOpen ? this.closeMenu : this.openMenu}>
           {this.state.isOpen ? <CloseIcon fontSize="large"/> : <MenuIcon fontSize="large"/>}
             
             
@@ -96,7 +101,7 @@ class Navbar extends Component {
             <ul className={menu}>
               {authRoutes.map((links, index) => {
                 return (
-                  <NavItem key={index} link={links.link} active="active_link" click={links.logout ? this.logOut : this.openMenu}>
+                  <NavItem key={index} link={links.link} active="active_link" click={links.logout ? this.logOut : this.closeMenu}>
                     {links.label}
                   </NavItem>
                 )
