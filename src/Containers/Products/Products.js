@@ -126,7 +126,15 @@ class Products extends Component {
 const mapStateToProps = state => {
   return {
     authRole: state.auth.authRole,
+    cart: state.cart.cartData,
     }
 }
 
-export default connect(mapStateToProps)(Products);
+const mapDispatchToProps = dispatch => {
+  return {
+      // addToCart: () => dispatch(actions.loadCart()),
+      // deleteProduct: (id) => dispatch(actions.deleteProduct(id))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Products);

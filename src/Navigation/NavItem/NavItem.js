@@ -10,6 +10,7 @@ class NavItem extends Component {
           to={this.props.link}
           activeClassName={this.props.active}
           onClick={this.props.click}
+          className={this.props.className}
         >
           {this.props.children}
         </NavLink>

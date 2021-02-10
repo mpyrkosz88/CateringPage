@@ -35,8 +35,6 @@ class Navbar extends Component {
 
   render() {
 
-    const menu = this.state.isOpen ? null : "hideMenu"
-
     let routes = [
       { link: "/menu", label: "Menu" },
     ]
@@ -62,7 +60,7 @@ class Navbar extends Component {
         routes = [
           { link: "/menu", label: "Menu" },
           { link: "/history", label: "Order history" },
-          { link: "/cart", label: "Cart" },
+          { link: "/cart", label: "Cart", cart: true, className:"cart-item"},
         ]
         authRoutes = [
           { link: "logout", label: "Log Out", logout: true }
@@ -78,6 +76,9 @@ class Navbar extends Component {
         ]
     }
 
+    const cartCount = <span className="cart-counter">22</span>;
+    const menu = this.state.isOpen ? null : "hideMenu"
+
     return (
       <nav className="navigation">
         <Grid container justify='space-between' alignItems="flex-start">
@@ -85,8 +86,9 @@ class Navbar extends Component {
             <ul className={menu}>
               {routes.map((links, index) => {
                 return (
-                  <NavItem key={index} link={links.link} active="active_link" click={this.closeMenu}>
+                  <NavItem key={index} link={links.link} active="active_link" click={this.closeMenu} className={links.className}>
                     {links.label}
+                    {links.cart ? cartCount : null}
                   </NavItem>
                 )
               })}

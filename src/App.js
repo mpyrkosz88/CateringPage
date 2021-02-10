@@ -99,7 +99,9 @@ class App extends Component {
 }
 
 const mapStateToProps = state => {
-    return {authRole: state.auth.authRole}
+    return {
+        authRole: state.auth.authRole,
+    }
 }
 
 const mapDispatchToProps = dispatch => {
