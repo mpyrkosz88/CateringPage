@@ -14,6 +14,7 @@ import Success from '../../Components/Success/Success';
 
 //actions
 import * as actions from '../../store/actions/auth';
+import { loadCart } from '../../store/actions/cart';
 
 class Login extends Component {
 
@@ -137,6 +138,9 @@ class Login extends Component {
       redirect: true,
     },() => {
         this.props.authSuccess(this.state.token, this.state.userId, this.state.authRole)
+        if (this.state.authRole === "User") {
+          this.props.loadCart();
+        }
     }
     )
   }
@@ -233,6 +237,7 @@ class Login extends Component {
 const mapDispatchToProps = dispatch => {
   return {
     authSuccess: (token, userId, authRole) => dispatch(actions.authSuccess(token, userId, authRole)),
+    loadCart: () => dispatch(loadCart())
   }
 }
 

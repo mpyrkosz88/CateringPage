@@ -9,7 +9,7 @@ const authSuccess = (state, action) => {
     ...state,
     token: action.token,
     userId: action.userId,
-    authRole: action.authRole
+    authRole: action.authRole,
   }
 }
 

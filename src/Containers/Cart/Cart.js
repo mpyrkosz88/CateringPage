@@ -1,6 +1,7 @@
 //libraries
 import React, { Component } from 'react';
 import { Grid } from '@material-ui/core';
+import {connect} from 'react-redux';
 
 //utils
 import axios from '../../utils/axios-path';
@@ -14,6 +15,9 @@ import Backdrop from '../../UI/Backdrop/Backdrop';
 import Modal from '../../UI/Modal/Modal';
 import Spinner from '../../UI/Spinner/Spinner'
 
+//actions
+import * as actions from '../../store/actions/cart';
+
 class Cart extends Component {
 
     state = {
@@ -22,30 +26,31 @@ class Cart extends Component {
         orderConfirm: false,
     }
 
-      componentDidMount() {
-          axios.get('/cart', )
-            .then(response => {
-              if (response.data){
-                this.setState({ 
-                  cart: response.data 
-                })
-              }
+    componentDidMount() {
+      axios.get('/cart', )
+        .then(response => {
+          if (response.data){
+            this.setState({ 
+              cart: response.data 
             })
-            .catch((error) => {
-              console.log(error);
-            })
-        }
-
-        deleteProduct(id) {
-            axios.delete('/cart-delete/'+ id)
-              .then((response) => {
-                console.log(response);
-                  this.setState({
-                    cart: this.state.cart.filter(el => el._id !== id)
-                  })
-              })
-              .catch(err => {console.log(err)});
           }
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+    }
+
+    deleteProduct(id) {
+        axios.delete('/cart-delete/'+ id)
+          .then((response) => {
+            let quantity = this.state.cart.find(({_id}) => _id === id).quantity
+              this.setState({
+                cart: this.state.cart.filter(el => el._id !== id)
+              })
+              this.props.deleteFromCart(quantity)
+          })
+          .catch(err => {console.log(err)});
+      }
 
         openModal = () => {
           this.setState({
@@ -77,6 +82,7 @@ class Cart extends Component {
             this.setState({ 
               cart: []
             })
+            this.props.clearCart()
           })
           .catch((error) => {
             console.log(error);
@@ -84,8 +90,9 @@ class Cart extends Component {
       }
           
           render() {
-            let cartItems = <Spinner />
-            let totalPrice = 0
+            let cartItems = <Spinner />;
+            let totalPrice = 0;
+            let orderButton = true;
 
             if (this.state.cart != null) {
               if (this.state.cart.length>0) {
@@ -106,6 +113,7 @@ class Cart extends Component {
                     return totalPrice += quantity * price
                 }
                 )
+                orderButton = false;
               }
               else {
                 cartItems = <h1>Cart is empty</h1>
@@ -129,7 +137,7 @@ class Cart extends Component {
                         
                         <button className="cart_item_button" 
                         onClick={this.openModal}
-                        disabled={this.state.cart ? false : true }
+                        disabled={orderButton}
                         >Order</button>
                     </Grid>
                     <Modal show={this.state.modalShow}> 
@@ -141,4 +149,18 @@ class Cart extends Component {
     }
 }
 
-export default Cart 
+
+const mapStateToProps = state => {
+  return {
+    cart_quantity: state.cart.cart_quantity,
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    deleteFromCart: (quantity) => dispatch(actions.deleteFromCart(quantity)),
+    clearCart: () => dispatch(actions.clearCart()),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cart);
