@@ -15,12 +15,20 @@
                 text-decoration: none;
                 &:hover {
                         color: $main-hover-color;
+                        .cart-counter {
+                            border-color: $main-active-color;
+                            color: $main-active-color;
+                        }
                       }
                 }
             }
         }
     .active_link {
         color: $main-active-color;
+        .cart-counter {
+            border-color: $main-active-color;
+            color: $main-active-color;
+        }
     }
 }
 

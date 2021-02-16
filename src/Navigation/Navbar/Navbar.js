@@ -76,7 +76,7 @@ class Navbar extends Component {
         ]
     }
 
-    const cartCount = <span className="cart-counter">22</span>;
+    const cartCount = <span className="cart-counter">{this.props.cart_quantity}</span>;
     const menu = this.state.isOpen ? null : "hideMenu"
 
     return (
@@ -119,7 +119,8 @@ class Navbar extends Component {
 
 const mapStateToProps = (state, props) => {
   return {
-    authRole: state.auth.authRole
+    authRole: state.auth.authRole,
+    cart_quantity: state.cart.cart_quantity,
   }
 }
 

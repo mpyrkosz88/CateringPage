@@ -1,41 +1,51 @@
 import * as actionTypes from './actionTypes';
 import axios from '../../utils/axios-path';
 
-
-export const initCartData = (cartData) => {
-    return {
-        type: actionTypes.LOAD_CART,
-        cart: cartData,
-    }
-}
-
-export const deleteFromCart = (id) => {
-    return {
-        type: actionTypes.DELETE_FROM_CART,
-        productId: id
+export const addToCart = (id) => {
+    return dispatch => {
+        axios.post('/addToCart/' + id)
+            .then(res => {
+                console.log(res.data)
+                dispatch({
+                    type: actionTypes.ADD_TO_CART,
+                })
+            })
+            .catch((err) => console.log(err))
     }
 }
 
 export const loadCart = () => {
     return dispatch => {
-        axios.get('/cart', )
-        .then(response => {
-            if (response.data){
-            dispatch(initCartData(response.data))
-            }
-        })
-        .catch((error) => {
-            console.log(error);
+        axios.get('/cart',)
+            .then(response => {
+                if (response.data) {
+                    dispatch({
+                        type: actionTypes.LOAD_CART,
+                        cart: response.data,
+                    })
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }
+}
+
+export const deleteFromCart = (quantity) => {
+    return dispatch => {
+        dispatch({
+            type: actionTypes.DELETE_FROM_CART,
+            quantity: quantity
         })
     }
 }
 
-export const deleteProduct = (id) => {
+export const clearCart = () => {
     return dispatch => {
-        axios.delete('/cart-delete/'+ id)
-        .then((response) => {
-            dispatch(deleteFromCart(id))
+        dispatch({
+            type: actionTypes.CLEAR_CART,
         })
-        .catch(err => {console.log(err)});
+
     }
 }
+

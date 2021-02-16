@@ -10,6 +10,10 @@ import axios from '../../utils/axios-path';
 import Product from '../../Components/Product/Product';
 import Spinner from '../../UI/Spinner/Spinner'
 
+//actions
+
+import * as actions from '../../store/actions/cart';
+
 class Products extends Component {
 
     state = {
@@ -32,11 +36,11 @@ class Products extends Component {
 
 // CART
 
-      addToCart(id) {
-        axios.post('/addToCart/' + id)
-        .then(res => console.log(res.data))
-        .catch((err) => console.log(err))
-    }
+    //   addToCart(id) {
+    //     axios.post('/addToCart/' + id)
+    //     .then(res => console.log(res.data))
+    //     .catch((err) => console.log(err))
+    // }
 
 
 // EDIT
@@ -76,7 +80,7 @@ class Products extends Component {
         break;
         case('User'):
         listConfig = {
-          clicked: this.addToCart.bind(this),
+          clicked: this.props.addToCart.bind(this),
           btnValue: "Add to cart"
         }
         break;
@@ -126,14 +130,12 @@ class Products extends Component {
 const mapStateToProps = state => {
   return {
     authRole: state.auth.authRole,
-    cart: state.cart.cartData,
     }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-      // addToCart: () => dispatch(actions.loadCart()),
-      // deleteProduct: (id) => dispatch(actions.deleteProduct(id))
+      addToCart: (id) => dispatch(actions.addToCart(id)),
   }
 }
 

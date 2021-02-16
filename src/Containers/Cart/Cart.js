@@ -1,7 +1,6 @@
 //libraries
 import React, { Component } from 'react';
 import { Grid } from '@material-ui/core';
-import {withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 
 //utils
@@ -22,16 +21,36 @@ import * as actions from '../../store/actions/cart';
 class Cart extends Component {
 
     state = {
+        cart: null,
         modalShow: false,
         orderConfirm: false,
     }
 
-      componentDidMount() {
-        console.log(this.props.cart);
-        if (!this.props.cart) {
-          this.props.loadCart();
-        }
-        }
+    componentDidMount() {
+      axios.get('/cart', )
+        .then(response => {
+          if (response.data){
+            this.setState({ 
+              cart: response.data 
+            })
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+    }
+
+    deleteProduct(id) {
+        axios.delete('/cart-delete/'+ id)
+          .then((response) => {
+            let quantity = this.state.cart.find(({_id}) => _id === id).quantity
+              this.setState({
+                cart: this.state.cart.filter(el => el._id !== id)
+              })
+              this.props.deleteFromCart(quantity)
+          })
+          .catch(err => {console.log(err)});
+      }
 
         openModal = () => {
           this.setState({
@@ -63,6 +82,7 @@ class Cart extends Component {
             this.setState({ 
               cart: []
             })
+            this.props.clearCart()
           })
           .catch((error) => {
             console.log(error);
@@ -70,28 +90,30 @@ class Cart extends Component {
       }
           
           render() {
-            let cartItems = <Spinner />
-            let totalPrice = 0
+            let cartItems = <Spinner />;
+            let totalPrice = 0;
+            let orderButton = true;
 
-            if (this.props.cart != null) {
-              if (this.props.cart.length>0) {
-                cartItems = this.props.cart.map(data => {        
+            if (this.state.cart != null) {
+              if (this.state.cart.length>0) {
+                cartItems = this.state.cart.map(data => {        
                   return (
                     <CartItem 
                     key={data._id}
                     name={data.itemId.name}
                     price={data.itemId.price}
                     quantity={data.quantity}
-                    clicked={()=>this.props.deleteProduct(data._id)}
+                    clicked={()=>this.deleteProduct(data._id)}
                     />
                   )}
                   )
-                  this.props.cart.map(data => {
+                  this.state.cart.map(data => {
                     let quantity = data.quantity
                     let price = data.itemId.price
                     return totalPrice += quantity * price
                 }
                 )
+                orderButton = false;
               }
               else {
                 cartItems = <h1>Cart is empty</h1>
@@ -115,7 +137,7 @@ class Cart extends Component {
                         
                         <button className="cart_item_button" 
                         onClick={this.openModal}
-                        disabled={this.props.cart ? false : true }
+                        disabled={orderButton}
                         >Order</button>
                     </Grid>
                     <Modal show={this.state.modalShow}> 
@@ -130,15 +152,15 @@ class Cart extends Component {
 
 const mapStateToProps = state => {
   return {
-      cart: state.cart.cartData,
-  }
+    cart_quantity: state.cart.cart_quantity,
+    }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-      loadCart: () => dispatch(actions.loadCart()),
-      deleteProduct: (id) => dispatch(actions.deleteProduct(id))
+    deleteFromCart: (quantity) => dispatch(actions.deleteFromCart(quantity)),
+    clearCart: () => dispatch(actions.clearCart()),
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Cart)
+export default connect(mapStateToProps, mapDispatchToProps)(Cart);
