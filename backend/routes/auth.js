@@ -59,7 +59,7 @@ router.post('/login',
         body('email')
             .isEmail().withMessage("Please type valid e-mail")
             .custom((value, { req }) => {
-                return User.findOne({ email: value }).then(userDoc => {
+                return User.findOne({ email: value.toLowerCase() }).then(userDoc => {
                     if (!userDoc) {
                         throw new Error("A user with this email could not be found.");
                     }
