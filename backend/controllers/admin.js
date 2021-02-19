@@ -98,6 +98,7 @@ exports.getOrders= (req, res, next) => {
                     ordersData.push({
                     userData: data.user.userId.userData,
                     orderData: data.products,
+                    comments: data.comments,
                     timeDate: data.timeDate
                 })
             })

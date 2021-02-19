@@ -1,6 +1,7 @@
 .form_input {
   display: flex;
   flex-flow: wrap;
+  justify-content: center;
   label, input {
     display: block;
     width: 100%;
@@ -27,7 +28,10 @@
     -moz-appearance:textfield; /* Firefox */
 }
   textarea {
-    min-height: 200px;
+    resize: none;
+  }
+  textarea~p {
+    text-align: center;
   }
   .form_input_invalid {
     border: 1px solid red;

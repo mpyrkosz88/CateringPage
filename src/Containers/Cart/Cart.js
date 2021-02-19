@@ -14,6 +14,7 @@ import Confirmation from '../../Components/Confirmation/Confirmation';
 import Backdrop from '../../UI/Backdrop/Backdrop';
 import Modal from '../../UI/Modal/Modal';
 import Spinner from '../../UI/Spinner/Spinner'
+import Input from '../../UI/Input/Input'
 
 //actions
 import * as actions from '../../store/actions/cart';
@@ -24,6 +25,8 @@ class Cart extends Component {
         cart: null,
         modalShow: false,
         orderConfirm: false,
+        inputAreaIsValid: false,
+        inputAreaValue: '',
     }
 
     componentDidMount() {
@@ -71,22 +74,42 @@ class Cart extends Component {
         }
 
         order = () => {
+          let formData = new FormData();
+          formData.append('comments', this.state.inputAreaValue)
           this.setState({
             orderConfirm: true,
           })
-          axios.post('/post-order')
+          axios.post('/post-order', formData)
           .then(response => {
             console.log(response.data);
             })
           .then(() => {
             this.setState({ 
-              cart: []
+              cart: [],
+              inputAreaIsValid: false,
+              inputAreaValue: '',
             })
             this.props.clearCart()
           })
           .catch((error) => {
             console.log(error);
           })
+      }
+
+      inputChangedHandler = (e) => {
+        this.setState({
+          inputAreaValue: e.target.value,
+        })
+        if(e.target.value.length >= 50) {
+          this.setState({
+            inputAreaIsValid: true,
+          })
+        }
+          else {
+            this.setState({
+              inputAreaIsValid: false,
+            })
+          }
       }
           
           render() {
@@ -130,11 +153,27 @@ class Cart extends Component {
                     <ul className="cart_list">
                         {cartItems}
                     </ul>
+                    <Grid container justify="center" direction="column" alignItems="center">
+                        <h2>Comments</h2>
+                        <Input 
+                          elementConfig={{
+                            rows: "4", 
+                            cols:"50",
+                            maxLength: "50",
+                            name:'comments',
+                            placeholder:'Please type your comments',
+                          }}
+                          elementType="textarea"
+                          invalid={this.state.inputAreaIsValid}
+                          shouldValidate="true"
+                          touched="true"
+                          errormsg="Max length of comment is 50"
+                          value={this.state.inputAreaValue}
+                          changed={e => this.inputChangedHandler(e)}
+                        />
+                    </Grid>
                     <Grid container className="order" direction="column" alignItems="center">
-                        <div className="order_summarize">
                             <h2>Total price: {totalPrice} zł</h2>
-                        </div>
-                        
                         <button className="cart_item_button" 
                         onClick={this.openModal}
                         disabled={orderButton}

@@ -9,7 +9,7 @@ import axios from '../../utils/axios-path';
 //components
 import Product from '../../Components/Product/Product';
 import Spinner from '../../UI/Spinner/Spinner'
-
+import Sidebar from '../../Navigation/Sidebar/Sidebar';
 //actions
 
 import * as actions from '../../store/actions/cart';
@@ -34,15 +34,6 @@ class Products extends Component {
           })
       }
 
-// CART
-
-    //   addToCart(id) {
-    //     axios.post('/addToCart/' + id)
-    //     .then(res => console.log(res.data))
-    //     .catch((err) => console.log(err))
-    // }
-
-
 // EDIT
 
       onSubmit = (e) => {
@@ -50,6 +41,7 @@ class Products extends Component {
         axios.post('/add')
         .then(res => console.log(res))
       }
+// DELETE
 
       deleteProduct(id) {
       axios.delete('/delete/'+ id)
@@ -63,8 +55,6 @@ class Products extends Component {
         console.log(error);
       })
       }
-
-
 
     render() {
 

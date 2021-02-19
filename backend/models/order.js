@@ -31,6 +31,9 @@ const orderSchema = new Schema({
           ref: 'User'
         }
       },
+      comments: {
+        type: String,
+      },
       timeDate: {
         type: String,
         required: true

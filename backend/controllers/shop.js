@@ -74,6 +74,7 @@ exports.postCartDeleteProduct = (req, res, next) => {
                     userId: user._id,
                 },
                 products: products,
+                comments: req.body.comments,
                 timeDate: new Date().toISOString()
             })
             return order.save()
