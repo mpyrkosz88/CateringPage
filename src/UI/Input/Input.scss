@@ -2,11 +2,11 @@
   display: flex;
   flex-flow: wrap;
   justify-content: center;
-  label, input {
+  label, input, select {
     display: block;
     width: 100%;
   }
-  input {
+  input, select {
     outline: none;
     padding: 8px;
     &::placeholder {

@@ -1,85 +1,29 @@
 .sidebar {
     position: fixed;
     height: 100%;
-    margin-top: 0.5rem;
     background-color: $sidebar-color;
-    padding: 0 16px;
-    overflow: hidden;
+    z-index: 10;
     ul {
         display: flex;
         padding:0;
+        flex-direction: column;
         li{
             list-style: none;
-            margin: 0 16px;
+            margin: 0.5rem 1rem;
             color: $second-font-color;
-            font-size: 1.2rem;
+            padding: 0 1rem;
+
             a {
-                color: $second-font-color;
+                font-size: 1.2rem;
+                color: $main-font-color;
                 text-decoration: none;
                 &:hover {
-                        color: $main-hover-color;
-                        .cart-counter {
-                            border-color: $main-active-color;
-                            color: $main-active-color;
-                        }
+                        color: $second-font-color;
                       }
                 }
             }
         }
     .active_link {
-        color: $main-active-color;
-        .cart-counter {
-            border-color: $main-active-color;
-            color: $main-active-color;
-        }
+        color: $second-font-color;
     }
 }
-
-// .cart-item {
-//     position: relative;
-// }
-
-// .cart-counter {
-//     border: 2px solid $second-font-color;
-//     border-radius: 1rem;
-//     color: $second-font-color;
-//     font-size: 0.7rem;
-//     font-weight: bold;
-//     height: 1rem;
-//     line-height: 1rem;
-//     position: absolute;
-//     right: -1.5rem;
-//     text-align: center;
-//     width: 1rem;
-// }
-
-// .icon {
-//     color: $second-font-color;
-//     cursor: pointer;
-//     display: none;
-//     &:hover {
-//         color: $main-hover-color;
-//       }
-// }
-
-// @media (max-width: 959px) {
-//     .icon {
-//         display: flex;
-//     }
-//     .navigation {
-//         ul {
-//             display: flex;
-//             flex-direction: column;
-//             margin:0;
-//             padding:0;
-//             li {
-//                 padding: 6px 0;
-//             }
-//         }
-//         .hideMenu {
-//             display: none;
-//         }
-//     }
-
-// }
-  

@@ -48,6 +48,12 @@ class AddProduct extends Component {
                 valid: false,
                 touched: false
             },
+            category: {
+              elementType: 'select',
+              label: 'Category',
+              options: ['Kanapki', 'Tortille', 'Jogurty', 'Desery', 'Śniadania', 'Sałaty', 'Lancze', 'Makarony', 'Sushi', 'Napoje'],
+              value: 'Kanapki',
+          },
             image: {
                 elementType: 'image',
                 label: 'Image',
@@ -139,6 +145,7 @@ class AddProduct extends Component {
   }
       formData.append('name', this.state.controls.name.value);
       formData.append('price', this.state.controls.price.value);
+      formData.append('category', this.state.controls.category.value)
 
         axios.post('/add', formData,)
         .then(res => console.log(res.data))
@@ -187,6 +194,7 @@ class AddProduct extends Component {
                                 touched={formElement.config.touched}
                                 changed={(event) => this.inputChangedHandler(event, formElement.id)}
                                 errormsg={formElement.config.errormsg}
+                                options={formElement.config.options}
                             />
                             )
                         })}

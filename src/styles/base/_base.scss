@@ -3,9 +3,22 @@ html {
     font-size: 16px;
 }
 
-@media (max-width: 900px) {
-    html {
-      font-size:14px;
-    }
-  }
+  header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+}
 
+main {
+  margin-top: 58px;
+}
+
+@media (max-width: 960px) {
+  html {
+    font-size:14px;
+  }
+  main {
+    margin-top: 31px;
+  }
+}

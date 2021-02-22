@@ -40,8 +40,8 @@ class Navbar extends Component {
     ]
 
     let authRoutes = [
-      { link: "login", label: "Log In" },
-      { link: "register", label: "Register" }
+      { link: "/login", label: "Log In" },
+      { link: "/register", label: "Register" }
     ]
 
     switch (this.props.authRole) {
@@ -71,8 +71,8 @@ class Navbar extends Component {
           { link: "/menu", label: "Menu" },
         ]
         authRoutes = [
-          { link: "login", label: "Log In" },
-          { link: "register", label: "Register" }
+          { link: "/login", label: "Log In" },
+          { link: "/register", label: "Register" }
         ]
     }
 

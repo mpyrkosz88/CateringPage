@@ -111,7 +111,12 @@ class Products extends Component {
 
         return (
             <Grid container>
-              {productsList}
+              <Grid item xs={3} sm={2}>
+                <Sidebar />
+              </Grid>
+              <Grid item xs={9} sm={10} container>
+                {productsList}
+              </Grid>
             </Grid>
         )
     }

@@ -23,6 +23,19 @@ const input = (props) => {
           onChange={props.changed}
           autoComplete="on"/>;
         break;
+        case('select'):
+        inputElement = <select
+          className={inputClasses}
+          id={props.id}
+          {...props.elementConfig}
+          value={props.value}
+          onChange={props.changed}
+          autoComplete="on">
+          {props.options.map(value => {
+            return <option key={value} value={value}>{value}</option>
+          })}
+          </select>;
+        break;
         case('image'):
         inputElement = <input
           className={inputClasses}
