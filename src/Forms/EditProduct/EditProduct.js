@@ -28,7 +28,7 @@ class Edit extends Component {
                     required: true,
                 },
                 valid: true,
-                touched: false
+                touched: true,
             },
             price: {
                 elementType: 'input',
@@ -45,8 +45,16 @@ class Edit extends Component {
                     required: true,
                 },
                 valid: true,
-                touched: false
+                touched: true,
             },
+            category: {
+              elementType: 'select',
+              label: 'Category',
+              options: ['Kanapki', 'Tortille', 'Jogurty', 'Desery', 'Śniadania', 'Sałaty', 'Lancze', 'Makarony', 'Sushi', 'Napoje'],
+              value: 'Kanapki',
+              valid: true,
+              touched: true,
+          },
             image: {
                 elementType: 'image',
                 label: 'Change image',
@@ -78,6 +86,10 @@ class Edit extends Component {
                 price: {
                     ...this.state.controls.price,
                     value: response.data.price
+                },
+                category: {
+                  ...this.state.controls.category,
+                  value: response.data.category
                 },
                 image: {
                     ...this.state.controls.image,
@@ -168,6 +180,7 @@ class Edit extends Component {
     }
       formData.append('name', this.state.controls.name.value);
       formData.append('price', this.state.controls.price.value);
+      formData.append('category', this.state.controls.category.value);
         axios.post('/update/' + this.props.match.params.id, formData)
         .then(res => {console.log(res.data)})
         .then(() => this.redirectPage())
@@ -200,7 +213,7 @@ class Edit extends Component {
         
         if(this.state.controls.image.src !== null) {
           if(this.state.controls.image.file === null) {
-            image = <figure><img src={baseUrl + this.state.controls.image.src} /></figure>
+            image = <figure><img src={baseUrl + this.state.controls.image.src} alt={this.state.controls.name.value}/></figure>
           }
         }
 
@@ -222,6 +235,7 @@ class Edit extends Component {
                                 touched={formElement.config.touched}
                                 changed={(event) => this.inputChangedHandler(event, formElement.id)}
                                 errormsg={formElement.config.errormsg}
+                                options={formElement.config.options}
                             />
                             )
                         })}

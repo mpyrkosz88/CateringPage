@@ -1,4 +1,5 @@
 import * as actionTypes from './actionTypes';
+import {loadCart} from './cart'
 
 export const logout = () => {
     localStorage.removeItem('token');
@@ -43,6 +44,9 @@ export const authCheckState = () => {
       }
       dispatch(authSuccess(token, userId, authRole))
       dispatch(checkAuthTimeout((expirationDate.getTime() - new Date().getTime())));
+      if (authRole === "User") {
+        dispatch(loadCart());
+      }
     }
   };
 };

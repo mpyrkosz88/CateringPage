@@ -1,0 +1,14 @@
+// variables
+@import '/utilities/_variables.scss';
+
+//base
+@import '/base/_base.scss';
+
+//components
+@import '/components/Navbar.scss';
+@import '/components/Sidebar.scss';
+@import '/components/Form.scss';
+@import '/components/Cart.scss';
+@import '/components/History.scss';
+@import '/components/Product.scss';
+@import '/components/UserHistoryItem.scss';

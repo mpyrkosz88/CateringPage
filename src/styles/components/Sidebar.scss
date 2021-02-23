@@ -1,0 +1,29 @@
+.sidebar {
+    position: fixed;
+    height: 100%;
+    background-color: $sidebar-color;
+    z-index: 10;
+    ul {
+        display: flex;
+        padding:0;
+        flex-direction: column;
+        li{
+            list-style: none;
+            margin: 0.5rem 1rem;
+            color: $second-font-color;
+            padding: 0 1rem;
+
+            a {
+                font-size: 1.2rem;
+                color: $main-font-color;
+                text-decoration: none;
+                &:hover {
+                        color: $second-font-color;
+                      }
+                }
+            }
+        }
+    .active_link {
+        color: $second-font-color;
+    }
+}

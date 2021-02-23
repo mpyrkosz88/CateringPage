@@ -8,13 +8,16 @@ import thunk from 'redux-thunk';
 //components
 import App from './App';
 import './index.css';
+import './styles/main.scss';
 
 import auth from './store/reducers/auth';
+import cart from './store/reducers/cart';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const rootReducer = combineReducers({
   auth: auth,
+  cart: cart,
 })
 
 

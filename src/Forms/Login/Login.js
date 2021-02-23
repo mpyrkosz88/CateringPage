@@ -1,7 +1,7 @@
 //libraries
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom'
+import { Redirect, NavLink } from 'react-router-dom'
 
 //utils
 import axios from '../../utils/axios-path';
@@ -14,6 +14,7 @@ import Success from '../../Components/Success/Success';
 
 //actions
 import * as actions from '../../store/actions/auth';
+import { loadCart } from '../../store/actions/cart';
 
 class Login extends Component {
 
@@ -137,6 +138,9 @@ class Login extends Component {
       redirect: true,
     },() => {
         this.props.authSuccess(this.state.token, this.state.userId, this.state.authRole)
+        if (this.state.authRole === "User") {
+          this.props.loadCart();
+        }
     }
     )
   }
@@ -212,6 +216,7 @@ class Login extends Component {
               )
             })}
           </form>
+          <p className="reset_password">Click <NavLink to="/reset">here</NavLink> to reset your password</p>
           <button className="form_button"
             type="submit"
             form="login_form"
@@ -232,6 +237,7 @@ class Login extends Component {
 const mapDispatchToProps = dispatch => {
   return {
     authSuccess: (token, userId, authRole) => dispatch(actions.authSuccess(token, userId, authRole)),
+    loadCart: () => dispatch(loadCart())
   }
 }
 

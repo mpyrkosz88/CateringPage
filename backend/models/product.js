@@ -14,6 +14,9 @@ const productSchema = new Schema({
     image: {
         type: String,
         required: [true, "Please add image"],
+    },
+    category: {
+        type: String,
     }
 })
 

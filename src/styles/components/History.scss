@@ -1,0 +1,64 @@
+.history_table {
+  border-bottom: 1px solid $main-border-color;
+  padding: 0 2rem;
+}
+.table_title {
+  font-size:1.5rem;
+  font-weight: bold;
+  max-width:100%;
+  word-wrap:break-word;
+}
+
+.history_cart_list {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: auto;
+  padding: 0;
+  width: 100%;
+}
+
+.history_cart_item {
+  box-shadow:0 2px 8px $main-shadow-color;
+  list-style: none;
+  margin:0.2rem 1rem;
+  p{
+    margin: 0;
+    padding:0.5rem 0;
+    text-align: center;
+    width: 100%;
+    line-height: 1rem;
+  }
+  >div>div {
+    border-left: 1px solid $main-border-color;
+  }
+  >div>div:first-of-type {
+    border-left: none;
+  }
+  >div>div:last-of-type {
+    border-left: none;
+  }
+  .border_right {
+    border-right: 1px solid $main-font-color;
+  }
+  .history_cart_border {
+    border-bottom: 1px solid $main-shadow-color;
+  }
+}
+
+@media (max-width: 900px) {
+  .history_cart_item {
+      p {
+        max-width:100%;
+        word-wrap:break-word;
+    }
+  }
+  .table_title {
+    font-size: 1.2rem;
+    max-width:100%;
+    word-wrap:break-word;
+  }
+  .history_table {
+    padding: 0 1rem;
+  }
+}

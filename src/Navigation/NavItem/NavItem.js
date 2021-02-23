@@ -4,13 +4,13 @@ import { NavLink } from 'react-router-dom';
 
 class NavItem extends Component {
   render() {
-
     return (
       <li>
         <NavLink
           to={this.props.link}
           activeClassName={this.props.active}
           onClick={this.props.click}
+          className={this.props.className}
         >
           {this.props.children}
         </NavLink>

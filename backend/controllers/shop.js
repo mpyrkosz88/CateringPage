@@ -16,7 +16,6 @@ exports.getProducts = (req, res, next) => {
 exports.addToCart = (req, res, next) => {
     const prodId = req.params.id;
     const userId = req.userId
-    console.log(userId);
     Product.findById(prodId)
         .then(product => {
             User.findById(userId)
@@ -54,7 +53,7 @@ exports.postCartDeleteProduct = (req, res, next) => {
       .catch(err => res.status(500).json('Error: ' + err));
   };
 
-  exports.getOrder = (req, res, next) => {
+  exports.postOrder = (req, res, next) => {
     const userId = req.userId
     User.findById(userId)
     .then(user => {
@@ -75,6 +74,7 @@ exports.postCartDeleteProduct = (req, res, next) => {
                     userId: user._id,
                 },
                 products: products,
+                comments: req.body.comments,
                 timeDate: new Date().toISOString()
             })
             return order.save()
@@ -85,7 +85,7 @@ exports.postCartDeleteProduct = (req, res, next) => {
     .catch(err => res.status(500).json('Error: ' + err));
   }
 
-  exports.getOrders = (req, res, next) => {
+  exports.getOrdersHistory = (req, res, next) => {
       Order.find({'user.userId':req.userId})
         .then((results) => res.json(results))
         .catch(err => res.status(500).json('Error: ' + err));

@@ -1,6 +1,7 @@
 //libraries
 import React, { Component } from 'react';
 import { Grid } from '@material-ui/core';
+import {connect} from 'react-redux';
 
 //utils
 import axios from '../../utils/axios-path';
@@ -8,44 +9,51 @@ import axios from '../../utils/axios-path';
 //components
 import CartItem from '../../Components/CartItem/CartItem';
 import Confirmation from '../../Components/Confirmation/Confirmation';
+
+//UI
 import Backdrop from '../../UI/Backdrop/Backdrop';
 import Modal from '../../UI/Modal/Modal';
+import Spinner from '../../UI/Spinner/Spinner'
+import Input from '../../UI/Input/Input'
 
-//styles
-import './Cart.scss'
+//actions
+import * as actions from '../../store/actions/cart';
 
 class Cart extends Component {
 
     state = {
-        cart: [],
+        cart: null,
         modalShow: false,
         orderConfirm: false,
+        inputAreaIsValid: false,
+        inputAreaValue: '',
     }
 
-      componentDidMount() {
-          axios.get('/cart', )
-            .then(response => {
-              if (response.data.length > 0 ){
-                this.setState({ 
-                  cart: response.data 
-                })
-              }
+    componentDidMount() {
+      axios.get('/cart', )
+        .then(response => {
+          if (response.data){
+            this.setState({ 
+              cart: response.data 
             })
-            .catch((error) => {
-              console.log(error);
-            })
-        }
-
-        deleteProduct(id) {
-            axios.delete('/cart-delete/'+ id)
-              .then((response) => {
-                console.log(response);
-                  this.setState({
-                    cart: this.state.cart.filter(el => el._id !== id)
-                  })
-              })
-              .catch(err => {console.log(err)});
           }
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+    }
+
+    deleteProduct(id) {
+        axios.delete('/cart-delete/'+ id)
+          .then((response) => {
+            let quantity = this.state.cart.find(({_id}) => _id === id).quantity
+              this.setState({
+                cart: this.state.cart.filter(el => el._id !== id)
+              })
+              this.props.deleteFromCart(quantity)
+          })
+          .catch(err => {console.log(err)});
+      }
 
         openModal = () => {
           this.setState({
@@ -66,56 +74,109 @@ class Cart extends Component {
         }
 
         order = () => {
+          let formData = new FormData();
+          formData.append('comments', this.state.inputAreaValue)
           this.setState({
             orderConfirm: true,
           })
-          axios.get('/get-order')
+          axios.post('/post-order', formData)
           .then(response => {
             console.log(response.data);
             })
           .then(() => {
             this.setState({ 
-              cart: []
+              cart: [],
+              inputAreaIsValid: false,
+              inputAreaValue: '',
             })
+            this.props.clearCart()
           })
           .catch((error) => {
             console.log(error);
           })
       }
+
+      inputChangedHandler = (e) => {
+        this.setState({
+          inputAreaValue: e.target.value,
+        })
+        if(e.target.value.length >= 50) {
+          this.setState({
+            inputAreaIsValid: true,
+          })
+        }
+          else {
+            this.setState({
+              inputAreaIsValid: false,
+            })
+          }
+      }
           
           render() {
-            const CartItems = (this.state.cart.map(data => {
-              return (
-                  <CartItem 
-                  key={data._id}
-                  name={data.itemId.name}
-                  price={data.itemId.price}
-                  quantity={data.quantity}
-                  clicked={()=>this.deleteProduct(data._id)}
-                  />
+            let cartItems = <Spinner />;
+            let totalPrice = 0;
+            let orderButton = true;
+
+            if (this.state.cart != null) {
+              if (this.state.cart.length>0) {
+                cartItems = this.state.cart.map(data => {        
+                  return (
+                    <CartItem 
+                    key={data._id}
+                    name={data.itemId.name}
+                    price={data.itemId.price}
+                    quantity={data.quantity}
+                    clicked={()=>this.deleteProduct(data._id)}
+                    />
+                  )}
                   )
-              }))
-              let totalPrice = 0
-              this.state.cart.map(data => {
-                  let quantity = data.quantity
-                  let price = data.itemId.price
-                  return totalPrice += quantity * price
+                  this.state.cart.map(data => {
+                    let quantity = data.quantity
+                    let price = data.itemId.price
+                    return totalPrice += quantity * price
+                }
+                )
+                orderButton = false;
               }
-              )
+              else {
+                cartItems = <h1>Cart is empty</h1>
+              }
+            }
+            else {
+              cartItems = <Spinner />
+            }
+              
+
 
         return (
                 <Grid container justify="center">
                     <ul className="cart_list">
-                        {this.state.cart.length> 0 ? CartItems : <h1>Cart is empty</h1> }
+                        {cartItems}
                     </ul>
+                    <Grid container justify="center" direction="column" alignItems="center">
+                        <h2>Comments</h2>
+                        <Input 
+                          elementConfig={{
+                            rows: "4", 
+                            cols:"50",
+                            maxLength: "50",
+                            name:'comments',
+                            placeholder:'Please type your comments',
+                          }}
+                          elementType="textarea"
+                          invalid={this.state.inputAreaIsValid}
+                          shouldValidate="true"
+                          touched="true"
+                          errormsg="Max length of comment is 50"
+                          value={this.state.inputAreaValue}
+                          changed={e => this.inputChangedHandler(e)}
+                        />
+                    </Grid>
                     <Grid container className="order" direction="column" alignItems="center">
-                        <div className="order_summarize">
                             <h2>Total price: {totalPrice} zł</h2>
-                        </div>
-                        
                         <button className="cart_item_button" 
                         onClick={this.openModal}
-                        disabled={this.state.cart.length> 0 ? false : true }
+                        disabled={orderButton}
                         >Order</button>
                     </Grid>
                     <Modal show={this.state.modalShow}> 
@@ -127,4 +188,18 @@ class Cart extends Component {
     }
 }
 
-export default Cart 
+
+const mapStateToProps = state => {
+  return {
+    cart_quantity: state.cart.cart_quantity,
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    deleteFromCart: (quantity) => dispatch(actions.deleteFromCart(quantity)),
+    clearCart: () => dispatch(actions.clearCart()),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cart);

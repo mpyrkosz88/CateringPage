@@ -5,6 +5,7 @@ const router = express.Router()
 const shopController = require('../controllers/shop');
 
 const isAuth = require('../middleware/is-auth');
+const isAdmin = require('../middleware/is-admin');
 
 //get products for ordering from database
 router.get('/menu', shopController.getProducts)
@@ -18,10 +19,10 @@ router.get('/cart', isAuth, shopController.getCart)
 //delete cart
 router.delete('/cart-delete/:id', isAuth, shopController.postCartDeleteProduct)
 
-//get order
-router.get('/get-order', isAuth, shopController.getOrder)
+//post order
+router.post('/post-order', isAuth, shopController.postOrder)
 
 //get orders history
-router.get('/get-orders-history', isAuth, shopController.getOrders)
+router.get('/get-orders-history', isAuth, shopController.getOrdersHistory)
 
 module.exports = router

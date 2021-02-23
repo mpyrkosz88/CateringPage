@@ -1,6 +1,6 @@
 import { Grid } from '@material-ui/core';
 
-const Page404 = () => (
+const page404 = () => (
     <Grid container justify="center">
             <div className="card">
                 <h1>404</h1>
@@ -9,4 +9,4 @@ const Page404 = () => (
     </Grid>
 );
 
-export default Page404;
+export default page404;

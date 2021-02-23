@@ -1,11 +1,12 @@
 .form_input {
   display: flex;
   flex-flow: wrap;
-  label, input {
+  justify-content: center;
+  label, input, select {
     display: block;
     width: 100%;
   }
-  input {
+  input, select {
     outline: none;
     padding: 8px;
     &::placeholder {
@@ -27,7 +28,10 @@
     -moz-appearance:textfield; /* Firefox */
 }
   textarea {
-    min-height: 200px;
+    resize: none;
+  }
+  textarea~p {
+    text-align: center;
   }
   .form_input_invalid {
     border: 1px solid red;
@@ -51,51 +55,4 @@
   margin: 0 8px;
   width:100%;
 }
-
-
-// .Input {
-//   width: 100%;
-//   box-sizing: border-box;
-//   input::-webkit-outer-spin-button,
-//   input::-webkit-inner-spin-button {
-//   -webkit-appearance: none;
-//   margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
-// }
-
-
-// }
-
-// .InputElement:focus+p {
-//   display: none;
-// }
-
-// .ErrorMsg {
-//   display: block;
-//   height: 16px;
-//   color: red;
-//   margin-top: 10px;
-//   text-align: left;
-// }
-
-// // .Label {
-// //   display: block;
-// // }
-
-// .InputElement {
-//   border: 1px solid rgba(51, 51, 51, 1);
-//   background-color: rgba(101, 101, 101, 0.5);
-//   color: #EAEAEA;
-//   font: inherit;
-//   padding: 6px 10px;
-//   display: block;
-//   width: 100%;
-// }
-
-// .InputElement:focus {
-//   outline: none;
-//   background-color: rgba(101, 101, 101, 0.9);
-//   border:none;
-// }
-
-
 
