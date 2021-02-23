@@ -9,7 +9,6 @@ import axios from '../../utils/axios-path';
 //components
 import Input from '../../UI/Input/Input';
 
-
 class AddProduct extends Component {
 
     state = {
@@ -53,6 +52,8 @@ class AddProduct extends Component {
               label: 'Category',
               options: ['Kanapki', 'Tortille', 'Jogurty', 'Desery', 'Śniadania', 'Sałaty', 'Lancze', 'Makarony', 'Sushi', 'Napoje'],
               value: 'Kanapki',
+              defaultValue: 'Kanapki',
+              valid: true,
           },
             image: {
                 elementType: 'image',

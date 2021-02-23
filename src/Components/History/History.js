@@ -36,7 +36,7 @@ const history = (props) => {
                             <p className="table_title">Products</p>
                         </Grid>
                         <Grid xs={2} item container justify="center">
-                            <p className="table_title">Quantity</p>
+                            <p className="table_title">Qty</p>
                         </Grid>
                         <Grid xs={2} item container justify="center">
                             <p className="table_title">Price</p>

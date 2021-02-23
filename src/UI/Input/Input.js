@@ -27,8 +27,8 @@ const input = (props) => {
         inputElement = <select
           className={inputClasses}
           id={props.id}
-          {...props.elementConfig}
           value={props.value}
+          defaultValue={props.defaultValue}
           onChange={props.changed}
           autoComplete="on">
           {props.options.map(value => {

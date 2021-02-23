@@ -68,7 +68,7 @@ class AdminOrdersContainer extends Component {
             {text: 'Data', style: 'tableHeader'},
             {text: 'Address', style: 'tableHeader'},
             {text: 'Products', style: 'tableHeader'},
-            {text: 'Quantity', style: 'tableHeader'},
+            {text: 'Qty', style: 'tableHeader'},
             {text: 'Price', style: 'tableHeader'}, 
             {text: 'Total', style: 'tableHeader'}, 
             {text: 'Comments', style: 'tableHeader'}, 
@@ -94,6 +94,12 @@ class AdminOrdersContainer extends Component {
         ]
     })
 
+    const day = new Date()
+    day.setDate(new Date().getDate()+1)
+    const orderTime = day.toISOString().slice(0,10)
+
+    //If orderTime is Saturday then orderTime should be Monday
+
     PDFArray.push(tableHeaders)
     for (let i=0; i<data.length; i++) {
         PDFArray.push(data[i])
@@ -108,11 +114,11 @@ class AdminOrdersContainer extends Component {
             footer: function(currentPage, pageCount) { return currentPage.toString() + ' of ' + pageCount; },
 
             content: [
-                {text: 'Zamówienie na dzień', style: 'header'},
+                {text: 'Zamówienie na dzień ' + orderTime, style: 'header'},
                 {
                     table: {
                         headerRows: 1,
-                        widths: ['10%', '16%', '16%', '10%' ,'25%', '9%', '14%',],
+                        widths: ['10%', '20%', '24%', '7%' ,'7%', '7%', '25%',],
                         body: PDFArray,     
                 },
                     layout: {
@@ -272,7 +278,7 @@ class AdminOrdersContainer extends Component {
                         <p className="table_title">Products</p>
                         </Grid>
                         <Grid xs={2} item container justify="center">
-                        <p className="table_title">Quantity</p>
+                        <p className="table_title">Qty</p>
                         </Grid>
                         <Grid xs={2} item container justify="center">
                         <p className="table_title">Price</p>

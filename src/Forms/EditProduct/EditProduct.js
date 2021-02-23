@@ -28,7 +28,7 @@ class Edit extends Component {
                     required: true,
                 },
                 valid: true,
-                touched: false
+                touched: true,
             },
             price: {
                 elementType: 'input',
@@ -45,13 +45,15 @@ class Edit extends Component {
                     required: true,
                 },
                 valid: true,
-                touched: false
+                touched: true,
             },
             category: {
               elementType: 'select',
               label: 'Category',
               options: ['Kanapki', 'Tortille', 'Jogurty', 'Desery', 'Śniadania', 'Sałaty', 'Lancze', 'Makarony', 'Sushi', 'Napoje'],
               value: 'Kanapki',
+              valid: true,
+              touched: true,
           },
             image: {
                 elementType: 'image',
