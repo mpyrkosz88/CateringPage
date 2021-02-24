@@ -63,7 +63,7 @@ class Navbar extends Component {
           { link: "/cart", label: "Cart", cart: true, className:"cart-item"},
         ]
         authRoutes = [
-          { link: "logout", label: "Log Out", logout: true }
+          { link: "/logout", label: "Log Out", logout: true }
         ]
         break;
       default:

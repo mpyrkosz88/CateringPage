@@ -206,7 +206,7 @@ class Edit extends Component {
 
         const { redirect } = this.state;
         if (redirect) {
-          return <Redirect to='/menu'/>;
+          return <Redirect to="/menu/kanapki"/>;
         }
 
         let image 

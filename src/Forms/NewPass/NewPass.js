@@ -183,7 +183,7 @@ class NewPass extends Component {
     }
     const { redirect } = this.state;
     if (redirect) {
-      return <Redirect to='/menu' />;
+      return <Redirect to="/menu/kanapki"/>;
     }
     return (
 
