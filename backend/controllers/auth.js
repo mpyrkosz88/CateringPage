@@ -10,15 +10,6 @@ const nodemailer = require('nodemailer');
 //models
 const User = require('../models/user');
 
-
-// const sendgridTransport = require('nodemailer-sendgrid-transport');
-// const Sendgrid_API_key = process.env.SENDGRID_API_KEY
-// const transporter = nodemailer.createTransport(sendgridTransport({
-    //     auth: {
-        //         api_key: Sendgrid_API_key
-        //     }
-        //   }))
-
 const gmail_user = process.env.GMAIL_USER
 const gmail_pass = process.env.GMAIL_PASS
         

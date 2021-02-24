@@ -9,9 +9,9 @@ import axios from '../../utils/axios-path';
 //components
 import Product from '../../Components/Product/Product';
 import Spinner from '../../UI/Spinner/Spinner'
+import Sidebar from '../../Navigation/Sidebar/Sidebar';
 
 //actions
-
 import * as actions from '../../store/actions/cart';
 
 class Products extends Component {
@@ -34,15 +34,6 @@ class Products extends Component {
           })
       }
 
-// CART
-
-    //   addToCart(id) {
-    //     axios.post('/addToCart/' + id)
-    //     .then(res => console.log(res.data))
-    //     .catch((err) => console.log(err))
-    // }
-
-
 // EDIT
 
       onSubmit = (e) => {
@@ -50,6 +41,7 @@ class Products extends Component {
         axios.post('/add')
         .then(res => console.log(res))
       }
+// DELETE
 
       deleteProduct(id) {
       axios.delete('/delete/'+ id)
@@ -63,8 +55,6 @@ class Products extends Component {
         console.log(error);
       })
       }
-
-
 
     render() {
 
@@ -91,11 +81,65 @@ class Products extends Component {
           }
       }
 
+      let location = this.props.location.pathname.split('/menu')[1];
+      let categoryName = null;
+
+      switch(location) {
+        case('/kanapki'):
+        categoryName = 'Kanapki'
+        break;
+        case('/tortille'):
+        categoryName = 'Tortille'
+        break;
+        case('/jogurty'):
+        categoryName = 'Jogurty'
+        break;
+        case('/desery'):
+        categoryName = 'Desery'
+        break;
+        case('/sniadania'):
+        categoryName = 'Śniadania'
+        break;
+        case('/salaty'):
+        categoryName = 'Sałaty'
+        break;
+        case('/lancze'):
+        categoryName = 'Lancze'
+        break;
+        case('/makarony'):
+        categoryName = 'Makarony'
+        break;
+        case('/sushi'):
+        categoryName = 'Sushi'
+        break;
+        case('/napoje'):
+        categoryName = 'Napoje'
+        break;
+        case(''):
+        categoryName = 'All'
+        break;
+        default:
+          categoryName = null
+      }
+
       let productsList = <Spinner />
       
-      if (this.state.products != null) {
-        if (this.state.products.length>0) {
-          productsList = this.state.products.map(data => {        
+      if (this.state.products !== null) {
+        let filteredProducts = this.state.products;
+        if (categoryName === 'All') {
+          filteredProducts = this.state.products
+        }
+        else {
+          filteredProducts = this.state.products.filter(el => el.category === categoryName)
+
+        }
+        if (categoryName === null) {
+          productsList = <h1>There is no such category</h1>
+        }
+        else {
+          if (filteredProducts.length>0) {
+            productsList = filteredProducts
+            .map(data => {        
             return (
             <Product 
             key={data._id}
@@ -108,20 +152,24 @@ class Products extends Component {
             editBtnValue={listConfig.editBtnValue}
             />
             )}
-            )
-        }
-        else {
-          productsList = <h1>Product list is empty</h1>
+            )          
+          }
+          else {
+            productsList = <h1>Product list is empty</h1>
+          }
         }
       }
       else {
         productsList = <Spinner />
       }
-
-
         return (
             <Grid container>
-              {productsList}
+              <Grid item xs={4} sm={3} md={2} lg={2} xl={1}>
+                <Sidebar />
+              </Grid>
+              <Grid item xs={8} sm={9} md={10} lg={10} xl={11} container>
+                {productsList}
+              </Grid>
             </Grid>
         )
     }

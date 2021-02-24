@@ -16,35 +16,34 @@ const orderItem = (props) => {
                 <Grid xs={1} item container justify="center" alignItems="center">
                     <p> {props.timeDate}</p>
                 </Grid>
-                <Grid xs={2} item container justify="center" alignItems="center">
+                <Grid xs={3} item container justify="center" alignItems="center">
                     <p>{props.lname} {props.fname}</p>
-                </Grid>
-                <Grid xs={2} item container justify="center" alignItems="center">
                     <p>{props.street},</p> 
                     <p>{props.city}</p> 
+                    <p>tel:{props.phone} </p>
                 </Grid>
-                <Grid xs={1} item container justify="center" alignItems="center" className="border_right ">
-                   <p>{props.phone} </p>
-                </Grid>
-                <Grid xs={6} item container justify="center" alignItems="center">
+                <Grid xs={5} item container justify="center" alignItems="center">
                     <Grid xs={7} item container justify="center">
                         {props.orderData.map((data, index) => {
-                            return <p key={index}>{data.name}</p>
+                            return <p key={index} className="history_cart_border">{data.name}</p>
                         })}
                     </Grid>
                     <Grid xs={2} item container justify="center">
                         {props.orderData.map((data, index) => {
-                            return <p key={index}>{data.quantity}</p>
+                            return <p key={index} className="history_cart_border">{data.quantity}</p>
                         })}
                     </Grid>
                     <Grid xs={2} item container justify="center">
                         {props.orderData.map((data, index) => {
-                            return <p key={index}>{data.price}</p>
+                            return <p key={index} className="history_cart_border">{data.price}</p>
                         })}
                     </Grid>
-                    <Grid xs={1} item container justify="center">
+                    </Grid>
+                    <Grid xs={1} item container justify="center" alignItems="center" className="border_right">
                         <p>{totalPrice}</p>
                     </Grid>
+                <Grid xs={2} item container justify="center" alignItems="center">
+                    <p>{props.comments}</p>
                 </Grid>
             </Grid>
         </li>

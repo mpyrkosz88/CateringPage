@@ -10,10 +10,12 @@ const Order = require('../models/order');
 exports.postAddProducts = (req, res, next) => {
     const name = req.body.name;
     const price = req.body.price;
-    const image = req.file ? 'images/' + req.file.filename : null
+    const category = req.body.category;
+    const image = req.file ? 'images/' + req.file.filename : null;
     const newProduct = new Product({
         name,
         price,
+        category,
         image,
     });
     newProduct.save()
@@ -40,11 +42,12 @@ exports.getEditProduct = (req, res, next) => {
 exports.postEditProduct = (req, res, next) => {
     Product.findById(req.params.id)
     .then(product => {
-        product.name = req.body.name
-        product.price = req.body.price
+        product.name = req.body.name;
+        product.price = req.body.price;
+        product.category = req.body.category;
         req.file ? product.image = 'images/' + req.file.filename : null
         product.save()
-        .then(() => res.status(200).json('Exercise updated!'))
+        .then(() => res.status(200).json('Product updated!'))
         .catch(err => res.status(403).json(err));
     })
     .catch(err => res.status(500).json(err));
@@ -98,6 +101,7 @@ exports.getOrders= (req, res, next) => {
                     ordersData.push({
                     userData: data.user.userId.userData,
                     orderData: data.products,
+                    comments: data.comments,
                     timeDate: data.timeDate
                 })
             })

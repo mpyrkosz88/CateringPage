@@ -66,13 +66,12 @@ class AdminOrdersContainer extends Component {
         const PDFArray = []
         const tableHeaders = [
             {text: 'Data', style: 'tableHeader'},
-            {text: 'Name', style: 'tableHeader'},
             {text: 'Address', style: 'tableHeader'},
-            {text: 'Telephone', style: 'tableHeader'},
             {text: 'Products', style: 'tableHeader'},
-            {text: 'Quantity', style: 'tableHeader'},
+            {text: 'Qty', style: 'tableHeader'},
             {text: 'Price', style: 'tableHeader'}, 
             {text: 'Total', style: 'tableHeader'}, 
+            {text: 'Comments', style: 'tableHeader'}, 
             ];
         
         const data = this.state.filteredData.map(el=> {
@@ -84,15 +83,22 @@ class AdminOrdersContainer extends Component {
                 })
         return [
             el.timeDate.slice(0,10),
-            el.userData.lname  + ' ' + el.userData.fname, 
-            el.userData.street + ', ' + el.userData.city,
+            el.userData.lname  + ' ' + el.userData.fname + ' ' +
+            el.userData.street + ', ' + el.userData.city + ' ' +
             el.userData.phone,
             el.orderData.map(el => el.name),
             el.orderData.map(el => el.quantity),
             el.orderData.map(el => el.price),
-            totalPrice
+            totalPrice,
+            el.comments,
         ]
     })
+
+    const day = new Date()
+    day.setDate(new Date().getDate()+1)
+    const orderTime = day.toISOString().slice(0,10)
+
+    //If orderTime is Saturday then orderTime should be Monday
 
     PDFArray.push(tableHeaders)
     for (let i=0; i<data.length; i++) {
@@ -108,11 +114,11 @@ class AdminOrdersContainer extends Component {
             footer: function(currentPage, pageCount) { return currentPage.toString() + ' of ' + pageCount; },
 
             content: [
-                {text: 'Zamówienie na dzień', style: 'header'},
+                {text: 'Zamówienie na dzień ' + orderTime, style: 'header'},
                 {
                     table: {
                         headerRows: 1,
-                        widths: ['10%', '16%', '16%', '10%' ,'25%', '9%', '7%', '7%'],
+                        widths: ['10%', '20%', '24%', '7%' ,'7%', '7%', '25%',],
                         body: PDFArray,     
                 },
                     layout: {
@@ -138,8 +144,8 @@ class AdminOrdersContainer extends Component {
             },
             defaultStyle: {
                 alignment: 'center',
+                bold: false,
                 fontSize: 12,
-                bold: false
               }
         }
  
@@ -210,6 +216,7 @@ class AdminOrdersContainer extends Component {
                         city={data.userData.city}
                         phone={data.userData.phone}
                         orderData={data.orderData}
+                        comments={data.comments}
                         >
                     </OrderItem>
                 })
@@ -263,28 +270,25 @@ class AdminOrdersContainer extends Component {
                                 onClick={this.sortByDate}/>}
 
                     </Grid>
-                    <Grid xs={2} item container justify="center">
-                        <p className="table_title">Name</p>
+                    <Grid xs={3} item container justify="center">
+                        <p className="table_title">Address</p>
                     </Grid>
-                    <Grid xs={2} item container justify="center">
-                        <p className="table_title">Adress</p>
-                    </Grid>
-                    <Grid xs={1} item container justify="center">
-                        <p className="table_title">Telephone</p>
-                    </Grid>
-                    <Grid xs={6} item container justify="center">
+                    <Grid xs={5} item container justify="center">
                         <Grid xs={7} item container justify="center">
                         <p className="table_title">Products</p>
                         </Grid>
                         <Grid xs={2} item container justify="center">
-                        <p className="table_title">Quantity</p>
+                        <p className="table_title">Qty</p>
                         </Grid>
                         <Grid xs={2} item container justify="center">
                         <p className="table_title">Price</p>
                         </Grid>
+                        </Grid>
                         <Grid xs={1} item container justify="center">
                         <p className="table_title">Total</p>
                         </Grid>
+                    <Grid xs={2} item container justify="center">
+                    <p className="table_title">Uwagi</p>
                     </Grid>
                 </Grid>
                 <ul className="history_cart_list">

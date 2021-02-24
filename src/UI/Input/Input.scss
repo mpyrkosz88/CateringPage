@@ -1,11 +1,12 @@
 .form_input {
   display: flex;
   flex-flow: wrap;
-  label, input {
+  justify-content: center;
+  label, input, select {
     display: block;
     width: 100%;
   }
-  input {
+  input, select {
     outline: none;
     padding: 8px;
     &::placeholder {
@@ -27,7 +28,10 @@
     -moz-appearance:textfield; /* Firefox */
 }
   textarea {
-    min-height: 200px;
+    resize: none;
+  }
+  textarea~p {
+    text-align: center;
   }
   .form_input_invalid {
     border: 1px solid red;
