@@ -2,12 +2,16 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom'
 import { Grid } from '@material-ui/core';
+import {connect} from 'react-redux';
 
 //utiles
 import axios from '../../utils/axios-path';
 
 //components
 import Input from '../../UI/Input/Input';
+
+//actions
+import * as actions from '../../store/actions/index';
 
 class AddProduct extends Component {
 
@@ -50,9 +54,9 @@ class AddProduct extends Component {
             category: {
               elementType: 'select',
               label: 'Category',
-              options: ['Kanapki', 'Tortille', 'Jogurty', 'Desery', 'Śniadania', 'Sałaty', 'Lancze', 'Makarony', 'Sushi', 'Napoje'],
-              value: 'Kanapki',
-              defaultValue: 'Kanapki',
+              options: ['Sandwiches', 'Tortillas', 'Yogurths', 'Desserts', 'Breakfasts', 'Salads', 'Lunches', 'Pastas', 'Sushi', 'Drinks'],
+              value: 'Sandwiches',
+              defaultValue: 'Sandwiches',
               valid: true,
           },
             image: {
@@ -147,9 +151,9 @@ class AddProduct extends Component {
       formData.append('name', this.state.controls.name.value);
       formData.append('price', this.state.controls.price.value);
       formData.append('category', this.state.controls.category.value)
-
         axios.post('/add', formData,)
         .then(res => console.log(res.data))
+        // .then(() => this.props.addProduct(formData))
         .then(() => this.setState({ redirect:true }))
         .catch((err) => {
           if (err.response) {
@@ -173,7 +177,7 @@ class AddProduct extends Component {
 
         const { redirect } = this.state;
         if (redirect) {
-          return <Redirect to="/menu/kanapki"/>;
+          return <Redirect to="/menu"/>;
         }
 
         return (
@@ -212,4 +216,10 @@ class AddProduct extends Component {
     }
 }
 
-export default AddProduct
+const mapDispatchToProps = dispatch => {
+  return {
+    addProduct: (data) => dispatch(actions.addProduct(data)),
+  }
+}
+
+export default connect(null, mapDispatchToProps)(AddProduct)

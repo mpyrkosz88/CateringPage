@@ -35,14 +35,14 @@ class App extends Component {
 
         let routes = (
             <Switch>
-                <Route path={'/'} exact render={() => <Redirect to="/menu/kanapki"/>}/>
-                <Route path={'/menu'} exact render={() => <Redirect to="/menu/kanapki"/>}/>
+                <Route path={'/'} exact render={() => <Redirect to="/menu/sandwiches"/>}/>
+                <Route path={'/menu'} exact render={() => <Redirect to="/menu/sandwiches"/>}/>
                 <Route path={'/menu'} component={Products}/>
                 <Route path={'/login'} component={Login}/>
                 <Route path={'/register'} component={Register}/>
                 <Route path={'/reset'} exact component={Reset}/>
                 <Route path={'/reset/:resetToken'} component={NewPass}/>
-                <Route path={'/logout'} render={() => <Redirect to="/menu/kanapki"/>}/>
+                <Route path={'/logout'} render={() => <Redirect to="/menu/sandwiches"/>}/>
                 <Route component={Page404}/>
             </Switch>
         )
@@ -51,14 +51,14 @@ class App extends Component {
             case('Admin'):
                 routes = (
                     <Switch>
-                        <Route path={'/'} exact render={() => <Redirect to="/menu/kanapki"/>}/>
-                        <Route path={'/menu'} exact render={() => <Redirect to="/menu/kanapki"/>}/>
+                        <Route path={'/'} exact render={() => <Redirect to="/menu/sandwiches"/>}/>
+                        <Route path={'/menu'} exact render={() => <Redirect to="/menu/sandwiches"/>}/>
                         <Route path={'/menu'} component={Products}/>
                         <Route path={'/add'} component={AddProduct}/>
                         <Route path={'/edit/:id'} component={EditProduct}/>
                         <Route path={'/users_history'} component={AdminUsersHistory}/>
                         <Route path={'/orders_history'} component={AdminOrdersContainer}/>
-                        <Route path={'/logout'} render={() => <Redirect to="/menu/kanapki"/>}/>
+                        <Route path={'/logout'} render={() => <Redirect to="/menu/sandwiches"/>}/>
                         <Route component={Page404}/>
                     </Switch>
                 )
@@ -66,12 +66,12 @@ class App extends Component {
             case('User'):
                 routes = (
                     <Switch>
-                        <Route path={'/'} exact render={() => <Redirect to="/menu/kanapki"/>}/>
-                        <Route path={'/menu'} exact render={() => <Redirect to="/menu/kanapki"/>}/>
-                        <Route path={'/menu'} component={Products} render={() => <Redirect to="/menu/kanapki"/>}/>
+                        <Route path={'/'} exact render={() => <Redirect to="/menu/sandwiches"/>}/>
+                        <Route path={'/menu'} exact render={() => <Redirect to="/menu/sandwiches"/>}/>
+                        <Route path={'/menu'} component={Products}/>
                         <Route path={'/history'} component={UserOrderHistory}/>
                         <Route path={'/cart'} component={Cart}/>
-                        <Route path={'/logout'} render={() => <Redirect to="/menu/kanapki"/>}/>
+                        <Route path={'/logout'} render={() => <Redirect to="/menu/sandwiches"/>}/>
                         <Route component={Page404}/>
                     </Switch>
                 )
@@ -79,14 +79,14 @@ class App extends Component {
             default:
                 routes = (
                     <Switch>
-                        <Route path={'/'} exact render={() => <Redirect to="/menu/kanapki"/>}/>
-                        <Route path={'/menu'} exact render={() => <Redirect to="/menu/kanapki"/>}/>
-                        <Route path={'/menu'} component={Products} render={() => <Redirect to="/menu/kanapki"/>}/>
+                        <Route path={'/'} exact render={() => <Redirect to="/menu/sandwiches"/>}/>
+                        <Route path={'/menu'} exact render={() => <Redirect to="/menu/sandwiches"/>}/>
+                        <Route path={'/menu'} component={Products}/>
                         <Route path={'/login'} component={Login}/>
                         <Route path={'/register'} component={Register}/>
                         <Route path={'/reset'} exact component={Reset}/>
                         <Route path={'/reset/:resetToken'} component={NewPass}/>
-                        <Route path={'/logout'} render={() => <Redirect to="/menu/kanapki"/>}/>
+                        <Route path={'/logout'} render={() => <Redirect to="/menu/sandwiches"/>}/>
                         <Route component={Page404}/>
                     </Switch>
                 )

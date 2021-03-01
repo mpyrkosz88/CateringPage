@@ -8,6 +8,7 @@ export const addToCart = (id) => {
                 console.log(res.data)
                 dispatch({
                     type: actionTypes.ADD_TO_CART,
+                    id: id,
                 })
             })
             .catch((err) => console.log(err))
@@ -31,14 +32,21 @@ export const loadCart = () => {
     }
 }
 
-export const deleteFromCart = (quantity) => {
+export const deleteFromCart = (id) => {
     return dispatch => {
-        dispatch({
-            type: actionTypes.DELETE_FROM_CART,
-            quantity: quantity
+        axios.delete('/cart-delete/'+ id)
+        .then((response) => {
+            console.log(response.data);
+            dispatch({
+                type: actionTypes.DELETE_FROM_CART,
+                id: id,
+            })
         })
+        .catch(err => {console.log(err)});
+
     }
 }
+
 
 export const clearCart = () => {
     return dispatch => {
@@ -49,3 +57,37 @@ export const clearCart = () => {
     }
 }
 
+export const loadProducts = () => {
+    return dispatch => {
+        axios.get('/menu',)
+            .then(response => {
+                if (response.data) {
+                    dispatch({
+                        type: actionTypes.LOAD_PRODUCTS,
+                        products: response.data,
+                    })
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }
+}
+
+export const addProduct = (data) => {
+    console.log(data);
+    // return dispatch => {
+    //     axios.get('/menu',)
+    //         .then(response => {
+    //             if (response.data) {
+    //                 dispatch({
+    //                     type: actionTypes.LOAD_PRODUCTS,
+    //                     products: response.data,
+    //                 })
+    //             }
+    //         })
+    //         .catch((error) => {
+    //             console.log(error);
+    //         })
+    // }
+}

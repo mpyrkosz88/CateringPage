@@ -9,16 +9,16 @@ class Sidebar extends Component {
   render() {
 
     let routes = [
-      { link: "/menu/kanapki", label: "Kanapki" },
-      { link: "/menu/tortille", label: "Tortille" },
-      { link: "/menu/jogurty", label: "Jogurty" },
-      { link: "/menu/desery", label: "Desery" },
-      { link: "/menu/sniadania", label: "Śniadania" },
-      { link: "/menu/salaty", label: "Sałaty" },
-      { link: "/menu/lancze", label: "Lancze" },
-      { link: "/menu/makarony", label: "Makarony" },
+      { link: "/menu/sandwiches", label: "Sandwiches" },
+      { link: "/menu/tortillas", label: "Tortillas" },
+      { link: "/menu/yoghurts", label: "Yogurths" },
+      { link: "/menu/desserts", label: "Desserts" },
+      { link: "/menu/breakfasts", label: "Breakfasts" },
+      { link: "/menu/salads", label: "Salads" },
+      { link: "/menu/lunches", label: "Lunches" },
+      { link: "/menu/pastas", label: "Pastas" },
       { link: "/menu/sushi", label: "Sushi" },
-      { link: "/menu/napoje", label: "Napoje" },
+      { link: "/menu/drinks", label: "Drinks" },
     ]
     return (
       <nav className="sidebar">
