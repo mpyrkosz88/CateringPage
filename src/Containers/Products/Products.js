@@ -12,26 +12,14 @@ import Spinner from '../../UI/Spinner/Spinner'
 import Sidebar from '../../Navigation/Sidebar/Sidebar';
 
 //actions
-import * as actions from '../../store/actions/cart';
+import * as actions from '../../store/actions/index';
 
 class Products extends Component {
 
-    state = {
-      products: null,
-    }
-
     componentDidMount() {
-        axios.get('/menu')
-          .then(response => {
-            if (response.data){
-              this.setState({ 
-                products: response.data 
-              })
-            }
-          })
-          .catch((error) => {
-            console.log(error);
-          })
+        if(!this.props.products) {
+          this.props.loadProducts()
+        }
       }
 
 // EDIT
@@ -85,35 +73,35 @@ class Products extends Component {
       let categoryName = null;
 
       switch(location) {
-        case('/kanapki'):
-        categoryName = 'Kanapki'
+        case('/sandwiches'):
+        categoryName = 'Sandwiches'
         break;
-        case('/tortille'):
-        categoryName = 'Tortille'
+        case('/tortillas'):
+        categoryName = 'Tortillas'
         break;
-        case('/jogurty'):
-        categoryName = 'Jogurty'
+        case('/yoghurts'):
+        categoryName = 'Yogurths'
         break;
-        case('/desery'):
-        categoryName = 'Desery'
+        case('/desserts'):
+        categoryName = 'Desserts'
         break;
-        case('/sniadania'):
-        categoryName = 'Śniadania'
+        case('/breakfasts'):
+        categoryName = 'Breakfasts'
         break;
-        case('/salaty'):
-        categoryName = 'Sałaty'
+        case('/salads'):
+        categoryName = 'Salads'
         break;
-        case('/lancze'):
-        categoryName = 'Lancze'
+        case('/lunches'):
+        categoryName = 'Lunches'
         break;
-        case('/makarony'):
-        categoryName = 'Makarony'
+        case('/pastas'):
+        categoryName = 'Pastas'
         break;
         case('/sushi'):
         categoryName = 'Sushi'
         break;
-        case('/napoje'):
-        categoryName = 'Napoje'
+        case('/drinks'):
+        categoryName = 'Drinks'
         break;
         case(''):
         categoryName = 'All'
@@ -124,13 +112,13 @@ class Products extends Component {
 
       let productsList = <Spinner />
       
-      if (this.state.products !== null) {
-        let filteredProducts = this.state.products;
+      if (this.props.products !== null) {
+        let filteredProducts = this.props.products;
         if (categoryName === 'All') {
-          filteredProducts = this.state.products
+          filteredProducts = this.props.products
         }
         else {
-          filteredProducts = this.state.products.filter(el => el.category === categoryName)
+          filteredProducts = this.props.products.filter(el => el.category === categoryName)
 
         }
         if (categoryName === null) {
@@ -178,11 +166,13 @@ class Products extends Component {
 const mapStateToProps = state => {
   return {
     authRole: state.auth.authRole,
+    products: state.cart.products,
     }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
+      loadProducts: () => dispatch(actions.loadProducts()),
       addToCart: (id) => dispatch(actions.addToCart(id)),
   }
 }

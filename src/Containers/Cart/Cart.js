@@ -17,12 +17,11 @@ import Spinner from '../../UI/Spinner/Spinner'
 import Input from '../../UI/Input/Input'
 
 //actions
-import * as actions from '../../store/actions/cart';
+import * as actions from '../../store/actions/index';
 
 class Cart extends Component {
 
     state = {
-        cart: null,
         modalShow: false,
         orderConfirm: false,
         inputAreaIsValid: false,
@@ -30,30 +29,10 @@ class Cart extends Component {
     }
 
     componentDidMount() {
-      axios.get('/cart', )
-        .then(response => {
-          if (response.data){
-            this.setState({ 
-              cart: response.data 
-            })
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        })
-    }
-
-    deleteProduct(id) {
-        axios.delete('/cart-delete/'+ id)
-          .then((response) => {
-            let quantity = this.state.cart.find(({_id}) => _id === id).quantity
-              this.setState({
-                cart: this.state.cart.filter(el => el._id !== id)
-              })
-              this.props.deleteFromCart(quantity)
-          })
-          .catch(err => {console.log(err)});
+      if (!this.props.cart) {
+        this.props.loadCart()
       }
+    }
 
         openModal = () => {
           this.setState({
@@ -85,7 +64,6 @@ class Cart extends Component {
             })
           .then(() => {
             this.setState({ 
-              cart: [],
               inputAreaIsValid: false,
               inputAreaValue: '',
             })
@@ -117,20 +95,20 @@ class Cart extends Component {
             let totalPrice = 0;
             let orderButton = true;
 
-            if (this.state.cart != null) {
-              if (this.state.cart.length>0) {
-                cartItems = this.state.cart.map(data => {        
+            if (this.props.cart != null) {
+              if (this.props.cart.length>0) {
+                cartItems = this.props.cart.map(data => {        
                   return (
                     <CartItem 
-                    key={data._id}
+                    key={data.itemId._id}
                     name={data.itemId.name}
                     price={data.itemId.price}
                     quantity={data.quantity}
-                    clicked={()=>this.deleteProduct(data._id)}
+                    clicked={()=>this.props.deleteFromCart(data.itemId._id)}
                     />
                   )}
                   )
-                  this.state.cart.map(data => {
+                  this.props.cart.map(data => {
                     let quantity = data.quantity
                     let price = data.itemId.price
                     return totalPrice += quantity * price
@@ -191,13 +169,15 @@ class Cart extends Component {
 
 const mapStateToProps = state => {
   return {
+    cart:state.cart.cart,
     cart_quantity: state.cart.cart_quantity,
     }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    deleteFromCart: (quantity) => dispatch(actions.deleteFromCart(quantity)),
+    loadCart: () => dispatch(actions.loadCart),
+    deleteFromCart: (id) => dispatch(actions.deleteFromCart(id)),
     clearCart: () => dispatch(actions.clearCart()),
   }
 }

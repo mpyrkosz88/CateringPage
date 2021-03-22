@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 //utils
 import axios from '../../utils/axios-path';
 
@@ -8,22 +9,15 @@ import History from '../../Components/History/History';
 //UI
 import Spinner from '../../UI/Spinner/Spinner'
 
+//actions
+import * as actions from '../../store/actions/index';
+
 class UserOrderHistory extends Component {
 
-  state = {
-    history: null,
-  }
-
   componentDidMount() {
-    axios.get('/get-orders-history')
-      .then(response => {
-        if (response.data) {
-          this.setState({ history: response.data })
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      })
+    if(!this.props.history) {
+      this.props.loadUserHistory()
+    }
   }
 
   componentWillUnmount() {
@@ -37,9 +31,9 @@ class UserOrderHistory extends Component {
 
     let historyData = <Spinner />
 
-    if (this.state.history != null) {
-      if (this.state.history.length > 0) {
-        historyData = <History data={this.state.history}/>
+    if (this.props.history != null) {
+      if (this.props.history.length > 0) {
+        historyData = <History data={this.props.history}/>
         }
       else {
         historyData = <h1>History data list is empty</h1>
@@ -53,4 +47,16 @@ class UserOrderHistory extends Component {
   }
 }
 
-export default UserOrderHistory 
+const mapStateToProps = state => {
+  return {
+    history: state.history.history,
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    loadUserHistory: () => dispatch(actions.loadUserHistory()),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserOrderHistory);
