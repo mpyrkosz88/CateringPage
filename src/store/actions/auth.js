@@ -1,5 +1,5 @@
 import * as actionTypes from './actionTypes';
-import {loadCart} from './cart'
+import {loadCart, clearUserHistory} from './index'
 
 export const logout = () => {
     localStorage.removeItem('token');
@@ -11,7 +11,6 @@ export const logout = () => {
     }
   }
 
-
   export const authSuccess = (token, userId, authRole) => {
     return {
       type: actionTypes.AUTH_SUCCESS,
@@ -20,11 +19,12 @@ export const logout = () => {
       authRole: authRole,
     };
   };
-  
-export const checkAuthTimeout = (expirationTime) => {
+
+const checkAuthTimeout = (expirationTime) => {
   return dispatch => {
     setTimeout(() => {
       dispatch(logout());
+      dispatch(clearUserHistory());
     }, expirationTime)
   }
 }
@@ -37,10 +37,12 @@ export const authCheckState = () => {
   const expirationDate = new Date(localStorage.getItem('expirationDate'));
   if (!token) {
     dispatch(logout());
+    dispatch(clearUserHistory());
   }
     else {
       if(expirationDate < new Date()) {
         dispatch(logout());
+        dispatch(clearUserHistory());
       }
       dispatch(authSuccess(token, userId, authRole))
       dispatch(checkAuthTimeout((expirationDate.getTime() - new Date().getTime())));

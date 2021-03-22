@@ -9,7 +9,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import NavItem from '../NavItem/NavItem';
 
 //actions
-import * as actions from '../../store/actions/auth';
+import * as actions from '../../store/actions/index';
 
 class Navbar extends Component {
 
@@ -31,6 +31,7 @@ class Navbar extends Component {
     logOut = () => {
       this.closeMenu();
       this.props.logOut()
+      this.props.clearUserHistory();
     }
 
   render() {
@@ -63,7 +64,7 @@ class Navbar extends Component {
           { link: "/cart", label: "Cart", cart: true, className:"cart-item"},
         ]
         authRoutes = [
-          { link: "logout", label: "Log Out", logout: true }
+          { link: "/logout", label: "Log Out", logout: true }
         ]
         break;
       default:
@@ -96,8 +97,6 @@ class Navbar extends Component {
           </Grid>
           <Grid item sm={1} xs={1} className="icon" onClick={this.state.isOpen ? this.closeMenu : this.openMenu}>
           {this.state.isOpen ? <CloseIcon fontSize="large"/> : <MenuIcon fontSize="large"/>}
-            
-            
           </Grid> 
           <Grid item md="auto" sm={12} xs={12}>
             <ul className={menu}>
@@ -110,7 +109,6 @@ class Navbar extends Component {
               })}
             </ul>
           </Grid>
-
         </Grid>
       </nav>
     )
@@ -126,7 +124,8 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    logOut: () => dispatch(actions.logout())
+    logOut: () => dispatch(actions.logout()),
+    clearUserHistory: () => dispatch(actions.clearUserHistory()),
   }
 }
 

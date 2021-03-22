@@ -50,8 +50,8 @@ class Edit extends Component {
             category: {
               elementType: 'select',
               label: 'Category',
-              options: ['Kanapki', 'Tortille', 'Jogurty', 'Desery', 'Śniadania', 'Sałaty', 'Lancze', 'Makarony', 'Sushi', 'Napoje'],
-              value: 'Kanapki',
+              options: ['Sandwiches', 'Tortillas', 'Yogurths', 'Desserts', 'Breakfasts', 'Salads', 'Lunches', 'Pastas', 'Sushi', 'Drinks'],
+              value: 'Sandwiches',
               valid: true,
               touched: true,
           },
@@ -206,7 +206,7 @@ class Edit extends Component {
 
         const { redirect } = this.state;
         if (redirect) {
-          return <Redirect to='/menu'/>;
+          return <Redirect to="/menu"/>;
         }
 
         let image 

@@ -13,8 +13,7 @@ import Backdrop from '../../UI/Backdrop/Backdrop';
 import Success from '../../Components/Success/Success';
 
 //actions
-import * as actions from '../../store/actions/auth';
-import { loadCart } from '../../store/actions/cart';
+import * as actions from '../../store/actions/index';
 
 class Login extends Component {
 
@@ -191,7 +190,7 @@ class Login extends Component {
     }
     const { redirect } = this.state;
     if (redirect) {
-      return <Redirect to='/menu' />;
+      return <Redirect to="/menu"/>;
     }
     return (
 
@@ -237,7 +236,7 @@ class Login extends Component {
 const mapDispatchToProps = dispatch => {
   return {
     authSuccess: (token, userId, authRole) => dispatch(actions.authSuccess(token, userId, authRole)),
-    loadCart: () => dispatch(loadCart())
+    loadCart: () => dispatch(actions.loadCart()),
   }
 }
 
